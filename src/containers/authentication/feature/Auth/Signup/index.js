@@ -7,34 +7,30 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { BeatLoader } from 'react-spinners'
-import { useLoginMutation } from '../authService'
+import { useSignupMutation } from '../authService'
 import { setUser } from '../authSlice'
 
-function Login() {
+function Signup() {
   const [open, setOpen] = useState(false)
-  const [login, { isLoading }] = useLoginMutation()
+  const [signup, { isLoading }] = useSignupMutation()
   const user = useSelector((state) => state.auth.user)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   useEffect(() => {
+    console.log('user: ', user)
+    console.log('user login page: ' + user?.roles)
+
     if (user.roles && user?.roles !== []) {
-      console.log('navigate')
       navigate('/')
     }
   }, [navigate, user])
 
   const onSubmit = async (data) => {
-    try {
-      const response = await login(data)
-      console.log('response', response)
-      if (!response.error) {
-        dispatch(setUser({ ...response?.data?.metadata?.shop, isLogin: true }))
-        navigate('/product')
-      }
-    } catch (error) {
-      console.log('error: ', error)
-    }
+    const response = await signup(data)
+    console.log('response', response)
+    dispatch(setUser({ ...response.data.metadata.shop, isLogin: true }))
+    navigate('/product')
   }
 
   const toggleEyeIcon = () => {
@@ -43,7 +39,7 @@ function Login() {
   return (
     <div className='flex h-screen items-center justify-center rounded bg-slate-400'>
       <AppForm className='h-auto w-96 rounded-lg bg-purple-700 px-4 py-8' onSubmit={onSubmit}>
-        <h3 className='bold text-center text-2xl text-white'>Login</h3>
+        <h3 className='bold text-center text-2xl text-white'>Sign up</h3>
         <AppInput
           validate={{ pattern: { value: getEmailValidationRegex(), message: 'Email is invalid!' } }}
           type='email'
@@ -70,4 +66,4 @@ function Login() {
   )
 }
 
-export default Login
+export default Signup

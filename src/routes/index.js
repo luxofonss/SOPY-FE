@@ -1,33 +1,30 @@
-// import { appDelay } from '~/helpers/timer';
+import { AppRouteList } from '@src/containers/app/AppRoutes'
+import { AuthRouteList } from '@src/containers/authentication/AuthRoutes'
+import { memo, useEffect } from 'react'
 import { useRoutes } from 'react-router-dom'
-import PrivateRoute from './PrivateRoutes'
-import PublicRoute from './PublicRoutes'
+import jwt_decode from 'jwt-decode'
+import Cookies from 'universal-cookie'
+import { useLazyGetProfileQuery } from '@src/containers/authentication/feature/Auth/authService'
 
-export function getRoutesFromContainer(routeList) {
-  const routes = []
-  routeList.forEach((route) => {
-    routes.push(route)
-  })
-  return routes
-}
-
+const cookies = new Cookies()
 export const AppRoutes = () => {
-  const routes = [...PrivateRoute(), ...PublicRoute()]
-  console.log('all routes: ', [...routes])
+  const [trigger] = useLazyGetProfileQuery()
+  useEffect(() => {
+    const accessToken = cookies.get('access_token')
+    if (accessToken) {
+      const decodeToken = jwt_decode(accessToken)
+      const now = new Date().getTime()
+      console.log(now, decodeToken.exp)
+      if (decodeToken.exp * 1000 < now) {
+        trigger()
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const routes = [...AppRouteList, ...AuthRouteList]
+  console.log('all routes rerender: ', [...routes])
   return useRoutes([...routes])
 }
 
-// export const initModules = async (modules = [], container = 'app') => {
-//      await Promise.all([
-//           modules.map(async (item) => {
-//                const [reducer, saga] = await Promise.all([
-//                     import(`src/containers/${container}/screens/${item.path}/redux/reducer`),
-//                     import(`src/containers/${container}/screens/${item.path}/redux/saga`),
-//                ]);
-//                store.injectReducer(item.key, reducer.default);
-//                store.injectSaga(item.key, saga.default);
-//           }),
-//      ]);
-//      // To ensure that modules in injected
-//      // await appDelay(100);
-// };
+export const WebRoutes = memo(AppRoutes)

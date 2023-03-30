@@ -6,6 +6,7 @@ import { IconDashboard, IconUser } from '@src/assets/svgs'
 import Divider from '@src/components/Divider'
 import LogOut from '@src/components/LogOut'
 import ThemeSwitch from '@src/components/ThemeSwitch'
+import { useLogoutMutation } from '@src/containers/authentication/feature/Auth/authService'
 import { logOut } from '@src/containers/authentication/feature/Auth/authSlice'
 import { Fragment } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -36,9 +37,16 @@ const solutions = [
 
 function Header() {
   const userInfo = useSelector((state) => state.auth.user)
+  const [logout] = useLogoutMutation()
   const dispatch = useDispatch()
-  const handleLogOut = () => {
-    dispatch(logOut())
+  const handleLogOut = async () => {
+    try {
+      const response = await logout()
+      console.log('response', response)
+      if (!response.error) dispatch(logOut())
+    } catch (error) {
+      console.log('error: ', error)
+    }
   }
 
   const userActions = [
@@ -228,7 +236,7 @@ function Header() {
                 group inline-flex items-center rounded-md px-3 text-gray-700 py-2 text-base font-medium  hover:text-opacity-100 focus:outline-none focus-visible:ring-none focus-visible:ring-opacity-75`}
               >
                 <div className='w-8 h-8 rounded-full bg-green-500 flex justify-center items-center'>
-                  {userInfo.lastName[0]}
+                  {userInfo?.lastName && userInfo?.lastName[0]}
                 </div>
               </Popover.Button>
               <Transition

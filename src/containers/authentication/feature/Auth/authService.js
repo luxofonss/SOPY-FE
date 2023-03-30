@@ -1,44 +1,89 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { REFRESH_TOKEN_EXPIRATION } from '@src/configs'
+import customFetchBase from '@src/configs/customFetchBase'
 import Cookies from 'universal-cookie'
 const cookies = new Cookies()
 
-const accessToken = cookies.get('access_token')
-console.log('accessToken: ' + accessToken)
-
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: process.env.BASE_API_URL + '/auth',
-    prepareHeaders: (headers) => {
-      headers.set('Access-Control-Allow-Origin', '*'), headers.set('Content-type', 'application/json')
-      headers.set('Authorization', 'Bearer ' + cookies.get('access_token'))
-      return headers
-    }
-  }),
+  baseQuery: customFetchBase,
   endpoints: (build) => ({
     login: build.mutation({
       query: (body) => {
         return {
-          url: '/login',
+          url: '/shop/login',
           method: 'POST',
           body: body,
           responseHandler: async (response) => {
             const responseBody = await response.json()
-            cookies.set('access_token', responseBody.accessToken, { secure: true, sameSite: 'Lax' })
+            cookies.set('access_token', responseBody.metadata?.tokens?.accessToken, {
+              maxAge: REFRESH_TOKEN_EXPIRATION
+            })
+            cookies.set('user_id', responseBody.metadata?.shop?._id, {
+              maxAge: REFRESH_TOKEN_EXPIRATION
+            })
+            return responseBody
+          }
+        }
+      }
+    }),
+    signup: build.mutation({
+      query: (body) => {
+        return {
+          url: '/shop/signup',
+          method: 'POST',
+          body: body,
+          responseHandler: async (response) => {
+            const responseBody = await response.json()
+            cookies.set('access_token', responseBody.metadata?.tokens?.accessToken, {
+              maxAge: REFRESH_TOKEN_EXPIRATION
+            })
+            cookies.set('user_id', responseBody.metadata?.shop?._id, {
+              maxAge: REFRESH_TOKEN_EXPIRATION
+            })
             return responseBody
           }
         }
       }
     }),
     getProfile: build.query({
-      query: (token) => ({
-        url: '/profile',
+      query: () => ({
+        url: '/shop/profile',
         headers: {
-          Authorization: 'Bearer ' + token
+          Authorization: 'Bearer ' + cookies.get('access_token')
         }
       })
+    }),
+    logout: build.mutation({
+      query: () => {
+        return {
+          url: '/shop/logout',
+          method: 'POST'
+        }
+      }
+    }),
+
+    refreshToken: build.mutation({
+      query: () => {
+        return {
+          url: '/shop/refresh-token',
+          method: 'POST',
+          responseHandler: async (response) => {
+            const responseBody = await response.json()
+            cookies.set('access_token', responseBody.metadata?.tokens?.accessToken)
+            cookies.set('user_id', responseBody.metadata?.shop?._id)
+            return responseBody
+          }
+        }
+      }
     })
   })
 })
 
-export const { useLoginMutation, useLazyGetProfileQuery } = authApi
+export const {
+  useRefreshTokenMutation,
+  useLoginMutation,
+  useSignupMutation,
+  useLogoutMutation,
+  useLazyGetProfileQuery
+} = authApi

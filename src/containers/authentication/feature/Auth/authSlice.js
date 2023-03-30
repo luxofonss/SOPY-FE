@@ -5,16 +5,9 @@ const cookies = new Cookies()
 
 const initialState = {
   user: {
-    address: '',
-    avatar: '',
-    firstName: '',
-    lastName: '',
-    name: '',
-    id: '',
-    email: '',
-    phoneNumber: '',
-    gender: '',
-    role: ''
+    _id: '',
+    roles: [],
+    isLogin: false
   }
 }
 
@@ -23,11 +16,15 @@ export const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     setUser: (state, action) => {
-      state.user = action.payload
+      console.log('payload: ', action.payload)
+      state.user = { ...action.payload }
     },
     logOut: (state) => {
       cookies.remove('access_token')
-      state.user = {}
+      cookies.remove('user_id')
+      state.user = {
+        isLogin: false
+      }
     }
   }
 })

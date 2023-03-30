@@ -1,12 +1,15 @@
-import { USER_ROLE } from '@src/configs'
 import Login from './Login'
+import Signup from './Signup'
 
 export const authRouteList = [
   {
     path: '/login',
-    isPrivate: false,
-    role: [USER_ROLE.ADMIN, USER_ROLE.USER],
     element: <Login />,
+    children: []
+  },
+  {
+    path: '/signup',
+    element: <Signup />,
     children: []
   }
 ]
