@@ -11,19 +11,19 @@ export const fetchTodos = createAsyncThunk(
     const data = await response.json()
     console.log(data)
     return data
+  },
+  {
+    condition: ({ getState }) => {
+      console.log('condition')
+      const { todos } = getState()
+      console.log('todos', todos)
+      const fetchStatus = todos.requests
+      if (fetchStatus === 'fulfilled' || fetchStatus === 'loading') {
+        console.log('Loading')
+        return true
+      }
+    }
   }
-  // {
-  //   condition: ({ getState }) => {
-  //     console.log('condition')
-  //     const { todos } = getState()
-  //     console.log('todos', todos)
-  //     const fetchStatus = todos.requests
-  //     if (fetchStatus === 'fulfilled' || fetchStatus === 'loading') {
-  //       console.log('Loading')
-  //       return true
-  //     }
-  //   }
-  // }
 )
 
 export const todoSlice = createSlice({

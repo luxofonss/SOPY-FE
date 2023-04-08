@@ -8,5 +8,5 @@ export const rootReducer = combineReducers({
   todo: todoReducer,
   auth: authReducer,
   [todoApi.reducerPath]: todoApi.reducer,
-  [authApi.reducerPath]: authApi.reducer
+  authApi: authApi.reducer
 })

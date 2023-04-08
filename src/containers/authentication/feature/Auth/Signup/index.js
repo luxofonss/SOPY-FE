@@ -8,29 +8,31 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { BeatLoader } from 'react-spinners'
 import { useSignupMutation } from '../authService'
-import { setUser } from '../authSlice'
+import { login, setUser } from '../authSlice'
+import { toast } from 'react-toastify'
 
 function Signup() {
   const [open, setOpen] = useState(false)
   const [signup, { isLoading }] = useSignupMutation()
-  const user = useSelector((state) => state.auth.user)
+  const auth = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log('user: ', user)
-    console.log('user login page: ' + user?.roles)
-
-    if (user.roles && user?.roles !== []) {
+    if (auth.isLoggedIn) {
       navigate('/')
     }
-  }, [navigate, user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.isLoggedIn])
 
   const onSubmit = async (data) => {
     const response = await signup(data)
-    console.log('response', response)
-    dispatch(setUser({ ...response.data.metadata.shop, isLogin: true }))
-    navigate('/product')
+    if (!response.error) {
+      dispatch(setUser(response.data.metadata.user))
+      dispatch(login())
+    } else {
+      toast.error(response.error?.data?.message?.error || 'Something went wrong, please try again later!')
+    }
   }
 
   const toggleEyeIcon = () => {

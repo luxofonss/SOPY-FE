@@ -18,6 +18,8 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const blacklist = [
+  '__rtkq/focused',
+  '__rtkq/unfocused'
   // If you wish to remove actions from the
   // logger, they should be added here
 ]
@@ -28,13 +30,14 @@ const loggerMiddleware = createLogger({
   predicate: (getState, action) => !blacklist.includes(action.type)
 })
 export function configureAppStore(preloadedState) {
-  const store = configureStore({
+  let store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-        }
+        },
+        immutableCheck: { warnAfter: 128 }
       }).concat(loggerMiddleware, todoApi.middleware, authApi.middleware, rtkQueryToastify),
     preloadedState,
     enhancers: []

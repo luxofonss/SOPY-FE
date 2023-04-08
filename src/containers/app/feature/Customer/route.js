@@ -32,7 +32,7 @@ export const customerRouteList = [
   },
   {
     path: '/',
-    element: <RequireAuth allowedRoles={[USER_ROLE.SHOP]}></RequireAuth>,
+    element: <RequireAuth allowedRoles={[USER_ROLE.USER]}></RequireAuth>,
     children: [
       {
         path: '/product',

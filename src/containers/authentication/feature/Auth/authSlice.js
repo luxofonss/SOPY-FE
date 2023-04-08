@@ -1,14 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
-import Cookies from 'universal-cookie/cjs/Cookies'
-
-const cookies = new Cookies()
 
 const initialState = {
   user: {
     _id: '',
-    roles: [],
-    isLogin: false
-  }
+    roles: []
+  },
+  isLoggedIn: false
 }
 
 export const authSlice = createSlice({
@@ -16,19 +13,17 @@ export const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     setUser: (state, action) => {
-      console.log('payload: ', action.payload)
       state.user = { ...action.payload }
     },
-    logOut: (state) => {
-      cookies.remove('access_token')
-      cookies.remove('user_id')
-      state.user = {
-        isLogin: false
-      }
+    login: (state) => {
+      state.isLoggedIn = true
+    },
+    logout: (state) => {
+      state.isLoggedIn = false
     }
   }
 })
 
-export const { setUser, logOut } = authSlice.actions
+export const { setUser, logout, login } = authSlice.actions
 
 export default authSlice.reducer

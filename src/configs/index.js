@@ -1,5 +1,5 @@
 export const USER_ROLE = {
-  SHOP: 'SHOP',
+  USER: 'USER',
   ADMIN: 'ADMIN'
 }
 
@@ -8,6 +8,8 @@ export const HEADER = {
   CLIENT_ID: 'x-client-id',
   AUTHORIZATION: 'authorization'
 }
+
+export const RESPONSE_ERROR_STATUS = 'error'
 
 export const ACCESS_TOKEN_EXPIRATION = 30 * 60
 

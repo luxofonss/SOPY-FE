@@ -10,10 +10,8 @@ import { useGetTodoListQuery } from './todo.services'
 
 export default function Todo() {
   const todos = useSelector((state) => state.todo.todos)
-  console.log('todos: ', todos)
   const dispatch = useDispatch()
   const onSubmit = (data) => {
-    console.log(data)
     dispatch(create(data))
   }
 
