@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form'
 
-function AppInput({
+function AppDateInput({
   id,
   name,
   label,
@@ -61,4 +61,4 @@ function AppInput({
   )
 }
 
-export default AppInput
+export default AppDateInput

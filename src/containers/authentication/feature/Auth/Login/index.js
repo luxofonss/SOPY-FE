@@ -11,6 +11,8 @@ import { BeatLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
 import { useLoginMutation } from '../authService'
 import { login, setUser } from '../authSlice'
+import auth_bg from '@src/assets/images/auth_bg.jpg'
+// import banner from '@src/assets/images/banner.jpg'
 
 function Login() {
   const [open, setOpen] = useState(false)
@@ -45,7 +47,7 @@ function Login() {
 
   const handleGoogleLogin = async () => {
     let timer = null
-    const googleLoginUrl = 'http://localhost:8080/v1/api/auth/google'
+    const googleLoginUrl = 'http://localhost:8080/v1/api/auth/login/google'
     const newWindow = window.open(googleLoginUrl, '_self')
     if (newWindow) {
       timer = setInterval(() => {
@@ -60,34 +62,42 @@ function Login() {
   }
 
   return (
-    <div className='flex h-screen items-center justify-center rounded bg-slate-400'>
-      <AppForm className='h-auto w-96 rounded-lg bg-purple-700 px-4 py-8' onSubmit={onSubmit}>
-        <h3 className='bold text-center text-2xl text-white'>Login</h3>
-        <AppInput
-          validate={{ pattern: { value: getEmailValidationRegex(), message: 'Email is invalid!' } }}
-          type='email'
-          placeholder='Email'
-          name='email'
-          label='Email'
-          required
-          className='mb-2'
-        />
-        <AppInput
-          type={open ? 'text' : 'password'}
-          placeholder='Password'
-          name='password'
-          label='Password'
-          required
-          showIcon
-          Icon={open ? <IconEye onClick={toggleEyeIcon} /> : <IconEyeSlash onClick={toggleEyeIcon} />}
-        />
-        <AppButton disabled={isLoading} className='my-4' formNoValidate type='submit'>
-          {!isLoading ? 'Submit' : <BeatLoader size={12} color='#36d7b7' />}
-        </AppButton>
-        <AppButton className='my-4' type='button' onClick={handleGoogleLogin}>
-          Login with Google
-        </AppButton>
-      </AppForm>
+    <div
+      style={{ backgroundImage: `url("${auth_bg}")` }}
+      className='flex h-screen items-center justify-center rounded bg-zinc-200'
+    >
+      <div className='flex bg-violet-400 shadow-md shadow-violet-300 bg-opacity-75 rounded-md items-center'>
+        <div className='w-96 h-full bg-red-400'>
+          {/* <img height={400} src={banner} alt='banner' className='w-full h-full object-contain' /> */}
+        </div>
+        <AppForm className='h-auto w-96 rounded-r-md  bg-slate-500 px-8 py-16' onSubmit={onSubmit}>
+          <h3 className='bold text-center text-2xl text-white'>Welcome back</h3>
+          <AppInput
+            validate={{ pattern: { value: getEmailValidationRegex(), message: 'Email is invalid!' } }}
+            type='email'
+            placeholder='Email'
+            name='email'
+            label='Email'
+            required
+            className='mb-2'
+          />
+          <AppInput
+            type={open ? 'text' : 'password'}
+            placeholder='Password'
+            name='password'
+            label='Password'
+            required
+            showIcon
+            Icon={open ? <IconEye onClick={toggleEyeIcon} /> : <IconEyeSlash onClick={toggleEyeIcon} />}
+          />
+          <AppButton disabled={isLoading} className='my-4' formNoValidate type='submit'>
+            {!isLoading ? 'Login' : <BeatLoader size={12} color='#36d7b7' />}
+          </AppButton>
+          <AppButton className='my-4' type='button' onClick={handleGoogleLogin}>
+            Login with Google
+          </AppButton>
+        </AppForm>
+      </div>
     </div>
   )
 }

@@ -48,6 +48,8 @@ module.exports = {
     'react/jsx-no-target-blank': 'warn',
     'react/prop-types': 'off',
     'no-useless-escape': 'off',
+    'jsx-a11y/click-events-have-key-events': 'off',
+    'jsx-a11y/no-static-element-interactions': 'off',
     // Tăng cường một số rule prettier (copy từ file .prettierrc qua)
     'prettier/prettier': [
       'warn',

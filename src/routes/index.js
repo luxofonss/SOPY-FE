@@ -30,6 +30,7 @@ export const AppRoutes = () => {
           dispatch(setUser(response.data.metadata.user))
           dispatch(login())
         } else if (response) {
+          console.log('response:: ', response)
           console.log('error response: ', response.error.data.message.strategy)
           if (location.pathname !== '/signup') navigate('/login')
           toast.warn(response.error.data.message.error)

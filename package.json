@@ -61,7 +61,7 @@
     "yup": "^1.0.2"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.13",
+    "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.16",
     "@reduxjs/toolkit": "^1.9.3",
     "async-mutex": "^0.4.0",

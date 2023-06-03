@@ -64,7 +64,7 @@ export const authApi = createApi({
     }),
     oAuthLogin: build.query({
       query: () => ({
-        url: '/login/success',
+        url: '/oauth/success',
         credentials: 'include',
         responseHandler: async (response) => {
           const responseBody = await response.json()
