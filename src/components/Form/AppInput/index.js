@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 function AppInput({
@@ -10,14 +11,21 @@ function AppInput({
   disabled = false,
   validate,
   showIcon,
+  defaultValue = null,
   unit,
   Icon,
   ...props
 }) {
   const {
     register,
+    setValue,
     formState: { errors }
   } = useFormContext()
+
+  useEffect(() => {
+    setValue(name, defaultValue)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValue])
 
   return (
     <div className='relative my-2 w-full flex-col' style={wrapperStyle}>
@@ -43,6 +51,7 @@ function AppInput({
           // onChange: (e) => handleInputChange(e.target.value)
         })}
         {...props}
+        defaultValue={defaultValue}
         disabled={disabled}
       />
       {unit ? (
@@ -51,12 +60,7 @@ function AppInput({
         </div>
       ) : null}
       {showIcon && <div className='absolute right-3 top-9 cursor-pointer'>{Icon}</div>}
-      {errors && errors[name]?.type === 'required' && (
-        <div className='text-secondary-orange '>{errors[name].message}</div>
-      )}
-      {errors && errors[name]?.type === 'pattern' && (
-        <div className='text-secondary-orange'>{errors[name].message}</div>
-      )}
+      {errors && <div className='text-secondary-orange '>{errors[name]?.message}</div>}
     </div>
   )
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /*
     Hàm thực hiện định dạng kiểu tiền khi người dùng nhập ngoài màn hình (100.111.222)
 */

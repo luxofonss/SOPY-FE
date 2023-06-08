@@ -7,6 +7,7 @@ import { createLogger } from 'redux-logger'
 import { rootReducer } from '../reducer/index.js'
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
+import { adminApi } from '@src/containers/app/feature/Admin/adminService.js'
 
 const persistConfig = {
   key: 'root',
@@ -38,7 +39,7 @@ export function configureAppStore(preloadedState) {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
         },
         immutableCheck: { warnAfter: 128 }
-      }).concat(loggerMiddleware, todoApi.middleware, authApi.middleware, rtkQueryToastify),
+      }).concat(loggerMiddleware, todoApi.middleware, authApi.middleware, adminApi.middleware, rtkQueryToastify),
     preloadedState,
     enhancers: []
   })

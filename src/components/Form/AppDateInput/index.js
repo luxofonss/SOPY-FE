@@ -31,7 +31,7 @@ function AppDateInput({
       </label>
       <input
         id={id}
-        type={props.type || 'text'}
+        type='date'
         className={`${className} ${
           errors[name]?.type ? 'border-secondary-orange focus:border-secondary-orange' : 'border-neutral-300'
         } h-9 bg-neutral-200 box-border w-full rounded-md border-2  py-1.5 px-4 text-neutral-500 text-sm outline-none transition duration-500 focus:border-secondary-purple ${className}`}
@@ -45,6 +45,7 @@ function AppDateInput({
         {...props}
         disabled={disabled}
       />
+
       {unit ? (
         <div className='absolute flex items-center right-1 top-9 h-6 px-2 border-l-neutral-300 border-l-[2px] text-neutral-400 text-sm'>
           {unit}

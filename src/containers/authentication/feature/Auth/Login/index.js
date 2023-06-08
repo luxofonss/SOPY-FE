@@ -12,6 +12,7 @@ import { toast } from 'react-toastify'
 import { useLoginMutation } from '../authService'
 import { login, setUser } from '../authSlice'
 import auth_bg from '@src/assets/images/auth_bg.jpg'
+import * as yup from 'yup'
 // import banner from '@src/assets/images/banner.jpg'
 
 function Login() {
@@ -20,6 +21,11 @@ function Login() {
   const auth = useSelector((state) => state.auth)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  const loginForm = yup.object({
+    email: yup.string().email().required(),
+    password: yup.string().min(6).max(32).required()
+  })
 
   useEffect(() => {
     console.log(auth.isLoggedIn)
@@ -70,7 +76,7 @@ function Login() {
         <div className='w-96 h-full bg-red-400'>
           {/* <img height={400} src={banner} alt='banner' className='w-full h-full object-contain' /> */}
         </div>
-        <AppForm className='h-auto w-96 rounded-r-md  bg-slate-500 px-8 py-16' onSubmit={onSubmit}>
+        <AppForm resolver={loginForm} className='h-auto w-96 rounded-r-md  bg-slate-500 px-8 py-16' onSubmit={onSubmit}>
           <h3 className='bold text-center text-2xl text-white'>Welcome back</h3>
           <AppInput
             validate={{ pattern: { value: getEmailValidationRegex(), message: 'Email is invalid!' } }}

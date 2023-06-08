@@ -26,7 +26,6 @@ function AppFileInput({
       setFileName(filename)
     }
   }
-  console.log(fileName)
 
   return (
     <div className='relative my-2 w-full flex-col' style={wrapperStyle}>
@@ -53,8 +52,6 @@ function AppFileInput({
           ...(required ? { required: 'Trường này không được để trống' } : {}),
           ...validate,
           onChange: (e) => {
-            console.log('---')
-            console.log(e.target.files[0].name)
             changeHandler(e)
           }
         })}

@@ -10,7 +10,7 @@ import {
   ShopIcon
 } from '@src/assets/svgs'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 const menuList = [
   {
@@ -52,9 +52,9 @@ const menuList = [
     children: [
       {
         title: 'Tất cả sản phẩm',
-        path: '/'
+        path: '/product/all'
       },
-      { title: 'Thêm sản phẩm', path: '/' },
+      { title: 'Thêm sản phẩm', path: '/product/add' },
       {
         title: 'Cài đặt sản phẩm',
         path: '/'
@@ -99,9 +99,9 @@ const menuList = [
 function AdminSider() {
   const [openList, setOpenList] = useState([])
 
-  const handleMenuClick = (name) => {
-    console.log(openList)
+  const location = useLocation()
 
+  const handleMenuClick = (name) => {
     if (openList.includes(name)) {
       let newList
       const index = openList.indexOf(name)
@@ -117,7 +117,7 @@ function AdminSider() {
   }
 
   return (
-    <div className='p-6 h-full bg-[#FCFCFC]'>
+    <div className='p-6 h-full fixed bg-[#FCFCFC]'>
       <div>
         <AppLogo />
       </div>
@@ -165,7 +165,7 @@ function AdminSider() {
                       return (
                         <Link
                           className={`${
-                            subMenu.path === '/active'
+                            subMenu.path === location.pathname
                               ? 'bg-neutral-300 rounded-xl shadow-menu-item text-neutral-700 hover:bg-neutral-200'
                               : 'hover:bg-neutral-200'
                           } relative h-12 w-full p-3 text-neutral-400 rounded-md mb-1 font-medium flex items-center transition-all duration-200`}

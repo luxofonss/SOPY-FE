@@ -29,12 +29,11 @@ function AppSelect({ className, name, label, validate, options = exampleOptions,
   } = useFormContext()
 
   useEffect(() => {
-    console.log(selected.value)
     setValue(name, selected.value)
   }, [])
 
   return (
-    <div>
+    <div className='relative my-2 w-full flex-col'>
       <label
         onClick={() => {
           setOpen(!open)

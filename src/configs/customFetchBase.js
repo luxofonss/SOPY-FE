@@ -17,7 +17,6 @@ const baseQuery = fetchBaseQuery({
   credentials: 'include',
   prepareHeaders: (headers) => {
     headers.set('Access-Control-Allow-Origin', '*')
-    headers.set('Content-type', 'application/json')
     headers.set(HEADER.AUTHORIZATION, 'Bearer ' + cookies.get('access_token'))
     headers.set(HEADER.CLIENT_ID, cookies.get('user_id'))
     return headers

@@ -353,8 +353,14 @@ export const NotifyIcon = () => (
   </svg>
 )
 
-export const TrashIcon = () => (
-  <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+export const TrashIcon = ({ small }) => (
+  <svg
+    width={small ? '16' : '24'}
+    height={small ? '16' : '24'}
+    viewBox='0 0 24 24'
+    fill='none'
+    xmlns='http://www.w3.org/2000/svg'
+  >
     <path
       fillRule='evenodd'
       clipRule='evenodd'
@@ -371,6 +377,21 @@ export const TrashIcon = () => (
       fillRule='evenodd'
       clipRule='evenodd'
       d='M10 2C8.34315 2 7 3.34315 7 5H4H3C2.44772 5 2 5.44772 2 6C2 6.55228 2.44772 7 3 7H4V19C4 20.6569 5.34315 22 7 22H17C18.6569 22 20 20.6569 20 19V7H21C21.5523 7 22 6.55228 22 6C22 5.44772 21.5523 5 21 5H20H17C17 3.34315 15.6569 2 14 2H10ZM15 5C15 4.44772 14.5523 4 14 4H10C9.44772 4 9 4.44772 9 5H15ZM7 7H6V19C6 19.5523 6.44772 20 7 20H17C17.5523 20 18 19.5523 18 19V7H17H7Z'
+      fill='#6F767E'
+    />
+  </svg>
+)
+
+export const AddCircleIcon = () => (
+  <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <path
+      fillRule='evenodd'
+      clipRule='evenodd'
+      d='M12 20C16.4183 20 20 16.4183 20 12C20 7.58172 16.4183 4 12 4C7.58172 4 4 7.58172 4 12C4 16.4183 7.58172 20 12 20ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z'
+      fill='#6F767E'
+    />
+    <path
+      d='M13 8C13 7.44772 12.5523 7 12 7C11.4477 7 11 7.44772 11 8L11 11H8C7.44772 11 7 11.4477 7 12C7 12.5523 7.44772 13 8 13H11L11 16C11 16.5523 11.4477 17 12 17C12.5523 17 13 16.5523 13 16L13 13H16C16.5523 13 17 12.5523 17 12C17 11.4477 16.5523 11 16 11H13L13 8Z'
       fill='#6F767E'
     />
   </svg>

@@ -24,7 +24,7 @@ export default function AppModal({ Trigger, children, closeRef = { current: {} }
 
   return (
     <>
-      <div className='flex items-center justify-center'>
+      <div className='w-full'>
         <div
           type='button'
           onClick={() => {

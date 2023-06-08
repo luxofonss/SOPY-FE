@@ -3,6 +3,7 @@ import ProductAdd from './pages/ProductAdd'
 // import { USER_ROLE } from '@src/configs'
 // import RequireAuth from '@src/routes/RequireAuth'
 import { Outlet } from 'react-router'
+import ProductAll from './pages/ProductAll'
 
 export const adminRouteList = [
   {
@@ -16,6 +17,10 @@ export const adminRouteList = [
       {
         path: 'add',
         element: <ProductAdd />
+      },
+      {
+        path: 'all',
+        element: <ProductAll />
       }
     ]
   }
