@@ -13,6 +13,7 @@ function AppRadio({
   required = false,
   disabled = false,
   validate,
+  defaultValue = false,
   options = initOptions,
   ...props
 }) {
@@ -47,6 +48,7 @@ function AppRadio({
                   // onChange: (e) => handleInputChange(e.target.value)
                 })}
                 name={name}
+                defaultChecked={defaultValue}
                 value={option.value}
                 {...props}
                 disabled={disabled}

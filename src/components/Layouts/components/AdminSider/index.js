@@ -54,7 +54,7 @@ const menuList = [
         title: 'Tất cả sản phẩm',
         path: '/product/all'
       },
-      { title: 'Thêm sản phẩm', path: '/product/add' },
+      { title: 'Thêm sản phẩm', path: '/shop/product/add' },
       {
         title: 'Cài đặt sản phẩm',
         path: '/'

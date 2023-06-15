@@ -1,3 +1,4 @@
+import { get } from 'lodash'
 import { useFormContext } from 'react-hook-form'
 
 function AppTextArea({
@@ -47,12 +48,7 @@ function AppTextArea({
         disabled={disabled}
       ></textarea>
       {showIcon && <div className='absolute right-3 top-9 cursor-pointer'>{Icon}</div>}
-      {errors && errors[name]?.type === 'required' && (
-        <div className='text-secondary-orange '>{errors[name].message}</div>
-      )}
-      {errors && errors[name]?.type === 'pattern' && (
-        <div className='text-secondary-orange'>{errors[name].message}</div>
-      )}
+      {errors && <div className='text-secondary-orange '>{get(errors, name)?.message}</div>}
     </div>
   )
 }

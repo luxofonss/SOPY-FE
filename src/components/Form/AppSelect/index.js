@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { useEffect, useState } from 'react'
+import { get } from 'lodash'
+import { useEffect, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -19,18 +20,39 @@ const exampleOptions = [
   }
 ]
 
-function AppSelect({ className, name, label, validate, options = exampleOptions, required = false, Icon, showIcon }) {
+function AppSelect({
+  className,
+  name,
+  label,
+  validate,
+  options = exampleOptions,
+  defaultValue,
+  required = false,
+  Icon,
+  showIcon
+}) {
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState(options[0] || {})
   const {
     register,
     setValue,
+    getValues,
     formState: { errors }
   } = useFormContext()
+
+  const inputRef = useRef()
+
+  console.log(getValues(name), defaultValue)
 
   useEffect(() => {
     setValue(name, selected.value)
   }, [])
+
+  const handleSelect = (option) => {
+    setSelected({ ...option })
+    setValue(name, option.value)
+    inputRef.current.value = option.value
+  }
 
   return (
     <div className='relative my-2 w-full flex-col'>
@@ -41,7 +63,7 @@ function AppSelect({ className, name, label, validate, options = exampleOptions,
         className={`mb-1.5 font-semibold block w-full ${
           !errors[name]?.type ? 'text-neutral-500' : 'text-secondary-orange'
         }`}
-        htmlFor={uuidv4(name)}
+        htmlFor={name}
       >
         {label}
       </label>
@@ -60,7 +82,7 @@ function AppSelect({ className, name, label, validate, options = exampleOptions,
               return (
                 <li
                   onClick={() => {
-                    setSelected(option)
+                    handleSelect(option)
                   }}
                   className='h-8 mb-1 px-2 hover:bg-neutral-300 font-medium text-sm text-neutral-500 flex items-center rounded-md transition-all cursor-pointer'
                   key={uuidv4(option.value)}
@@ -74,28 +96,17 @@ function AppSelect({ className, name, label, validate, options = exampleOptions,
       </div>
 
       {showIcon && <div className='absolute right-3 top-9 cursor-pointer'>{Icon}</div>}
-      {errors && errors[name]?.type === 'required' && (
-        <div className='text-secondary-orange '>{errors[name].message}</div>
-      )}
-      {errors && errors[name]?.type === 'pattern' && (
-        <div className='text-secondary-orange'>{errors[name].message}</div>
-      )}
+      {errors && <div className='text-secondary-orange '>{get(errors, name)?.message}</div>}
 
-      <select
+      <input
         className='hidden'
-        id={uuidv4(name)}
+        ref={inputRef}
+        id={name}
         {...register(name, {
           ...(required ? { required: 'Trường này không được để trống' } : { required: false }),
           ...validate
-          // onChange: (e) => handleInputChange(e.target.value)
         })}
-      >
-        <option value='1'>1</option>
-        <option value='2'>2</option>
-        <option value='3'>3</option>
-        <option value='4'>4</option>
-        <option value='5'>5</option>
-      </select>
+      />
     </div>
   )
 }

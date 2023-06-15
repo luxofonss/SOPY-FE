@@ -14,7 +14,3 @@ export default function buildFormData(formData, data, parentKey) {
     formData.append(parentKey, value)
   }
 }
-
-// buildFormData(flatData, data.attributes)
-// buildFormData(flatData, data.variations)
-// buildFormData(flatData, data.shipping)

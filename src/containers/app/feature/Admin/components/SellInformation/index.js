@@ -2,12 +2,12 @@
 import { AddCircleIcon, TrashIcon, UploadIcon } from '@src/assets/svgs'
 // import AppForm from '@src/components/Form/AppForm'
 import AppInput from '@src/components/Form/AppInput'
-import { getBase64 } from '@src/helpers/media'
-import { useState } from 'react'
+import { isEmptyValue } from '@src/helpers/check'
+import { memo, useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
 
-function SellInformation() {
+function SellInformation({ defaultValue = [] }) {
   const [indexes1, setIndexes1] = useState([0])
   const [counter1, setCounter1] = useState(1)
 
@@ -17,13 +17,49 @@ function SellInformation() {
   const [thumbList, setThumbList] = useState([])
   const [thumbListObject, setThumbListObject] = useState([])
 
-  const [variation1, setVariation1] = useState([])
-  const [variation2, setVariation2] = useState([])
+  const [variation1, setVariation1] = useState({ name: '', children: [] })
+  const [variation2, setVariation2] = useState({ name: '', children: [] })
 
   const { getValues, register, setValue } = useFormContext()
-  // const onSubmit = (data) => {
-  //   console.log(data)
-  // }
+
+  useEffect(() => {
+    if (!isEmptyValue(defaultValue)) {
+      if (defaultValue[0]?.subVariation) {
+        //case there are two variants
+        console.log('defaultValue:: ', defaultValue)
+
+        defaultValue?.forEach((variation) => {
+          if (!variation1?.name?.includes(variation.keyVariation)) {
+            setValue('variation1.name', variation.keyVariation)
+          }
+          if (!variation2?.name?.includes(variation.subVariation)) {
+            setValue('variation2.name', variation.subVariation)
+          }
+          setVariation1({ ...variation1, children: [...variation1.children, variation.keyVariation] })
+          setVariation2({ ...variation2, children: [...variation2.children, variation.subVariationValue] })
+          setIndexes1((prevIndexes) => [...prevIndexes, counter1])
+          setCounter1((prevCounter) => prevCounter + 1)
+          if (variation?.thumb) setThumbList([...thumbList, variation.thumb])
+          setIndexes2((prevIndexes) => [...prevIndexes, counter1])
+          setCounter2((prevCounter) => prevCounter + 1)
+        })
+      } else {
+        //case there is only one variant
+        defaultValue?.forEach((variation) => {
+          if (!variation1?.name?.includes(variation.keyVariation)) {
+            setValue('variation1.name', variation.keyVariation)
+          }
+          setVariation1({ ...variation1, children: [...variation1.children, variation.keyVariation] })
+          setIndexes1((prevIndexes) => [...prevIndexes, counter1])
+          setCounter1((prevCounter) => prevCounter + 1)
+          if (variation?.thumb) setThumbList([...thumbList, variation.thumb])
+        })
+      }
+    }
+  }, [])
+
+  console.log('variation1: ' + JSON.stringify(variation1))
+  console.log('variation2: ' + JSON.stringify(variation2))
 
   function applyVariation() {
     const value1 = getValues('variation1')
@@ -104,6 +140,7 @@ function SellInformation() {
                         id={fieldName}
                         name={fieldName}
                         required
+                        defaultValue={variation1?.children[index]}
                         placeholder='ví dụ: Trăng, đỏ vv'
                       />
                       <button className='absolute right-4 top-4' type='button' onClick={removeVariation1(index)}>
@@ -129,7 +166,13 @@ function SellInformation() {
             <div className='gap-6 grid grid-cols-12'>
               <div className='col-span-2 text-sm font-medium text-neutral-400'>Nhóm phân loại 2</div>
               <div className='col-span-5'>
-                <AppInput id='variation2' name='variation2.name' required placeholder='ví dụ: màu sắc vv' />
+                <AppInput
+                  id='variation2'
+                  name='variation2.name'
+                  required
+                  placeholder='ví dụ: màu sắc vv'
+                  defaultValue={variation2?.name}
+                />
               </div>
             </div>
             <div className='gap-6 grid grid-cols-12'>
@@ -144,6 +187,7 @@ function SellInformation() {
                         id={fieldName}
                         name={fieldName}
                         required
+                        defaultValue={variation2?.children[index]}
                         placeholder='ví dụ: Trăng, đỏ vv'
                       />
                       <button className='absolute right-4 top-4' type='button' onClick={removeVariation2(index)}>
@@ -164,6 +208,7 @@ function SellInformation() {
         </div>
       </div>
       <button
+        className='px-2 py-1 bg-secondary-purple text-neutral-200 rounded-lg hover:opacity-80 hover:translate-y-1 transition'
         type='button'
         onClick={() => {
           applyVariation()
@@ -191,21 +236,24 @@ function SellInformation() {
                     <td className='pr-4'>
                       <span>{variation}</span>
                       <label
-                        className='w-24 h-24 mt-1 cursor-pointer border-dashed border-2 rounded-lg border-secondary-blue flex justify-center items-center'
-                        htmlFor={`image${variation}.${index}`}
+                        className='relative w-24 h-24 mt-1 cursor-pointer border-dashed border-2 rounded-lg border-secondary-blue flex justify-center items-center'
+                        htmlFor={`variations[${index}].thumb`}
                       >
-                        <UploadIcon />
-                        <img className='w-full h-full rounded-md object-contain' src={thumbList[index]} alt='thumb' />
+                        {thumbList[index] ? (
+                          <img className='w-full h-full rounded-md object-contain' src={thumbList[index]} alt='thumb' />
+                        ) : (
+                          <div className='absolute -translate-x-1/2 top-1/2 -translate-y-1/2 left-1/2'>
+                            <UploadIcon />
+                          </div>
+                        )}
                       </label>
                       <input
-                        {...register(`variation[${index}].thumb`, {
+                        {...register(`variations[${index}].thumb`, {
                           onChange: (e) => {
-                            console.log('change')
-                            setValue(`variation[${index}].thumb`, getBase64(e.target.files[0]))
                             uploadImages(e, index)
                           }
                         })}
-                        id={`imag[${index}].${index}`}
+                        id={`variations[${index}].thumb`}
                         type='file'
                         multiple
                         className='hidden'
@@ -324,4 +372,4 @@ function SellInformation() {
   )
 }
 
-export default SellInformation
+export default memo(SellInformation)

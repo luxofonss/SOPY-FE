@@ -5,7 +5,6 @@ import { Outlet } from 'react-router'
 import Category from './pages/Category'
 import Home from './pages/Home'
 import Product from './pages/Product'
-import Todo from './pages/Todo'
 
 export const customerRouteList = [
   {
@@ -25,8 +24,8 @@ export const customerRouteList = [
     ),
     children: [
       {
-        path: '/todo',
-        element: <Todo />
+        path: '/product/:id',
+        element: <Product />
       }
     ]
   },

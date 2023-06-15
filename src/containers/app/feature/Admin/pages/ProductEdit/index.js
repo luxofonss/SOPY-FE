@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-undef */
 import AppButton from '@src/components/AppButton'
@@ -9,29 +10,39 @@ import AppForm from '@src/components/Form/AppForm'
 import AppInput from '@src/components/Form/AppInput'
 import AppRadio from '@src/components/Form/AppRadio'
 // import AppSelect from '@src/components/Form/AppSelect'
-import AppTextArea from '@src/components/Form/AppTextArea'
-import { useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
-import { useAddProductMutation } from '../../adminService'
-import SellInformation from '../../components/SellInformation'
 import AppSelect from '@src/components/Form/AppSelect'
-import ChooseCategory from '../../components/ChooseCategory'
+import AppTextArea from '@src/components/Form/AppTextArea'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router'
+import { v4 as uuidv4 } from 'uuid'
+import { adminApi, useAddProductMutation, useGetProductByIdQuery } from '../../adminService'
+import SellInformation from '../../components/SellInformation'
 
-function ProductAdd() {
+function ProductEdit() {
   const [imageList, setImageList] = useState([])
   const [imageListObject, setImageListObject] = useState([])
   const [limitUpload, setLimitUpload] = useState(false)
-  const [productAttributeList, setProductAttributeList] = useState()
   const [addProduct] = useAddProductMutation()
-  const [categoryId, setCategoryId] = useState()
+  const { id } = useParams()
+  const { data: product } = useGetProductByIdQuery(id)
+  const [getCategory, { data: category }] = adminApi.endpoints.getCategoryBySubId.useLazyQuery()
+  const [getProductAttributes, { data: productAttributes }] = adminApi.endpoints.getProductAttributes.useLazyQuery()
 
-  function handleChooseCategory(id) {
-    setCategoryId(id)
-  }
+  useEffect(() => {
+    if (product?.metadata?.typeId) {
+      setImageList([...imageList, product.metadata.thumb])
+      getCategory(product?.metadata?.typeId)
+        .then((response) => {
+          console.log('get category response: ', response)
+          getProductAttributes({ typeId: response.data.metadata.subTypes[0]._id })
+        })
+        .catch((error) => console.log('error: ', error))
+    }
+  }, [product])
 
-  function handleChangeProductAttribute(data) {
-    setProductAttributeList(data)
-  }
+  console.log('product:: ', product)
+  console.log('category:: ', category)
+  console.log('productAttributes:: ', productAttributes)
 
   function uploadImages(e) {
     if (imageList.length < 10) {
@@ -60,11 +71,10 @@ function ProductAdd() {
 
   async function onCreateNewProduct(data) {
     console.log(data)
-    console.log('product category: ', categoryId)
 
     const flatData = new FormData()
 
-    flatData.append('typeId', categoryId)
+    // flatData.append('typeId', categoryId)
     flatData.append('name', data.name)
     flatData.append('description', data.description)
     flatData.append('condition', data.condition)
@@ -92,8 +102,6 @@ function ProductAdd() {
     console.log('response:: ', response)
   }
 
-  console.log('productAttributeList:: ', productAttributeList)
-
   return (
     <div className='py-8 px-32 bg-neutral-100 rounded-lg'>
       <div className='text-neutral-700 font-semibold text-2xl'>Thêm sản phẩm mới</div>
@@ -109,21 +117,58 @@ function ProductAdd() {
             <div>Thông tin cơ bản</div>
           </div>
           <div className='mt-6 ml-6'>
-            <ChooseCategory
-              handleChooseCategory={handleChooseCategory}
-              handleCategoryResponse={handleChangeProductAttribute}
+            <AppInput
+              id='typeId'
+              name='typeId'
+              required
+              label='Ngành hàng'
+              defaultValue={category?.metadata?.subTypes[0]?.name}
+              disabled
             />
-            <AppInput id='name' name='name' required label='Tên sản phẩm' />
-            <AppTextArea id='description' name='description' required label='Mô tả' rows={5} />
+            <AppInput id='name' name='name' required label='Tên sản phẩm' defaultValue={product?.metadata?.name} />
+            <AppTextArea
+              id='description'
+              name='description'
+              required
+              label='Mô tả'
+              rows={5}
+              defaultValue={product?.metadata?.description}
+            />
             <div className='grid grid-cols-3 gap-x-6'>
-              <AppInput id='brand' name='brand' required label='Thương hiệu' />
-              <AppInput id='manufacturerName' name='manufacturerName' required label='Nhà sản xuất' />
-              <AppInput id='manufacturerAddress' name='manufacturerAddress' required label='Nơi sản xuất' />
-              <AppDateInput id='manufactureDate' name='manufactureDate' required label='Ngày sản xuất' />
-              <AppInput id='condition' type='number' name='condition' required label='Tình trạng' unit='/100' />
-              <AppInput id='sku' type='text' name='sku' label='SKU sản phẩm' />
+              <AppInput id='brand' name='brand' required label='Thương hiệu' defaultValue={product?.metadata?.brand} />
+              <AppInput
+                id='manufacturerName'
+                name='manufacturerName'
+                required
+                label='Nhà sản xuất'
+                defaultValue={product?.metadata?.manufacturerName}
+              />
+              <AppInput
+                id='manufacturerAddress'
+                name='manufacturerAddress'
+                required
+                label='Nơi sản xuất'
+                defaultValue={product?.metadata?.manufacturerAddress}
+              />
+              <AppDateInput
+                id='manufactureDate'
+                name='manufactureDate'
+                required
+                label='Ngày sản xuất'
+                defaultValue={product?.metadata?.manufactureDate}
+              />
+              <AppInput
+                id='condition'
+                type='number'
+                name='condition'
+                required
+                label='Tình trạng'
+                unit='/100'
+                defaultValue={product?.metadata?.condition}
+              />
+              <AppInput id='sku' type='text' name='sku' label='SKU sản phẩm' defaultValue={product?.metadata?.sku} />
             </div>
-            <AppRadio name='preOrder' label='Hàng đặt trước' required />
+            <AppRadio name='preOrder' label='Hàng đặt trước' required defaultValue={product?.metadata?.preOrder} />
             <div>
               <div className='mb-1.5 font-semibold w-full text-neutral-500'>Hình ảnh</div>
               <div className='flex gap-8'>
@@ -167,8 +212,13 @@ function ProductAdd() {
             <div>Thông tin chi tiết</div>
           </div>
           <div className='mt-6 ml-6 grid grid-cols-2 gap-x-16'>
-            {productAttributeList
-              ? productAttributeList.map((attribute) => {
+            {productAttributes?.metadata
+              ? productAttributes.metadata.map((attribute) => {
+                  const defaultValue = attribute?.path?.split('.')?.[1]
+                    ? product.metadata?.attributes?.[attribute.path?.split('.')?.[0]]?.[attribute.path?.split('.')?.[1]]
+                    : product.metadata?.attributes?.[attribute?.path]
+
+                  // console.log('pathname:: ', pathname)
                   if (attribute !== null)
                     switch (attribute.type) {
                       case 'text':
@@ -178,6 +228,7 @@ function ProductAdd() {
                             id={`attributes.${attribute.path}`}
                             name={`attributes.${attribute.path}`}
                             required
+                            defaultValue={defaultValue}
                             label={attribute.name.vi}
                             unit={attribute.unit}
                             type='text'
@@ -190,6 +241,7 @@ function ProductAdd() {
                             id={`attributes.${attribute.path}`}
                             name={`attributes.${attribute.path}`}
                             required
+                            defaultValue={defaultValue}
                             label={attribute.name.vi}
                             unit={attribute.unit}
                             type='number'
@@ -201,6 +253,7 @@ function ProductAdd() {
                             key={attribute.path}
                             id={`attributes.${attribute.path}`}
                             name={`attributes.${attribute.path}`}
+                            defaultValue={defaultValue}
                             label={attribute.name.vi}
                             options={attribute.selections}
                             required
@@ -217,7 +270,7 @@ function ProductAdd() {
             <div>Thông tin bán hàng</div>
           </div>
           <div className='mt-6 ml-6'>
-            <SellInformation />
+            <SellInformation defaultValue={product?.metadata?.variations} />
           </div>
         </div>
         <div className='mt-6'>
@@ -226,13 +279,46 @@ function ProductAdd() {
             <div>Vận chuyển</div>
           </div>
           <div className='mt-6 ml-6'>
-            <AppInput id='weight' name='shipping.weight' required label='Cân nặng (sau khi đóng gói)' unit='gr' />
+            <AppInput
+              id='weight'
+              name='shipping.weight'
+              required
+              label='Cân nặng (sau khi đóng gói)'
+              unit='gr'
+              defaultValue={product?.metadata?.shipping.weight}
+            />
             <div className='grid grid-cols-3 gap-x-4'>
-              <AppInput id='length' name='shipping.parcelSize.length' required label='Chiều dài' unit='mm' />
-              <AppInput id='height' name='shipping.parcelSize.height' required label='Chiều cao' unit='mm' />
-              <AppInput id='width' name='shipping.parcelSize.width' required label='Chiều rộng' unit='mm' />
+              <AppInput
+                id='length'
+                name='shipping.parcelSize.length'
+                required
+                label='Chiều dài'
+                unit='mm'
+                defaultValue={product?.metadata?.shipping.parcelSize.length}
+              />
+              <AppInput
+                id='height'
+                name='shipping.parcelSize.height'
+                required
+                label='Chiều cao'
+                unit='mm'
+                defaultValue={product?.metadata?.shipping.parcelSize.height}
+              />
+              <AppInput
+                id='width'
+                name='shipping.parcelSize.width'
+                required
+                label='Chiều rộng'
+                unit='mm'
+                defaultValue={product?.metadata?.shipping.parcelSize.width}
+              />
             </div>
-            <AppCheckbox name='shipping.shippingUnit' label='Đơn vị vận chuyển' required />
+            <AppCheckbox
+              name='shipping.shippingUnit'
+              label='Đơn vị vận chuyển'
+              required
+              defaultValue={product?.metadata?.shipping.shippingUnit}
+            />
           </div>
         </div>
         <div className='mt-6 w-44 ml-auto'>
@@ -243,4 +329,4 @@ function ProductAdd() {
   )
 }
 
-export default ProductAdd
+export default ProductEdit

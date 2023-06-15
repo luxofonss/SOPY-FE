@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { get } from 'lodash'
 
 function AppInput({
   id,
@@ -60,7 +61,7 @@ function AppInput({
         </div>
       ) : null}
       {showIcon && <div className='absolute right-3 top-9 cursor-pointer'>{Icon}</div>}
-      {errors && <div className='text-secondary-orange '>{errors[name]?.message}</div>}
+      {errors && <div className='text-secondary-orange '>{get(errors, name)?.message}</div>}
     </div>
   )
 }

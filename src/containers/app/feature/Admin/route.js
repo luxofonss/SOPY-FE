@@ -4,10 +4,11 @@ import ProductAdd from './pages/ProductAdd'
 // import RequireAuth from '@src/routes/RequireAuth'
 import { Outlet } from 'react-router'
 import ProductAll from './pages/ProductAll'
+import ProductEdit from './pages/ProductEdit'
 
 export const adminRouteList = [
   {
-    path: '/product',
+    path: '/shop/product',
     element: (
       <AdminLayout>
         <Outlet />
@@ -21,6 +22,10 @@ export const adminRouteList = [
       {
         path: 'all',
         element: <ProductAll />
+      },
+      {
+        path: ':id',
+        element: <ProductEdit />
       }
     ]
   }

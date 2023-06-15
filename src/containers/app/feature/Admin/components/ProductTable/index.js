@@ -1,99 +1,15 @@
-import { Table } from 'antd'
-
-const columns = [
-  {
-    title: 'Sản phẩm',
-    dataIndex: 'name',
-    width: 250,
-    render: (text) => (
-      <div className='flex gap-3 max-w-[250px]'>
-        <img
-          className='w-12 h-12 object-cover rounded-md'
-          src='https://scontent.fhan14-1.fna.fbcdn.net/v/t39.30808-6/351199809_1775346002923434_6247307998493095477_n.jpg?stp=dst-jpg_s600x600&_nc_cat=107&ccb=1-7&_nc_sid=a26aad&_nc_ohc=83UG26cKklAAX8Dw15p&_nc_ht=scontent.fhan14-1.fna&oh=00_AfBeHapx1zhfbrSYCUy2cSB6AP6--0KQ4MYxdOTAAtVoyw&oe=6482A670'
-          alt='thumb'
-        />
-        <div>
-          <a className='font-bold text-neutral-700 text-sm truncate max-w-[180px]' href='/'>
-            {text}
-          </a>
-          <p className='font-semibold text-sm text-neutral-400 truncate max-w-[180px]'>
-            this is a long product description that may cause line break but it doesnt work at all
-          </p>
-        </div>
-      </div>
-    )
-  },
-  {
-    title: 'SKU',
-    dataIndex: 'sku'
-  },
-  {
-    title: 'Phân loại hàng',
-    dataIndex: 'variation'
-  },
-  {
-    title: 'Giá',
-    dataIndex: 'price'
-  },
-  {
-    title: 'Kho hàng',
-    dataIndex: 'stock'
-  },
-  {
-    title: 'Doanh số',
-    dataIndex: 'revenue'
-  },
-  {
-    title: 'Trạng thái',
-    dataIndex: 'status',
-    render: (status) => <div className='h-6 px-2 bg-secondary-green rounded-md'>{status}</div>
-  },
-  {
-    title: 'Thao tác',
-    dataIndex: 'address'
-  }
-]
-
-const data = [
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { DownOutlined } from '@ant-design/icons'
+import { Dropdown, Space, Table } from 'antd'
+import { Link } from 'react-router-dom'
+const items = [
   {
     key: '1',
-    name: 'John Brown',
-    sku: 32,
-    variation: 'Red, M',
-    price: 200000,
-    stock: 1000,
-    revenue: 100000,
-    status: 'Active'
+    label: 'Action 1'
   },
   {
     key: '2',
-    name: 'John Brown',
-    sku: 32,
-    variation: 'Red, M',
-    price: 200000,
-    stock: 1000,
-    revenue: 100000,
-    status: 'Active'
-  },
-  {
-    key: '3',
-    name: 'John Brown',
-    sku: 32,
-    variation: 'Red, M',
-    price: 200000,
-    stock: 1000,
-    revenue: 100000,
-    status: 'Active'
-  },
-  {
-    key: '44',
-    name: 'John Brown',
-    sku: 32,
-    variation: 'Red, M',
-    price: 200000,
-    stock: 1000,
-    revenue: 100000,
-    status: 'Active'
+    label: 'Action 2'
   }
 ]
 
@@ -101,26 +17,160 @@ const data = [
 const rowSelection = {
   onChange: (selectedRowKeys, selectedRows) => {
     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
-  },
-  getCheckboxProps: (record) => ({
-    disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    name: record.name
-  })
+  }
+  // getCheckboxProps: (record) => ({
+  //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
+  //   name: record.name
+  // })
 }
 
-function ProductTable() {
+const ProductTable = ({ data, onTableChange }) => {
+  const expandedRowRender = (row) => {
+    console.log('row: ', row)
+    const columns = [
+      {
+        title: '',
+        dataIndex: 'thumb',
+        key: 'thumb',
+        render: (thumb) => (
+          <Space size='middle'>
+            <img className='w-12 h-12 object-cover rounded-md' src={thumb} alt='thumb' />
+          </Space>
+        )
+      },
+      {
+        title: 'Phân loại hàng',
+        dataIndex: 'variation',
+        key: 'variation'
+      },
+      {
+        title: 'Tồn kho',
+        dataIndex: 'stock',
+        key: 'stock'
+      },
+      {
+        title: 'Giá',
+        dataIndex: 'price',
+        key: 'price'
+      },
+      {
+        title: 'Action',
+        dataIndex: 'operation',
+        key: 'operation',
+        render: () => (
+          <Space size='middle'>
+            <a>Pause</a>
+            <a>Stop</a>
+            <Dropdown
+              menu={{
+                items
+              }}
+            >
+              <a>
+                More <DownOutlined />
+              </a>
+            </Dropdown>
+          </Space>
+        )
+      }
+    ]
+    const rowData = []
+
+    data.products[row.key].variations.map((variation) => {
+      rowData.push({
+        variation: `${variation.keyVariationValue}, ${variation.subVariationValue}`,
+        stock: variation.stock,
+        price: variation.price,
+        thumb: variation.thumb
+      })
+    })
+
+    return <Table columns={columns} dataSource={rowData} pagination={false} />
+  }
+  const columns = [
+    {
+      title: '',
+      dataIndex: 'thumb',
+      key: 'thumb',
+      render: (thumb) => (
+        <Space size='middle'>
+          <img className='w-12 h-12 object-cover rounded-md' src={thumb} alt='thumb' />
+        </Space>
+      )
+    },
+    {
+      title: 'Sản phẩm',
+      dataIndex: 'name',
+      key: 'name'
+    },
+    {
+      title: 'Mô tả',
+      dataIndex: 'description',
+      key: 'description'
+    },
+    {
+      title: 'SKU',
+      dataIndex: 'sku',
+      key: 'sku'
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'isDraft',
+      key: 'isDraft',
+      render: (isDraft) => {
+        if (isDraft) return <p className='bg-secondary-orange rounded-md py-1 px-2'>Inactive</p>
+        else return <p className='bg-secondary-green rounded-md py-1 px-2'>Active</p>
+      }
+    },
+    {
+      title: 'Brand',
+      dataIndex: 'brand',
+      key: 'brand'
+    },
+    {
+      title: 'Action',
+      dataIndex: 'id',
+      key: 'id',
+      render: (id) => <Link to={`/product/${id}`}>View</Link>
+    }
+  ]
+  const rowData = []
+  data?.products?.forEach((product, index) => {
+    rowData.push({
+      key: index.toString(),
+      name: product.name,
+      sku: 'null',
+      brand: product.brand,
+      thumb: product.thumb[0],
+      id: product._id
+    })
+  })
+
   return (
-    <div>
+    <>
       <Table
+        columns={columns}
         rowSelection={{
           type: 'checkbox',
           ...rowSelection
         }}
-        columns={columns}
-        dataSource={data}
+        expandable={{
+          expandedRowRender,
+          defaultExpandedRowKeys: ['0']
+        }}
+        pagination={{
+          defaultPageSize: 10,
+          showSizeChanger: true,
+          pageSizeOptions: ['5', '10', '15'],
+          total: data?.count
+        }}
+        onChange={(pagination, filters, sorter) => {
+          onTableChange(pagination, filters, sorter)
+        }}
+        dataSource={rowData}
+        size='middle'
       />
-    </div>
+    </>
   )
 }
-
 export default ProductTable

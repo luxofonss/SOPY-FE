@@ -12,6 +12,7 @@ function AppCheckbox({
   wrapperStyle = {},
   required = false,
   disabled = false,
+  defaultValue = null,
   validate,
   options = initOptions,
   ...props
@@ -20,6 +21,8 @@ function AppCheckbox({
     register,
     formState: { errors }
   } = useFormContext()
+
+  console.log('defaultValue:: ', defaultValue)
 
   return (
     <div className='relative my-2 w-full flex-col' style={wrapperStyle}>

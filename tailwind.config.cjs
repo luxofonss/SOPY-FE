@@ -1,8 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
-  content: ['./src/**/*.{js,jsx}', './public/index.html'],
+  content: ['./src/**/*.{js,jsx}', './public/index.html', 'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'],
   theme: {
+    container: {
+      screens: {
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1538px'
+      }
+    },
     fontFamily: {
       sans: ['"PT Sans"', 'sans-serif'],
       inter: ['"Inter"', 'serif']
@@ -61,5 +70,5 @@ module.exports = {
       }
     }
   },
-  plugins: []
+  plugins: [require('flowbite/plugin'), require('@tailwindcss/line-clamp')]
 }

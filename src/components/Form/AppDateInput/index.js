@@ -11,6 +11,7 @@ function AppDateInput({
   validate,
   showIcon,
   unit,
+  defaultValue = null,
   Icon,
   ...props
 }) {
@@ -42,6 +43,7 @@ function AppDateInput({
           ...validate
           // onChange: (e) => handleInputChange(e.target.value)
         })}
+        defaultValue={defaultValue}
         {...props}
         disabled={disabled}
       />
