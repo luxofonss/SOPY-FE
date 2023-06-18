@@ -17,6 +17,46 @@ const customerApi = createApi({
       query: (id) => ({
         url: '/product/' + id
       })
+    }),
+    getCart: build.query({
+      query: () => ({
+        url: '/cart'
+      })
+    }),
+    addToCart: build.mutation({
+      query: (body) => ({
+        url: '/cart',
+        method: 'POST',
+        body: body
+      })
+    }),
+    setAllCheck: build.mutation({
+      query: (body) => ({
+        url: '/cart',
+        method: 'PUT',
+        body: body
+      })
+    }),
+    setShopCheck: build.mutation({
+      query: (body) => ({
+        url: '/cart/shop',
+        method: 'PUT',
+        body: body
+      })
+    }),
+    setProductCheck: build.mutation({
+      query: (body) => ({
+        url: '/cart/product',
+        method: 'PUT',
+        body: body
+      })
+    }),
+    deleteItem: build.mutation({
+      query: (body) => ({
+        url: '/cart/delete',
+        method: 'PUT',
+        body: body
+      })
     })
   })
 })

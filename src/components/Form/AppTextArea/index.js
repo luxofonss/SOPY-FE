@@ -24,7 +24,7 @@ function AppTextArea({
     <div className='relative my-2 w-full flex-col' style={wrapperStyle}>
       <label
         className={`mb-1.5 font-semibold block w-full ${
-          !errors[name]?.type ? 'text-neutral-500' : 'text-secondary-orange'
+          !errors[name]?.type ? 'text-neutral-400' : 'text-secondary-orange'
         }`}
         htmlFor={id}
       >

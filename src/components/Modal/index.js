@@ -1,8 +1,14 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useImperativeHandle, useState } from 'react'
 
-export default function AppModal({ Trigger, children, closeRef = { current: {} } }) {
-  let [isOpen, setIsOpen] = useState(false)
+export default function AppModal({
+  isOpenModal = false,
+  Trigger,
+  openRef = { current: {} },
+  children,
+  closeRef = { current: {} }
+}) {
+  let [isOpen, setIsOpen] = useState(isOpenModal)
 
   function closeModal() {
     setIsOpen(false)
@@ -16,6 +22,16 @@ export default function AppModal({ Trigger, children, closeRef = { current: {} }
     closeRef,
     () => ({
       closeModal
+    }),
+    [
+      /* dependencies (if any) */
+    ]
+  )
+
+  useImperativeHandle(
+    openRef,
+    () => ({
+      openModal
     }),
     [
       /* dependencies (if any) */
@@ -60,7 +76,7 @@ export default function AppModal({ Trigger, children, closeRef = { current: {} }
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <div>{children}</div>
+                {children}
               </Transition.Child>
             </div>
           </div>

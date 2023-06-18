@@ -81,8 +81,8 @@ function Header() {
   ]
 
   return (
-    <div className='w-screen fixed bg-primary-blue-2 border-b-1 border-b-primary-500 z-[1000]'>
-      <div className='container mx-auto h-6 text-neutral-200 text-sm  flex justify-between'>
+    <div className='w-screen fixed bg-neutral-0 border-b-1 border-b-primary-500 z-[1000]'>
+      <div className='container mx-auto h-6 text-neutral-600 text-sm  flex justify-between'>
         <div className='flex gap-2 items-center'>
           <div>Kênh người bán</div>
           <div>Trở thành người bán Sope</div>
