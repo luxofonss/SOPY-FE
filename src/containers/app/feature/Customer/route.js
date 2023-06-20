@@ -4,8 +4,10 @@ import RequireAuth from '@src/routes/RequireAuth'
 import { Outlet } from 'react-router'
 import UserCart from './pages/Cart'
 import Category from './pages/Category'
+import Checkout from './pages/Checkout'
 import Home from './pages/Home'
 import Product from './pages/Product'
+import ShopRegister from './pages/ShopRegister'
 
 export const customerRouteList = [
   {
@@ -25,6 +27,10 @@ export const customerRouteList = [
     ),
     children: [
       {
+        path: '/shop/register',
+        element: <ShopRegister />
+      },
+      {
         path: '/product/:id',
         element: <Product />
       }
@@ -35,18 +41,18 @@ export const customerRouteList = [
     // element: <RequireAuth allowedRoles={[USER_ROLE.USER, USER_ROLE.ADMIN]}></RequireAuth>,
     children: [
       {
-        path: '/product',
-        element: (
-          <AppLayout>
-            <Product />
-          </AppLayout>
-        )
-      },
-      {
         path: '/cart',
         element: (
           <AppLayout>
             <UserCart />
+          </AppLayout>
+        )
+      },
+      {
+        path: '/checkout',
+        element: (
+          <AppLayout>
+            <Checkout />
           </AppLayout>
         )
       }

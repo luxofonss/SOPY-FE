@@ -11,7 +11,7 @@ export const authApi = createApi({
     login: build.mutation({
       query: (body) => {
         return {
-          url: '/user/login',
+          url: '/auth/login',
           method: 'POST',
           body: body,
           responseHandler: async (response) => {
@@ -34,7 +34,7 @@ export const authApi = createApi({
     signup: build.mutation({
       query: (body) => {
         return {
-          url: '/user/signup',
+          url: '/auth/signup',
           method: 'POST',
           body: body,
           responseHandler: async (response) => {
@@ -56,7 +56,7 @@ export const authApi = createApi({
     }),
     getProfile: build.query({
       query: () => ({
-        url: '/user/profile',
+        url: '/auth/profile',
         headers: {
           Authorization: 'Bearer ' + cookies.get('access_token')
         }
@@ -84,7 +84,7 @@ export const authApi = createApi({
     logout: build.mutation({
       query: () => {
         return {
-          url: '/user/logout',
+          url: '/auth/logout',
           method: 'POST',
           responseHandler: async (response) => {
             const responseBody = await response.json()
@@ -102,7 +102,7 @@ export const authApi = createApi({
     refreshToken: build.mutation({
       query: () => {
         return {
-          url: '/user/refresh-token',
+          url: '/auth/refresh-token',
           method: 'POST',
           responseHandler: async (response) => {
             const responseBody = await response.json()

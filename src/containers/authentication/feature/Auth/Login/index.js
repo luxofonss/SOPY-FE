@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { IconEye, IconEyeSlash } from '@src/assets/svgs'
+import { FacebookLogo, GoogleLogo, IconEye, IconEyeSlash } from '@src/assets/svgs'
 import AppButton from '@src/components/AppButton'
 import AppForm from '@src/components/Form/AppForm'
 import AppInput from '@src/components/Form/AppInput'
@@ -9,10 +9,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { BeatLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
+import * as yup from 'yup'
 import { useLoginMutation } from '../authService'
 import { login, setUser } from '../authSlice'
-import auth_bg from '@src/assets/images/auth_bg.jpg'
-import * as yup from 'yup'
 // import banner from '@src/assets/images/banner.jpg'
 
 function Login() {
@@ -68,40 +67,53 @@ function Login() {
   }
 
   return (
-    <div
-      style={{ backgroundImage: `url("${auth_bg}")` }}
-      className='flex h-screen items-center justify-center rounded bg-zinc-200'
-    >
-      <div className='flex bg-violet-400 shadow-md shadow-violet-300 bg-opacity-75 rounded-md items-center'>
-        <div className='w-96 h-full bg-red-400'>
-          {/* <img height={400} src={banner} alt='banner' className='w-full h-full object-contain' /> */}
-        </div>
-        <AppForm resolver={loginForm} className='h-auto w-96 rounded-r-md  bg-slate-500 px-8 py-16' onSubmit={onSubmit}>
-          <h3 className='bold text-center text-2xl text-white'>Welcome back</h3>
-          <AppInput
-            validate={{ pattern: { value: getEmailValidationRegex(), message: 'Email is invalid!' } }}
-            type='email'
-            placeholder='Email'
-            name='email'
-            label='Email'
-            required
-            className='mb-2'
-          />
-          <AppInput
-            type={open ? 'text' : 'password'}
-            placeholder='Password'
-            name='password'
-            label='Password'
-            required
-            showIcon
-            Icon={open ? <IconEye onClick={toggleEyeIcon} /> : <IconEyeSlash onClick={toggleEyeIcon} />}
-          />
-          <AppButton disabled={isLoading} className='my-4' formNoValidate type='submit'>
-            {!isLoading ? 'Login' : <BeatLoader size={12} color='#36d7b7' />}
-          </AppButton>
-          <AppButton className='my-4' type='button' onClick={handleGoogleLogin}>
-            Login with Google
-          </AppButton>
+    <div className='container mx-auto lg:px-16 md:px-10 my-6'>
+      <h3 className='bold text-start text-2xl text-neutral-600'>Đăng nhập</h3>
+
+      <div className='px-14 py-8 bg-white shadow-md shadow-neutral-200 rounded-md mt-4'>
+        <AppForm resolver={loginForm} className='grid grid-cols-12 gap-14 h-auto w-full rounded-lg' onSubmit={onSubmit}>
+          <div className='col-span-6 '>
+            <AppInput
+              validate={{ pattern: { value: getEmailValidationRegex(), message: 'Email is invalid!' } }}
+              type='email'
+              placeholder='Email'
+              name='email'
+              label='Email'
+              required
+              className='mb-2'
+            />
+            <AppInput
+              type={open ? 'text' : 'password'}
+              placeholder='Password'
+              name='password'
+              label='Password'
+              required
+              showIcon
+              Icon={open ? <IconEye onClick={toggleEyeIcon} /> : <IconEyeSlash onClick={toggleEyeIcon} />}
+            />
+
+            <AppButton disabled={isLoading} className='w-full my-4' formNoValidate type='submit'>
+              {!isLoading ? 'Login' : <BeatLoader size={12} color='#36d7b7' />}
+            </AppButton>
+          </div>
+          <div className='col-span-6 '>
+            <h4 className='font-medium text-neutral-500 mt-4'>Hoặc đăng nhập với</h4>
+            <button
+              onClick={handleGoogleLogin}
+              className='w-full mt-4 flex justify-center items-center gap-6 h-12 rounded-md bg-neutral-200 hover:opacity-95 hover:translate-y-[1px] transition cursor-pointer'
+              to='/'
+            >
+              <GoogleLogo />
+              <p className='text-neutral-500 font-medium'>Đăng nhập với Google</p>
+            </button>
+            <button
+              className='w-full mt-4 flex justify-center items-center gap-6 h-12 rounded-md bg-neutral-200 hover:opacity-95 hover:translate-y-[1px] transition cursor-pointer'
+              to='/'
+            >
+              <FacebookLogo />
+              <p className='text-neutral-500 font-medium'>Đăng nhập với Facebook</p>
+            </button>
+          </div>
         </AppForm>
       </div>
     </div>

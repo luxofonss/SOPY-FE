@@ -21,7 +21,12 @@ const customerApi = createApi({
     getCart: build.query({
       query: () => ({
         url: '/cart'
-      })
+      }),
+      reducers: {
+        // The `cache` reducer is built-in to Redux Toolkit Query and handles caching behavior
+        cache: false
+      },
+      invalidates: ['getCart'] // Invalidate the cache for this query whenever it's run again
     }),
     addToCart: build.mutation({
       query: (body) => ({
@@ -55,6 +60,20 @@ const customerApi = createApi({
       query: (body) => ({
         url: '/cart/delete',
         method: 'PUT',
+        body: body
+      })
+    }),
+    shopRegister: build.mutation({
+      query: (body) => ({
+        url: '/user/register',
+        method: 'POST',
+        body: body
+      })
+    }),
+    buyProducts: build.mutation({
+      query: (body) => ({
+        url: '/order/add',
+        method: 'POST',
         body: body
       })
     })

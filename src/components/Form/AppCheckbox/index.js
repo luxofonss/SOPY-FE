@@ -37,10 +37,7 @@ function AppCheckbox({
       <div className='flex items-center gap-6 ml-8'>
         {options.map((option) => {
           return (
-            <div className='flex gap-2 ' key={uuidv4(option.value)}>
-              <label className='cursor-pointer' htmlFor={option.value}>
-                {option.name}
-              </label>
+            <div className='flex gap-2 items-center' key={uuidv4(option.value)}>
               <input
                 id={option.value}
                 type='checkbox'
@@ -54,6 +51,9 @@ function AppCheckbox({
                 {...props}
                 disabled={disabled}
               />
+              <label className='cursor-pointer' htmlFor={option.value}>
+                {option.name}
+              </label>
             </div>
           )
         })}

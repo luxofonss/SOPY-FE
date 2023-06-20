@@ -11,6 +11,8 @@ import appApi from '@src/redux/service'
 import getVariation from '@src/utils/getVariationId'
 import { isEmptyValue } from '@src/helpers/check'
 import { toast } from 'react-toastify'
+import { setCart } from '../../customer.slice'
+import { useDispatch } from 'react-redux'
 
 function getVariation2ByVariation1(variation1, variation) {
   let res = []
@@ -36,6 +38,14 @@ function Product() {
   const [productMainThumb, setProductMainThumb] = useState()
   const [variation, setVariation] = useState({ id: null, stock: null })
 
+  const { id } = useParams()
+  const [queryProduct, { data: product }] = customerApi.endpoints.getProductById.useLazyQuery()
+  const [getShopInfo, { data: shopInfo }] = appApi.endpoints.getShopById.useLazyQuery()
+  const [addToCart, { isLoading: isAddingToCart }] = customerApi.endpoints.addToCart.useMutation()
+  const [getCart] = customerApi.endpoints.getCart.useLazyQuery({ cache: false })
+
+  const dispatch = useDispatch()
+
   const increaseQuantity = () => {
     console.log(quantity, variation.quantity, product?.metadata?.quantity)
     if (quantity >= variation?.quantity || quantity >= product?.metadata?.quantity)
@@ -46,12 +56,6 @@ function Product() {
   const decreaseQuantity = () => {
     if (quantity > 2) setQuantity(quantity - 1)
   }
-
-  const { id } = useParams()
-  const [queryProduct, { data: product }] = customerApi.endpoints.getProductById.useLazyQuery()
-  const [getShopInfo, { data: shopInfo }] = appApi.endpoints.getShopById.useLazyQuery()
-  const [addToCart, { isLoading: isAddingToCart }] = customerApi.endpoints.addToCart.useMutation()
-
   useEffect(() => {
     queryProduct(id, false)
   }, [])
@@ -149,6 +153,10 @@ function Product() {
 
       if (response?.data?.status === 200) {
         toast.success('Thêm sản phẩm thành công!')
+        const responseCart = await getCart(null, false)
+        if (!responseCart.error) {
+          dispatch(setCart(responseCart.data))
+        }
       } else {
         toast.error('Có lỗi xảy ra, vui lòng kiểm tra lại!')
       }

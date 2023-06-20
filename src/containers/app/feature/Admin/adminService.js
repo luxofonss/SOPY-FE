@@ -50,6 +50,16 @@ export const adminApi = createApi({
       query: (id) => ({
         url: `/category/sub/${id}`
       })
+    }),
+    getOrderByShop: build.query({
+      query: () => ({
+        url: '/order/shop'
+      })
+    }),
+    getOneOrderByShop: build.query({
+      query: (id) => ({
+        url: `/order/${id}`
+      })
     })
   })
 })

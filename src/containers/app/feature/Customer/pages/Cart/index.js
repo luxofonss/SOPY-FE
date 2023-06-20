@@ -1,19 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { HeartIcon, MapPinIcon, MinusIcon, PlusIcon, TrashIcon } from '@heroicons/react/20/solid'
+import { HeartIcon, MapPinIcon, MinusIcon, PlusCircleIcon, PlusIcon, TrashIcon } from '@heroicons/react/20/solid'
 import AppButton from '@src/components/AppButton'
 import Divider from '@src/components/Divider'
+import AppForm from '@src/components/Form/AppForm'
+import AppInput from '@src/components/Form/AppInput'
+import AppModal from '@src/components/Modal'
+import { authApi } from '@src/containers/authentication/feature/Auth/authService'
+import { setUser } from '@src/containers/authentication/feature/Auth/authSlice'
+import appApi from '@src/redux/service'
+import accounting from 'accounting'
 import { Checkbox } from 'flowbite-react'
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
+import Skeleton from 'react-loading-skeleton'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { BeatLoader } from 'react-spinners'
+import { toast } from 'react-toastify'
 import ProductCard from '../../components/ProductCard'
 import customerApi from '../../customer.service'
 import { setCart } from '../../customer.slice'
-import { toast } from 'react-toastify'
-import { BeatLoader } from 'react-spinners'
-import AppModal from '@src/components/Modal'
-import { isEmptyValue } from '@src/helpers/check'
-import accounting from 'accounting'
 
 function UserCart() {
   const dispatch = useDispatch()
@@ -22,15 +27,19 @@ function UserCart() {
 
   const closeRef = useRef(null)
   const openRef = useRef(null)
+  const addAddressCloseRef = useRef(null)
   const [deleteItemVariationId, setDeleteItemVariationId] = useState(null)
+  const [chosenAddress, setChosenAddress] = useState()
 
-  const [getCart] = customerApi.endpoints.getCart.useLazyQuery()
+  const [getCart] = customerApi.endpoints.getCart.useLazyQuery({ cache: false })
   const [getProducts, { data: products }] = customerApi.endpoints.getAllProducts.useLazyQuery()
   const [setAllCheck] = customerApi.endpoints.setAllCheck.useMutation()
   const [setShopCheck] = customerApi.endpoints.setShopCheck.useMutation()
   const [setProductCheck] = customerApi.endpoints.setProductCheck.useMutation()
   const [addToCart, { isLoading: isChangingCart }] = customerApi.endpoints.addToCart.useMutation()
   const [deleteItem, { isLoading: isDeletingItem }] = customerApi.endpoints.deleteItem.useMutation()
+  const [updateUser, { isLoading: isUpdating }] = appApi.endpoints.updateUserInfo.useMutation()
+  const [getProfile] = authApi.endpoints.getProfile.useLazyQuery()
 
   useEffect(() => {
     getProducts()
@@ -42,6 +51,10 @@ function UserCart() {
         console.log('error: ', error)
       })
   }, [])
+
+  useEffect(() => {
+    setChosenAddress(userInfo?.address[0])
+  }, [userInfo])
 
   const updateCartRedux = async () => {
     const response = await getCart(null, false)
@@ -61,8 +74,11 @@ function UserCart() {
     await updateCartRedux()
   }
 
-  const handleChooseProduct = async (variationId) => {
-    await setProductCheck({ variationId: variationId })
+  const handleChooseProduct = async (variationId, productId, shopId, quantity, checked) => {
+    const response = await setProductCheck({ variationId, productId, shopId, quantity, checked })
+    if (response.error) {
+      toast.error(response.error.data.message)
+    }
     await updateCartRedux()
   }
 
@@ -102,7 +118,22 @@ function UserCart() {
     }
   }
 
-  console.log('deleteItemVariationId:: ', deleteItemVariationId, !isEmptyValue(deleteItemVariationId))
+  const onAddAddress = async (data) => {
+    const response = await updateUser({ address: [data.address] })
+    if (response.error) {
+      toast.error('response.error.data.message')
+    } else {
+      const profile = await getProfile()
+      console.log('profile:: ', profile)
+
+      if (!profile.error) dispatch(setUser(profile.data.metadata.user))
+      toast.success('Cập nhật địa chỉ thành công')
+    }
+  }
+
+  const onChooseAddress = async (checked, address) => {
+    if (checked) setChosenAddress(address)
+  }
 
   return (
     <>
@@ -164,16 +195,26 @@ function UserCart() {
 
                     <div>
                       {shop.products.map((product) => {
+                        let isAble = product.quantity <= product.variation.stock
                         return (
                           <div
-                            className='flex items-center gap-4 p-2 my-1 rounded-md hover:bg-secondary-purple hover:cursor-pointer transition'
+                            className={`${
+                              isAble ? 'hover:cursor-pointer hover:bg-secondary-purple ' : 'bg-neutral-300'
+                            } flex items-center gap-4 p-2 my-1 rounded-md transition`}
                             key={product.variation._id}
                           >
                             <Checkbox
-                              onChange={() => {
-                                handleChooseProduct(product.variation._id)
+                              onChange={(e) => {
+                                handleChooseProduct(
+                                  product.variation._id,
+                                  product.product._id,
+                                  shop.shop._id,
+                                  product.quantity,
+                                  e.target.checked
+                                )
                               }}
                               checked={product.checked}
+                              disable={!isAble}
                             />
                             <Link
                               className='flex items-center gap-4'
@@ -269,7 +310,57 @@ function UserCart() {
 
                 <div className='flex gap-4'>
                   <MapPinIcon className='w-8 h-8 bg-white' />
-                  <div>{userInfo && userInfo?.address}</div>
+                  <div>
+                    <p>{userInfo?.address ? chosenAddress : 'Chưa có địa chỉ'}</p>
+                    <AppModal
+                      closeRef={addAddressCloseRef}
+                      Trigger={<div className='hover:text-neutral-700 hover:cursor-pointer'>Chọn địa chỉ</div>}
+                    >
+                      <div className='w-[550px] bg-neutral-200 rounded-lg p-10'>
+                        <h4 className='text-lg text-neutral-400 font-semibold'>Chọn địa chỉ</h4>
+                        {userInfo?.address?.map((address) => {
+                          return (
+                            <Fragment key={address}>
+                              <label
+                                htmlFor={address}
+                                className={`${
+                                  chosenAddress === address ? 'bg-secondary-purple' : ''
+                                } w-full h-12 flex items-center px-4 hover:opacity-90 hover:cursor-pointer`}
+                              >
+                                {address}
+                              </label>
+                              <input
+                                className='hidden'
+                                name='chosen-address'
+                                onChange={(e) => onChooseAddress(e.target.checked, address)}
+                                type='radio'
+                                id={address}
+                              />
+                            </Fragment>
+                          )
+                        })}
+                        <div>
+                          <AppForm onSubmit={onAddAddress}>
+                            <div className='flex items-center gap-4 text-start'>
+                              <AppInput label='Địa chỉ mới' name='address' required placeholder='Địa chỉ mới' />
+                              <button
+                                className='flex items-end justify-center border-none outline-none'
+                                type='submit'
+                                disabled={isUpdating}
+                              >
+                                {isUpdating ? <Skeleton /> : <PlusCircleIcon className='w-6 h-6' />}
+                              </button>
+                            </div>
+                          </AppForm>
+                        </div>
+                        <div className='flex justify-end items-center mt-6'>
+                          <AppButton type='button' onClick={() => addAddressCloseRef.current.closeModal()}>
+                            Ok
+                          </AppButton>
+                        </div>
+                      </div>
+                    </AppModal>
+                  </div>
                 </div>
 
                 <Divider />
@@ -295,7 +386,9 @@ function UserCart() {
                   <div className='text-sm flex justify-end text-neutral-400 ml-auto'>Đã bao gồm VAT (nếu có)</div>
                 </div>
                 <div className='flex justify-center'>
-                  <AppButton className='mt-6'>Xác nhận mua hàng</AppButton>
+                  <Link to='/checkout'>
+                    <AppButton className='mt-6'>Xác nhận mua hàng</AppButton>
+                  </Link>
                 </div>
               </div>
             </div>

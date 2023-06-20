@@ -1,14 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import AppButton from '@src/components/AppButton'
+import AppDateInput from '@src/components/Form/AppDateInput'
 import AppForm from '@src/components/Form/AppForm'
 import AppInput from '@src/components/Form/AppInput'
-import ProductTable from '../../components/ProductTable'
-import { useGetAllProductQuery } from '../../adminService'
+import AppSelect from '@src/components/Form/AppSelect'
+import { ORDER_STATUS_ARRAY } from '@src/configs'
+import removeUndefinedObject from '@src/utils/removeUndefinedObject'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import ChooseCategory from '../../components/ChooseCategory'
-import removeUndefinedObject from '@src/utils/removeUndefinedObject'
 import * as Yup from 'yup'
+import { adminApi } from '../../adminService'
+import OrderTable from '../../components/OrderTable'
 
 const filterValidation = Yup.object({
   type: Yup.string(),
@@ -56,18 +58,21 @@ const filterValidation = Yup.object({
   })
 })
 
-function ProductAll() {
+function OrderAll() {
   const [filter, setFilter] = useState({
     name: 'all',
     page: 1,
     pageSize: 10,
     filter: {}
   })
-  const [categoryId, setCategoryId] = useState()
-  const { data: productList } = useGetAllProductQuery(filter)
+
+  const [getOrderList, { data: orderList }] = adminApi.endpoints.getOrderByShop.useLazyQuery()
+
   const navigate = useNavigate()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
+
+  console.log('orderList:: ', orderList)
 
   const handleFilterStatus = (type) => {
     switch (type) {
@@ -92,6 +97,10 @@ function ProductAll() {
       }
     }
   }
+
+  useEffect(() => {
+    getOrderList()
+  }, [])
 
   useEffect(() => {
     const searchFilter = searchParams.get('filter')
@@ -138,25 +147,19 @@ function ProductAll() {
       filter: JSON.stringify(filter.filter)
     })
     const queryString = params.toString()
-    navigate(`/shop/product/all?${queryString}`)
+    navigate(`/shop/order/all?${queryString}`)
   }, [filter])
 
-  const onTableChange = (data) => {
-    setFilter({ ...filter, pageSize: data.pageSize, page: data.current })
-  }
-
-  function handleChooseCategory(id) {
-    setCategoryId(id)
-  }
+  // const onTableChange = (data) => {
+  //   setFilter({ ...filter, pageSize: data.pageSize, page: data.current })
+  // }
 
   function onSubmit(data) {
-    console.log('typeId: ', categoryId)
-    console.log('filter data: ', removeUndefinedObject(data), categoryId)
+    console.log('filter data: ', removeUndefinedObject(data))
     setFilter({
       ...filter,
       filter: {
         ...filter.filter,
-        typeId: categoryId,
         stock: data.stock,
         sold: data.sale,
         name: data.name,
@@ -165,40 +168,26 @@ function ProductAll() {
     })
   }
 
-  console.log('filter:: ', filter)
+  console.log('ORDER_STATUS_ARRAY:: ', ORDER_STATUS_ARRAY)
 
   return (
     <div className=''>
-      <div className='bg-neutral-100 p-8 rounded-lg'>
+      <div className='bg-neutral-100 px-8 py-2 rounded-lg'>
         <AppForm onSubmit={onSubmit} resolver={filterValidation}>
           <div className='grid grid-cols-12 gap-x-4'>
-            <div className='col-span-5'>
-              <ChooseCategory
-                required={false}
-                handleChooseCategory={handleChooseCategory}
-                handleCategoryResponse={() => {}}
-              />
+            <div className='col-span-3'>
+              <AppSelect id='type' name='type' label='Tìm kiếm theo' required />
             </div>
-            <div className='col-span-5'>
+            <div className='col-span-4'>
               <AppInput className='col-span-3' id='keyword' name='keyword' label='Từ khóa' />
             </div>
-            <div className='col-span-1'></div>
             <div className='col-span-2'>
-              <AppInput id='minStock' name='stock.min' label='Kho hàng tôi thiểu' type='number' />
+              <AppDateInput id='fromDay' name='from' required label='Đặt hàng từ' />
             </div>
             <div className='col-span-2'>
-              <AppInput id='maxStock' name='stock.max' label='  Kho hàng tôi đa' type='number' />
+              <AppDateInput id='toDay' name='to' required label='Đến ngày' />
             </div>
-            <div className='col-span-2'>
-              <AppInput id='minSale' name='sale.min' label='Doanh số tôi thiểu' type='number' />
-            </div>
-            <div className='col-span-2'>
-              <AppInput id='maxSale' name='sale.max' label='  Doanh số tôi đa' type='number' />
-            </div>
-            <div className='col-span-2'>
-              <AppInput id='sku' name='sku' label='SKU' />
-            </div>
-            <div className='flex items-end justify-end py-2'>
+            <div className='col-span-1 flex items-end justify-end py-2'>
               <AppButton type='submit'>Lọc</AppButton>
             </div>
           </div>
@@ -209,49 +198,33 @@ function ProductAll() {
         <div className='flex justify-between '>
           <div className='flex gap-6 '>
             <div className='w-4 h-7 bg-secondary-purple rounded-sm'></div>
-            <div className='text-neutral-500 font-semibold text-xl '>Danh sách sản phẩm</div>
+            <div className='text-neutral-500 font-semibold text-xl '>Danh sách đơn hàng</div>
           </div>
           <nav className='flex gap-3'>
-            <div
-              onClick={() => handleFilterStatus('all')}
-              className={`${
-                filter.name === 'all' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-400'
-              }h-10 px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition hover:text-neutral-500 cursor-pointer`}
-            >
-              Tất cả
-            </div>
-            <div
-              onClick={() => handleFilterStatus('active')}
-              className={`${
-                filter.name === 'active' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-400'
-              }h-10 px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition hover:text-neutral-500 cursor-pointer`}
-            >
-              Đang hoạt động
-            </div>
-            <div
-              onClick={() => handleFilterStatus('oot')}
-              className={`${
-                filter.name === 'oot' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-400'
-              }h-10 px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition hover:text-neutral-500 cursor-pointer`}
-            >
-              Hết hàng
-            </div>
-            <div
-              onClick={() => handleFilterStatus('inactive')}
-              className={`${
-                filter.name === 'inactive' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-400'
-              }h-10 px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition hover:text-neutral-500 cursor-pointer`}
-            >
-              Đã ẩn
-            </div>
+            {ORDER_STATUS_ARRAY.map((status) => (
+              <div
+                key={status.value}
+                onClick={() => handleFilterStatus(status.value)}
+                className={`${
+                  filter.name === status.value ? 'bg-secondary-green text-neutral-50' : 'text-neutral-500'
+                } h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
+              >
+                {status.name}
+              </div>
+            ))}
           </nav>
         </div>
+        <div className='flex gap-2 justify-end mt-2'>
+          <AppButton className='h-8 px-2 py-1 text-sm font-medium'>Xác nhận</AppButton>
+          <AppButton className='h-8 px-2 py-1 text-sm font-medium'>Từ chối</AppButton>
+          <AppButton className='h-8 px-2 py-1 text-sm font-medium'>Giao hàng</AppButton>
+        </div>
         <div className='mt-6'>
-          {productList ? <ProductTable onTableChange={onTableChange} data={productList.metadata} /> : null}
+          <OrderTable data={orderList?.metadata} />
         </div>
       </div>
     </div>
   )
 }
 
-export default ProductAll
+export default OrderAll

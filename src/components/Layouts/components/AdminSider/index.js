@@ -36,7 +36,7 @@ const menuList = [
     children: [
       {
         title: 'Tất cả',
-        path: '/'
+        path: '/shop/order/all'
       },
       { title: 'Đơn hủy', path: '/' },
       {
@@ -52,7 +52,7 @@ const menuList = [
     children: [
       {
         title: 'Tất cả sản phẩm',
-        path: '/product/all'
+        path: '/shop/product/all'
       },
       { title: 'Thêm sản phẩm', path: '/shop/product/add' },
       {

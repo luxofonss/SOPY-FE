@@ -5,6 +5,8 @@ import ProductAdd from './pages/ProductAdd'
 import { Outlet } from 'react-router'
 import ProductAll from './pages/ProductAll'
 import ProductEdit from './pages/ProductEdit'
+import OrderAll from './pages/OrderAll'
+import OrderDetail from './pages/OrderDetail'
 
 export const adminRouteList = [
   {
@@ -26,6 +28,24 @@ export const adminRouteList = [
       {
         path: ':id',
         element: <ProductEdit />
+      }
+    ]
+  },
+  {
+    path: '/shop/order',
+    element: (
+      <AdminLayout>
+        <Outlet />
+      </AdminLayout>
+    ),
+    children: [
+      {
+        path: ':id',
+        element: <OrderDetail />
+      },
+      {
+        path: 'all',
+        element: <OrderAll />
       }
     ]
   }

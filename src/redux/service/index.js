@@ -6,7 +6,14 @@ const appApi = createApi({
   baseQuery: customFetchBase,
   endpoints: (build) => ({
     getShopById: build.query({
-      query: (id) => `/shop/${id}`
+      query: (id) => `/user/${id}`
+    }),
+    updateUserInfo: build.mutation({
+      query: (body) => ({
+        url: '/user/update',
+        method: 'PUT',
+        body: body
+      })
     })
   })
 })

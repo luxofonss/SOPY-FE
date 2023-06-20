@@ -85,7 +85,9 @@ function Header() {
       <div className='container mx-auto h-6 text-neutral-600 text-sm  flex justify-between'>
         <div className='flex gap-2 items-center'>
           <div>Kênh người bán</div>
-          <div>Trở thành người bán Sope</div>
+          <Link className='hover:opacity-90 hover:cursor-pointer' to='/shop/register'>
+            Trở thành người bán Sope
+          </Link>
           <div>Tải ứng dụng</div>
           <div className='flex gap-1 items-center'>
             <p>Kết nối</p>
@@ -96,8 +98,12 @@ function Header() {
         <div className='flex gap-gap1 items-center gap-2'>
           <div>Thông báo</div>
           <div>Hỗ trợ</div>
-          <div>Đăng ký</div>
-          <div>Đăng nhập</div>
+          <Link className='hover:opacity-90 hover:cursor-pointer' to='/signup'>
+            Đăng ký
+          </Link>
+          <Link className='hover:opacity-90 hover:cursor-pointer' to='/login'>
+            Đăng nhập
+          </Link>
         </div>
       </div>
       <div className='container h-16 mx-auto flex items-center gap-56 justify-between '>

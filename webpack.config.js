@@ -53,10 +53,10 @@ module.exports = (env, argv) => {
               loader: 'css-loader', // dùng import 'filename.css' trong file tsx, ts
               options: { sourceMap: !isProduction } // Hiển thị sourcemap ở môi trường dev cho dễ debug
             },
-            {
-              loader: 'sass-loader', // biên dịch sass sang css
-              options: { sourceMap: !isProduction }
-            },
+            // {
+            //   loader: 'sass-loader', // biên dịch sass sang css
+            //   options: { sourceMap: !isProduction }
+            // },
             {
               loader: 'postcss-loader',
               options: { sourceMap: !isProduction }

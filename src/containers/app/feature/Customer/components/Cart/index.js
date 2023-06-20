@@ -6,9 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import customerApi from '../../customer.service'
 import { setCart } from '../../customer.slice'
+import empty_cart from '@src/assets/images/empty_cart.png'
+import AppButton from '@src/components/AppButton'
 
 function Cart() {
-  const [getCart] = customerApi.endpoints.getCart.useLazyQuery()
+  const [getCart] = customerApi.endpoints.getCart.useLazyQuery({ cache: false })
   const cartData = useSelector((state) => state.customer.cart)
   const dispatch = useDispatch()
 
@@ -95,8 +97,14 @@ function Cart() {
                         )
                       })
                     ) : (
-                      <div className='flex items-center justify-center text-lg text-neutral-500 font-semibold'>
-                        Your cart is empty!
+                      <div className='flex flex-col items-center justify-center text-lg text-neutral-500 font-semibold'>
+                        <img className='w-24 h-24' src={empty_cart} alt='empty-cart' />
+                        <div>
+                          <p className='text-sm text-neutral-400'>Giỏ hàng của bạn đang trống</p>
+                          <div className='flex justify-center mt-4'>
+                            <AppButton>Mua sắm ngay</AppButton>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
