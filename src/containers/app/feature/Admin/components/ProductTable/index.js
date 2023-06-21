@@ -131,7 +131,7 @@ const ProductTable = ({ data, onTableChange }) => {
       title: 'Action',
       dataIndex: 'id',
       key: 'id',
-      render: (id) => <Link to={`/product/${id}`}>View</Link>
+      render: (id) => <Link to={`/shop/product/${id}`}>View</Link>
     }
   ]
   const rowData = []

@@ -19,6 +19,12 @@ export const ORDER_STATUS = {
   RETURN: { value: 'RETURN', color: '#FF6A55', name: 'Trả hàng/hoàn tiền' }
 }
 
+export const ORDER_FILTER = [
+  { name: 'Mã đơn hàng', value: 'trackingNumber' },
+  { name: 'Tên người mua', value: 'customer' },
+  { name: 'Sản phẩm', value: 'productName' }
+]
+
 export const ORDER_STATUS_ARRAY = Object.entries(ORDER_STATUS).map((e) => e[1])
 
 export const RESPONSE_ERROR_STATUS = 'error'

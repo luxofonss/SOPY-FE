@@ -1,21 +1,47 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import AppButton from '@src/components/AppButton'
+import AppForm from '@src/components/Form/AppForm'
+import AppInput from '@src/components/Form/AppInput'
+import AppModal from '@src/components/Modal'
 import { ORDER_STATUS } from '@src/configs'
 import accounting from 'accounting'
 import { Space, Table } from 'antd'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { adminApi } from '../../adminService'
 
-// rowSelection object indicates the need for row selection
-const rowSelection = {
-  onChange: (selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+const OrderTable = ({ refreshData, data, onSelect, onTableChange }) => {
+  const [selectId, setSelectId] = useState(null)
+  const closeRejectRef = useRef(null)
+  const openRef = useRef(null)
+  const [rejectOrder, { isLoading: isRejecting }] = adminApi.endpoints.rejectOrder.useMutation()
+
+  const handleReject = async (data) => {
+    const response = await rejectOrder({ orderId: selectId, reason: data.reason })
+
+    if (response.error) {
+      toast.error(response.error.data.message)
+    } else {
+      toast.success('Từ chối đơn hàng thành công!')
+      closeRejectRef.current.closeModal()
+      await refreshData()
+    }
   }
-  // getCheckboxProps: (record) => ({
-  //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
-  //   name: record.name
-  // })
-}
 
-const OrderTable = ({ data, onTableChange }) => {
+  // rowSelection object indicates the need for row selection
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
+      let selectedRowIds = selectedRows.map((row) => row.id)
+      onSelect(selectedRowIds)
+    }
+    // getCheckboxProps: (record) => ({
+    //   disabled: record.name === 'Disabled User', // Column configuration not to be checked
+    //   name: record.name
+    // })
+  }
+
   const expandedRowRender = (row) => {
     console.log('row: ', row)
     const columns = [
@@ -23,9 +49,21 @@ const OrderTable = ({ data, onTableChange }) => {
         title: '',
         dataIndex: 'thumb',
         key: 'thumb',
+        width: 80,
         render: (thumb) => (
           <Space size='middle'>
             <img className='w-12 h-12 object-cover rounded-md' src={thumb} alt='thumb' />
+          </Space>
+        )
+      },
+      {
+        title: 'Tên sản phẩm',
+        dataIndex: 'name',
+        key: 'name',
+        width: 250,
+        render: (name) => (
+          <Space size='middle'>
+            <p className='w-full text-sm text-neutral-500 line-clamp-2'>{name}</p>
           </Space>
         )
       },
@@ -53,13 +91,14 @@ const OrderTable = ({ data, onTableChange }) => {
     ]
     const rowData = []
 
-    data[row.key].products.map((product) => {
+    data?.orders[row.key]?.products.map((product) => {
       rowData.push({
         variation: `${product.variation.keyVariationValue}, ${product.variation.subVariationValue}`,
         quantity: product.quantity,
         price: product.variation.price,
         thumb: product.variation.thumb,
-        id: product.product._id
+        id: product.product._id,
+        name: product.product.name
       })
     })
 
@@ -115,11 +154,26 @@ const OrderTable = ({ data, onTableChange }) => {
       title: '',
       dataIndex: 'id',
       key: 'id',
-      render: (id) => <Link to={`/shop/order/${id}`}>Xem chi tiết</Link>
+      render: (_, record) => (
+        <div className='flex gap-2'>
+          <Link to={`/shop/order/${record?.id}`}>Xem chi tiết</Link>
+          {(record.status === ORDER_STATUS.PENDING.value || record.status === ORDER_STATUS.CONFIRMED.value) && (
+            <AppButton
+              onClick={() => {
+                setSelectId(record?.id)
+                openRef.current.openModal()
+              }}
+              className='h-8 px-2 py-1 text-sm font-medium'
+            >
+              Từ chối
+            </AppButton>
+          )}
+        </div>
+      )
     }
   ]
   const rowData = []
-  data?.forEach((order, index) => {
+  data?.orders?.forEach((order, index) => {
     rowData.push({
       id: order._id,
       key: index.toString(),
@@ -135,6 +189,27 @@ const OrderTable = ({ data, onTableChange }) => {
 
   return (
     <>
+      <AppModal closeRef={closeRejectRef} openRef={openRef}>
+        <div className='w-[450px] bg-neutral-200 rounded-lg p-4'>
+          <h4 className='text-base text-neutral-600 font-medium'>Từ chối đơn hàng</h4>
+          <AppForm onSubmit={handleReject}>
+            <AppInput placeholder='Lý do từ chối' name='reason' id='reason' />
+            <div className='flex justify-center gap-4 items-center mt-6'>
+              <AppButton
+                type='button'
+                onClick={() => {
+                  closeRejectRef.current.closeModal()
+                }}
+              >
+                Hủy
+              </AppButton>
+              <AppButton isLoading={isRejecting} type='submit'>
+                Xác nhận
+              </AppButton>
+            </div>
+          </AppForm>
+        </div>
+      </AppModal>
       <Table
         columns={columns}
         rowSelection={{

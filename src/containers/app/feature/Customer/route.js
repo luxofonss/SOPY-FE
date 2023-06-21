@@ -3,11 +3,13 @@ import { USER_ROLE } from '@src/configs'
 import RequireAuth from '@src/routes/RequireAuth'
 import { Outlet } from 'react-router'
 import UserCart from './pages/Cart'
-import Category from './pages/Category'
 import Checkout from './pages/Checkout'
 import Home from './pages/Home'
+import Order from './pages/Order'
 import Product from './pages/Product'
 import ShopRegister from './pages/ShopRegister'
+import UserProfileLayout from '@src/components/Layouts/UserProfileLayout'
+import Profile from './pages/Profile'
 
 export const customerRouteList = [
   {
@@ -60,14 +62,22 @@ export const customerRouteList = [
   },
   {
     path: '/',
-    element: <RequireAuth allowedRoles={[USER_ROLE.ADMIN]}></RequireAuth>,
+    element: <RequireAuth allowedRoles={[USER_ROLE.USER]}></RequireAuth>,
     children: [
       {
-        path: '/category',
+        path: '/me/orders',
         element: (
-          <AppLayout>
-            <Category />
-          </AppLayout>
+          <UserProfileLayout>
+            <Order />
+          </UserProfileLayout>
+        )
+      },
+      {
+        path: '/me',
+        element: (
+          <UserProfileLayout>
+            <Profile />
+          </UserProfileLayout>
         )
       }
     ]

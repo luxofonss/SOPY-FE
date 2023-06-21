@@ -40,7 +40,7 @@ export default function AppModal({
 
   return (
     <>
-      <div className='w-full'>
+      <div className='w-auto'>
         <div
           type='button'
           onClick={() => {

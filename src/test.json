@@ -1,0 +1,272 @@
+{
+  "count": 7,
+  "orders": [
+    {
+      "_id": "649066eca23d1f5454301b6c",
+      "customer": {
+        "_id": "64455e0a6143eca3f689ee85",
+        "email": "quyen@gmail.com",
+        "address": ["hanoi2", "123", "hanoi ", "asd", "asdasf", "hatinh"],
+        "name": "quyen2"
+      },
+      "checkout": {
+        "totalPrice": 33,
+        "shipFee": 50000
+      },
+      "shipping": {
+        "address": "hanoi2"
+      },
+      "payment": {
+        "method": "COD"
+      },
+      "trackingNumber": "quyen22f2da90d",
+      "status": "SHIPPING",
+      "createdAt": "2023-06-19T14:32:12.668Z",
+      "updatedAt": "2023-06-21T06:53:52.738Z",
+      "products": [
+        {
+          "product": {
+            "_id": "648896125759fe5d6091b511",
+            "name": "Apple iPhone 11 64GB",
+            "thumb": [
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb1.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=4fa1231e-277d-4fa3-a8fd-a05d595b9ea1",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb6.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=d6cbc5fe-a682-48b0-8b59-a8e3471142b6",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb4.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=b5e79d7a-b8ac-4657-9317-8f2c3fb5232c",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb5.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=47639012-acf6-4180-980e-267550533778",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb3.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=bf157f9c-6638-4c2a-aaf9-aca53b5cc3bb",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb0.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=5ede9c2e-18b5-4bf0-ae21-b5e6b000a15a",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb2.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=2d144763-e05b-433a-802c-ac5e44d30db0"
+            ]
+          },
+          "variation": {
+            "_id": "648896145759fe5d6091b515",
+            "keyVariation": "Màu",
+            "keyVariationValue": "đen",
+            "thumb": "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb7.jpg%202023-6-13%2023%3A15%3A16?alt=media&token=8b1d19cd-5da0-4c23-99fa-838d46f56236",
+            "price": 33,
+            "stock": 0
+          },
+          "quantity": [1]
+        }
+      ]
+    },
+    {
+      "_id": "6490f7f9afb9701dfb1a3166",
+      "customer": {
+        "_id": "64455e0a6143eca3f689ee85",
+        "email": "quyen@gmail.com",
+        "address": ["hanoi2", "123", "hanoi ", "asd", "asdasf", "hatinh"],
+        "name": "quyen2"
+      },
+      "checkout": {
+        "totalPrice": 7,
+        "shipFee": 50000
+      },
+      "shipping": {
+        "address": "hanoi2"
+      },
+      "payment": {
+        "method": "COD"
+      },
+      "trackingNumber": "quyen29664efe3",
+      "status": "SHIPPING",
+      "createdAt": "2023-06-20T00:51:05.957Z",
+      "updatedAt": "2023-06-20T13:06:07.255Z",
+      "products": [
+        {
+          "product": {
+            "_id": "648205b9734b1aa413941f02",
+            "name": "t",
+            "thumb": [
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fmongodb-removebg-preview.png%202023-6-8%2023%3A45%3A45?alt=media&token=72d9d662-7f2e-439f-890a-a0dd0670cac0"
+            ]
+          },
+          "variation": {
+            "_id": "648205bb734b1aa413941f06",
+            "keyVariation": "5",
+            "keyVariationValue": "5",
+            "subVariation": "5",
+            "subVariationValue": "5",
+            "thumb": "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2F5752-peeponuggies.png%202023-6-8%2023%3A45%3A46?alt=media&token=6dcfe8e8-4a6d-4dc1-9c01-a458e11fcbf0",
+            "price": 4,
+            "stock": 0
+          },
+          "quantity": [1, 1]
+        },
+        {
+          "product": {
+            "_id": "648205b9734b1aa413941f02",
+            "name": "t",
+            "thumb": [
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fmongodb-removebg-preview.png%202023-6-8%2023%3A45%3A45?alt=media&token=72d9d662-7f2e-439f-890a-a0dd0670cac0"
+            ]
+          },
+          "variation": {
+            "_id": "648896155759fe5d6091b518",
+            "keyVariation": "Màu",
+            "keyVariationValue": "trắng",
+            "thumb": "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb8.jpg%202023-6-13%2023%3A15%3A16?alt=media&token=ebd5dcba-4862-4dae-8a3b-d7fc3dc0e2dc",
+            "price": 3,
+            "stock": 2
+          },
+          "quantity": [1, 1]
+        },
+        {
+          "product": {
+            "_id": "648896125759fe5d6091b511",
+            "name": "Apple iPhone 11 64GB",
+            "thumb": [
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb1.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=4fa1231e-277d-4fa3-a8fd-a05d595b9ea1",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb6.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=d6cbc5fe-a682-48b0-8b59-a8e3471142b6",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb4.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=b5e79d7a-b8ac-4657-9317-8f2c3fb5232c",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb5.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=47639012-acf6-4180-980e-267550533778",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb3.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=bf157f9c-6638-4c2a-aaf9-aca53b5cc3bb",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb0.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=5ede9c2e-18b5-4bf0-ae21-b5e6b000a15a",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb2.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=2d144763-e05b-433a-802c-ac5e44d30db0"
+            ]
+          },
+          "variation": {
+            "_id": "648205bb734b1aa413941f06",
+            "keyVariation": "5",
+            "keyVariationValue": "5",
+            "subVariation": "5",
+            "subVariationValue": "5",
+            "thumb": "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2F5752-peeponuggies.png%202023-6-8%2023%3A45%3A46?alt=media&token=6dcfe8e8-4a6d-4dc1-9c01-a458e11fcbf0",
+            "price": 4,
+            "stock": 0
+          },
+          "quantity": [1, 1]
+        },
+        {
+          "product": {
+            "_id": "648896125759fe5d6091b511",
+            "name": "Apple iPhone 11 64GB",
+            "thumb": [
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb1.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=4fa1231e-277d-4fa3-a8fd-a05d595b9ea1",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb6.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=d6cbc5fe-a682-48b0-8b59-a8e3471142b6",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb4.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=b5e79d7a-b8ac-4657-9317-8f2c3fb5232c",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb5.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=47639012-acf6-4180-980e-267550533778",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb3.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=bf157f9c-6638-4c2a-aaf9-aca53b5cc3bb",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb0.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=5ede9c2e-18b5-4bf0-ae21-b5e6b000a15a",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb2.jpg%202023-6-13%2023%3A15%3A14?alt=media&token=2d144763-e05b-433a-802c-ac5e44d30db0"
+            ]
+          },
+          "variation": {
+            "_id": "648896155759fe5d6091b518",
+            "keyVariation": "Màu",
+            "keyVariationValue": "trắng",
+            "thumb": "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb8.jpg%202023-6-13%2023%3A15%3A16?alt=media&token=ebd5dcba-4862-4dae-8a3b-d7fc3dc0e2dc",
+            "price": 3,
+            "stock": 2
+          },
+          "quantity": [1, 1]
+        }
+      ]
+    },
+    {
+      "_id": "6492aa366568e090c3c3d0a1",
+      "customer": {
+        "_id": "64455e0a6143eca3f689ee85",
+        "email": "quyen@gmail.com",
+        "address": ["hanoi2", "123", "hanoi ", "asd", "asdasf", "hatinh"],
+        "name": "quyen2"
+      },
+      "checkout": {
+        "totalPrice": 11,
+        "shipFee": 50000
+      },
+      "shipping": {
+        "address": "hanoi2",
+        "unit": "GHTK"
+      },
+      "payment": {
+        "method": "COD"
+      },
+      "trackingNumber": "quyen24b926edc",
+      "status": "PENDING",
+      "createdAt": "2023-06-21T07:43:50.800Z",
+      "updatedAt": "2023-06-21T07:43:50.800Z",
+      "products": [
+        {
+          "product": {
+            "_id": "648a93c7ef28e1914726f704",
+            "name": "Mã CBPHONE1M giảm 10% đơn 500K] Điện thoại Xiaomi Redmi 9A 2GB/32GB - Màn hình 6.53\" HD+, Camera 13MP, Pin 5000 mAh",
+            "thumb": [
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb7.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=ae1db724-7fec-4c37-97d1-f22957e58ff9",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb0.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=eb6957fb-673a-41bb-8dc3-fe517b7b3819",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb6.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=2853a80c-4439-4e33-b5ce-8c979617c8d8",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb3.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=19cb4ba8-6838-4a2f-8eaf-3c01a6b7af92",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb2.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=9574e132-4709-44e4-b99a-3486081d4df2",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb1.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=bba34c28-ace1-4b64-825f-8364cb367c1c",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb4.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=888937e1-0db2-4cfd-aeab-b13c7f5366e3",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb6.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=2853a80c-4439-4e33-b5ce-8c979617c8d8"
+            ]
+          },
+          "variation": {
+            "_id": "648a93caef28e1914726f708",
+            "keyVariation": "Màu sắc",
+            "keyVariationValue": "Đen",
+            "subVariation": "Ram ",
+            "subVariationValue": "128",
+            "thumb": "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb0.webp%202023-6-15%2011%3A30%3A1?alt=media&token=563a6591-89a5-4450-b68d-147d3eea597c",
+            "price": 11,
+            "stock": 7
+          },
+          "quantity": [1]
+        }
+      ]
+    },
+    {
+      "_id": "6490f6b0afb9701dfb1a310a",
+      "customer": {
+        "_id": "64455e0a6143eca3f689ee85",
+        "email": "quyen@gmail.com",
+        "address": ["hanoi2", "123", "hanoi ", "asd", "asdasf", "hatinh"],
+        "name": "quyen2"
+      },
+      "checkout": {
+        "totalPrice": 11,
+        "shipFee": 50000
+      },
+      "shipping": {
+        "address": "hanoi2"
+      },
+      "payment": {
+        "method": "COD"
+      },
+      "trackingNumber": "quyen2e4c171b1",
+      "status": "REJECTED",
+      "createdAt": "2023-06-20T00:45:36.483Z",
+      "updatedAt": "2023-06-20T13:35:29.481Z",
+      "products": [
+        {
+          "product": {
+            "_id": "648a93c7ef28e1914726f704",
+            "name": "Mã CBPHONE1M giảm 10% đơn 500K] Điện thoại Xiaomi Redmi 9A 2GB/32GB - Màn hình 6.53\" HD+, Camera 13MP, Pin 5000 mAh",
+            "thumb": [
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb7.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=ae1db724-7fec-4c37-97d1-f22957e58ff9",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb0.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=eb6957fb-673a-41bb-8dc3-fe517b7b3819",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb6.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=2853a80c-4439-4e33-b5ce-8c979617c8d8",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb3.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=19cb4ba8-6838-4a2f-8eaf-3c01a6b7af92",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb2.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=9574e132-4709-44e4-b99a-3486081d4df2",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb1.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=bba34c28-ace1-4b64-825f-8364cb367c1c",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb4.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=888937e1-0db2-4cfd-aeab-b13c7f5366e3",
+              "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb6.jpg%202023-6-15%2011%3A29%3A59?alt=media&token=2853a80c-4439-4e33-b5ce-8c979617c8d8"
+            ]
+          },
+          "variation": {
+            "_id": "648a93caef28e1914726f708",
+            "keyVariation": "Màu sắc",
+            "keyVariationValue": "Đen",
+            "subVariation": "Ram ",
+            "subVariationValue": "128",
+            "thumb": "https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fthumb0.webp%202023-6-15%2011%3A30%3A1?alt=media&token=563a6591-89a5-4450-b68d-147d3eea597c",
+            "price": 11,
+            "stock": 7
+          },
+          "quantity": [1]
+        }
+      ]
+    }
+  ]
+}

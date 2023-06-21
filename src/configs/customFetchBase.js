@@ -32,7 +32,7 @@ const customFetchBase = async (args, api, extraOptions) => {
       const release = await mutex.acquire()
 
       try {
-        const refreshResult = await baseQuery({ url: '/user/refresh-token', method: 'GET' }, api, extraOptions)
+        const refreshResult = await baseQuery({ url: '/auth/refresh-token', method: 'GET' }, api, extraOptions)
         if (refreshResult?.data?.status === 200) {
           // Retry the initial query
           // set cookies

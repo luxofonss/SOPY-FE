@@ -76,6 +76,7 @@
     "joi": "^17.9.2",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
+    "moment": "^2.29.4",
     "node-sass": "^8.0.0",
     "postcss-loader": "^7.1.0",
     "react-loading-skeleton": "^3.3.1",

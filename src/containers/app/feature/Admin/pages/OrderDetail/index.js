@@ -1,33 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { CreditCardIcon, MapPinIcon } from '@heroicons/react/20/solid'
 import Divider from '@src/components/Divider'
+import OrderStatusHistory from '@src/components/OrderStatusHistory'
 import accounting from 'accounting'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import customerApi from '../../../Customer/customer.service'
-import { setCart } from '../../../Customer/customer.slice'
 import { adminApi } from '../../adminService'
 
 function OrderDetail() {
-  const dispatch = useDispatch()
-
   const { id } = useParams()
-
-  const [getCart] = customerApi.endpoints.getCart.useLazyQuery({ cache: false })
 
   const [getOrder, { data: orderDetails }] = adminApi.endpoints.getOneOrderByShop.useLazyQuery()
 
   useEffect(() => {
     getOrder(id).catch(() => toast.error('Có lỗi xảy ra, vui lòng thử lại!'))
-    getCart(null, false)
-      .then((response) => {
-        dispatch(setCart(response.data))
-      })
-      .catch((error) => {
-        console.log('error: ', error)
-      })
   }, [])
 
   console.log('orderDetails:: ', orderDetails)
@@ -35,53 +22,58 @@ function OrderDetail() {
   return (
     <>
       <div className='container mx-auto '>
-        <div className='grid grid-cols-12 rounded-sm gap-3'>
-          <div className='col-span-8 p-3 bg-white'>
-            <p className='text-neutral-600 font-semibold mb-2'>Danh sách sản phẩm</p>
-            {orderDetails?.metadata?.products.map((product) => {
-              return (
-                <div
-                  className='flex items-center gap-4 p-2 my-1 rounded-md hover:bg-secondary-purple hover:cursor-pointer transition'
-                  key={product.variationId._id}
-                >
-                  <Link
-                    className='flex items-center gap-4'
-                    to={`/product/${product.productId._id}`}
-                    target='_blank'
-                    rel='noopener noreferrer'
+        <div className='grid grid-cols-12 gap-3'>
+          <div className='col-span-8'>
+            <div className='p-3 bg-white rounded-sm'>
+              <p className='text-neutral-600 font-semibold mb-2'>Danh sách sản phẩm</p>
+              {orderDetails?.metadata?.products.map((product) => {
+                return (
+                  <div
+                    className='flex items-center gap-4 p-2 my-1 border-[1px] border-neutral-300 rounded-md hover:bg-secondary-purple hover:cursor-pointer transition'
+                    key={product.variationId._id}
                   >
-                    <img
-                      src={product.variationId?.thumb ? product.variationId.thumb : product.productId.thumb[0]}
-                      alt='thumb'
-                      className='w-16 h-16 object-cover'
-                    />
-                    <div>
-                      <p className='text-base font-medium text-neutral-700 line-clamp-2'>{product.productId.name}</p>
-                      <p className='text-sm text-neutral-500 line-clamp-2'>
-                        {product.variationId.keyVariation + ': ' + product.variationId.keyVariationValue}{' '}
-                        {product.variationId?.subVariation &&
-                          product.variationId?.subVariation + ': ' + product.variationId?.subVariationValue}
-                        {' Còn '}
-                        {product.variationId.stock}
-                        {' sản phẩm'}
-                      </p>
-                    </div>
-                  </Link>
-                  <div className='flex gap-3 ml-auto'>
-                    <div className='w-36 ml-auto'>
-                      <p className='text-base font-semibold text-primary-red text-left'>
-                        {accounting.formatNumber(product.variationId.price)}₫
-                      </p>
-                    </div>
-                    <div className='flex gap-2 items-center'>
-                      <div className='h-9 flex items-center text-sm justify-center border-neutral-300 border-[1px]'>
-                        Số lượng: {product.quantity}
+                    <Link
+                      className='flex items-center gap-4'
+                      to={`/product/${product.productId._id}`}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      <img
+                        src={product.variationId?.thumb ? product.variationId.thumb : product.productId.thumb[0]}
+                        alt='thumb'
+                        className='w-16 h-16 object-cover'
+                      />
+                      <div>
+                        <p className='text-base font-medium text-neutral-700 line-clamp-2'>{product.productId.name}</p>
+                        <p className='text-sm text-neutral-500 line-clamp-2'>
+                          {product.variationId.keyVariation + ': ' + product.variationId.keyVariationValue}{' '}
+                          {product.variationId?.subVariation &&
+                            product.variationId?.subVariation + ': ' + product.variationId?.subVariationValue}
+                          {' Còn '}
+                          {product.variationId.stock}
+                          {' sản phẩm'}
+                        </p>
+                      </div>
+                    </Link>
+                    <div className='flex gap-3 ml-auto'>
+                      <div className='w-36 ml-auto'>
+                        <p className='text-base font-semibold text-primary-red text-left'>
+                          {accounting.formatNumber(product.variationId.price)}₫
+                        </p>
+                      </div>
+                      <div className='flex gap-2 items-center'>
+                        <div className='h-9 px-1 flex items-center text-sm justify-center border-neutral-300 border-[1px]'>
+                          Số lượng: {product.quantity}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
+            <div className='p-3 bg-white mt-3 rounded-sm'>
+              <OrderStatusHistory order={orderDetails?.metadata} />
+            </div>
           </div>
           <div className='col-span-4'>
             <div className='bg-white px-3 py-1 rounded-md'>

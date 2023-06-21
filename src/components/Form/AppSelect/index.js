@@ -49,9 +49,9 @@ function AppSelect({
   }, [])
 
   const handleSelect = (option) => {
+    console.log(option)
     setSelected({ ...option })
     setValue(name, option.value)
-    inputRef.current.value = option.value
   }
 
   return (
@@ -73,7 +73,7 @@ function AppSelect({
         }}
         className={`${className} ${
           errors[name]?.type ? 'border-secondary-orange focus:border-secondary-orange' : 'border-neutral-300'
-        } relative z-[1000] h-9 bg-neutral-200 box-border w-full rounded-md border-2  py-1.5 px-4 text-neutral-500 text-sm outline-none transition duration-500 focus:border-secondary-purple ${className}`}
+        } relative z-[10] h-9 bg-neutral-200 box-border w-full rounded-md border-2  py-1.5 px-4 text-neutral-500 text-sm outline-none transition duration-500 focus:border-secondary-purple ${className}`}
       >
         {selected.name}
         {open ? (

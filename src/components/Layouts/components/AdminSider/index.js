@@ -37,12 +37,12 @@ const menuList = [
       {
         title: 'Tất cả',
         path: '/shop/order/all'
-      },
-      { title: 'Đơn hủy', path: '/' },
-      {
-        title: 'Trả hàng/hoàn tiền',
-        path: '/'
       }
+      // { title: 'Đơn hủy', path: '/shop/order/all?status=CANCELED&page=1&sort=ctime&limit=10' },
+      // {
+      //   title: 'Trả hàng/hoàn tiền',
+      //   path: '/'
+      // }
     ]
   },
   {

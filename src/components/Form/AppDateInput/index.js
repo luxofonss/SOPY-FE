@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 function AppDateInput({
@@ -17,8 +19,13 @@ function AppDateInput({
 }) {
   const {
     register,
+    setValue,
     formState: { errors }
   } = useFormContext()
+
+  useEffect(() => {
+    setValue(name, defaultValue)
+  }, [])
 
   return (
     <div className='relative my-2 w-full flex-col' style={wrapperStyle}>

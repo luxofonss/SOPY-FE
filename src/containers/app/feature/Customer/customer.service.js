@@ -76,6 +76,19 @@ const customerApi = createApi({
         method: 'POST',
         body: body
       })
+    }),
+    getUserOrders: build.query({
+      query: (args) => ({
+        url: '/order/me',
+        params: args
+      })
+    }),
+    cancelOrder: build.mutation({
+      query: (body) => ({
+        url: '/order/cancel',
+        method: 'PUT',
+        body: body
+      })
     })
   })
 })

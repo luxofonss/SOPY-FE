@@ -4,171 +4,141 @@ import AppDateInput from '@src/components/Form/AppDateInput'
 import AppForm from '@src/components/Form/AppForm'
 import AppInput from '@src/components/Form/AppInput'
 import AppSelect from '@src/components/Form/AppSelect'
-import { ORDER_STATUS_ARRAY } from '@src/configs'
+import { ORDER_FILTER, ORDER_STATUS_ARRAY } from '@src/configs'
 import removeUndefinedObject from '@src/utils/removeUndefinedObject'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import * as Yup from 'yup'
 import { adminApi } from '../../adminService'
+import PopupAction from '../../../../../../components/PopupAction'
 import OrderTable from '../../components/OrderTable'
+import formatDate from '@src/utils/formatDate'
 
 const filterValidation = Yup.object({
-  type: Yup.string(),
-  name: Yup.string(),
-  stock: Yup.object({
-    min: Yup.number()
-      .transform((value, originalValue) => (originalValue === '' ? null : value))
-      .min(0, 'Minimum stock must be greater than or equal to 0')
-      .test('minLessThanMax', 'Minimum stock must be less than maximum stock', function (value) {
-        const { max } = this.parent
-        if (!max) return true
-        else return value < max
-        // console.log('value:: ', max, value)
-        // return value === null || value === undefined || max === null || max === undefined || value < max
-      })
-      .nullable(),
-    max: Yup.number()
-      .transform((value, originalValue) => (originalValue === '' ? null : value))
-      .min(0, 'Maximum stock must be greater than or equal to 0')
-      .test('maxGreaterThanMin', 'Maximum stock must be greater than minimum stock', function (value) {
-        const { min } = this.parent
-        if (!min) return true
-        else return value > min
-        // return value === null || value === undefined || min === null || min === undefined || value > min
-      })
-      .nullable()
-  }),
-  sale: Yup.object({
-    min: Yup.number()
-      .transform((value, originalValue) => (originalValue === '' ? null : value))
-      .min(0, 'Minimum stock must be greater than or equal to 0')
-      .test('minLessThanMax', 'Minimum stock must be less than maximum stock', function (value) {
-        const { max } = this.parent
-        return value === null || value === undefined || max === null || max === undefined || value < max
-      })
-      .nullable(),
-    max: Yup.number()
-      .transform((value, originalValue) => (originalValue === '' ? null : value))
-      .min(0, 'Maximum stock must be greater than or equal to 0')
-      .test('maxGreaterThanMin', 'Maximum stock must be greater than minimum stock', function (value) {
-        const { min } = this.parent
-        return value === null || value === undefined || min === null || min === undefined || value > min
-      })
-      .nullable()
-  })
+  trackingNumber: Yup.string(),
+  customer: Yup.string(),
+  productName: Yup.string(),
+  startDate: Yup.date(),
+  endDate: Yup.date()
 })
 
 function OrderAll() {
   const [filter, setFilter] = useState({
-    name: 'all',
+    filter: { trackingNumber: null, customer: null, productName: null },
+    startDate: null,
+    endDate: null,
+    status: '',
     page: 1,
-    pageSize: 10,
-    filter: {}
+    sort: 'ctime',
+    limit: 10
   })
+  const [selectedOrders, setSelectedOrders] = useState([])
+  const closeConfirmRef = useRef(null)
+  const closeShippingRef = useRef(null)
 
-  const [getOrderList, { data: orderList }] = adminApi.endpoints.getOrderByShop.useLazyQuery()
+  const [getOrderList, { data: orderList }] = adminApi.endpoints.getAndFilterOrder.useLazyQuery()
+  const [confirmOrders, { isLoading: isConfirming }] = adminApi.endpoints.confirmOrders.useMutation()
+  const [shippingOrders, { isLoading: isShipping }] = adminApi.endpoints.shippingOrders.useMutation()
 
   const navigate = useNavigate()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
 
-  console.log('orderList:: ', orderList)
+  const now = new Date()
+  const formattedDateNow = now.toISOString().slice(0, 10)
 
   const handleFilterStatus = (type) => {
-    switch (type) {
-      case 'all': {
-        setFilter({ ...filter, name: 'all', filter: {} })
-        break
-      }
-      case 'active': {
-        setFilter({ ...filter, name: 'active', filter: { isDraft: false } })
-        break
-      }
-      case 'inactive': {
-        setFilter({ ...filter, name: 'inactive', filter: { isDraft: true } })
-        break
-      }
-      case 'oot': {
-        setFilter({ ...filter, name: 'oot', filter: { stock: 0 } })
-        break
-      }
-      default: {
-        setFilter({ ...filter, name: 'all', filter: {} })
-      }
-    }
+    setFilter({ ...filter, status: type })
   }
 
   useEffect(() => {
-    getOrderList()
-  }, [])
+    getOrderList(
+      removeUndefinedObject({
+        trackingNumber: searchParams.get('trackingNumber'),
+        productName: searchParams.get('productName'),
+        customer: searchParams.get('customer'),
+        startDate: searchParams.get('startDate'),
+        endDate: searchParams.get('endDate'),
+        status: searchParams.get('status'),
+        page: searchParams.get('page'),
+        sort: searchParams.get('sort'),
+        limit: searchParams.get('limit')
+      }),
+      false
+    )
+  }, [location])
 
   useEffect(() => {
-    const searchFilter = searchParams.get('filter')
-    const originalFilter = searchFilter ? JSON.parse(searchFilter) : {}
-    const filter = {
-      isDraft: originalFilter.isDraft,
-      stock: originalFilter.stock
-    }
-    console.log('filter:: ', filter)
-    if (filter?.isDraft === true) {
-      setFilter({
-        name: 'inactive',
-        page: searchParams.get('page') || 1,
-        filter: filter,
-        pageSize: searchParams.get('pageSize')
+    const params = new URLSearchParams(
+      removeUndefinedObject({
+        ...filter.filter,
+        startDate: filter.startDate,
+        endDate: filter.endDate,
+        status: filter.status,
+        page: filter.page,
+        sort: filter.sort,
+        limit: filter.limit
       })
-    } else if (filter?.isDraft === false) {
-      setFilter({
-        name: 'active',
-        page: searchParams.get('page') || 1,
-        filter: filter,
-        pageSize: searchParams.get('pageSize')
-      })
-    } else if (filter?.stock === 0) {
-      setFilter({
-        name: 'oot',
-        page: searchParams.get('page') || 1,
-        filter: filter,
-        pageSize: searchParams.get('pageSize')
-      })
-    } else
-      setFilter({
-        name: 'all',
-        page: searchParams.get('page') || 1,
-        filter: filter,
-        pageSize: searchParams.get('pageSize')
-      })
-  }, [])
-
-  useEffect(() => {
-    const params = new URLSearchParams({
-      page: filter.page,
-      pageSize: filter.pageSize,
-      filter: JSON.stringify(filter.filter)
-    })
+    )
     const queryString = params.toString()
     navigate(`/shop/order/all?${queryString}`)
   }, [filter])
 
-  // const onTableChange = (data) => {
-  //   setFilter({ ...filter, pageSize: data.pageSize, page: data.current })
-  // }
+  const onTableChange = (data) => {
+    setFilter({ ...filter, pageSize: data.pageSize, page: data.current })
+  }
 
   function onSubmit(data) {
-    console.log('filter data: ', removeUndefinedObject(data))
+    console.log('filter data: ', data)
     setFilter({
       ...filter,
-      filter: {
-        ...filter.filter,
-        stock: data.stock,
-        sold: data.sale,
-        name: data.name,
-        sku: data.sku
-      }
+      filter: { [data.type]: data.keyword },
+      startDate: formatDate(data.startDate),
+      endDate: formatDate(data.endDate)
     })
   }
 
-  console.log('ORDER_STATUS_ARRAY:: ', ORDER_STATUS_ARRAY)
+  const onSelect = (selected) => {
+    setSelectedOrders(selected)
+  }
+
+  console.log('filter:: ', filter)
+
+  const refreshOrderList = async () => {
+    await getOrderList()
+  }
+
+  const handleConfirm = async () => {
+    if (selectedOrders.length === 0) {
+      toast.warn('Bạn chưa chọn đơn hàng')
+      closeConfirmRef.current.closeModal()
+    } else {
+      const response = await confirmOrders({ orderIds: selectedOrders })
+      if (response.error) {
+        toast.error(response.error.data.message || 'Có lỗi xảy ra, vui lòng thực hiện lại')
+      } else {
+        toast.success('Cập nhật thành công')
+        await refreshOrderList()
+        closeConfirmRef.current.closeModal()
+      }
+    }
+  }
+  const handleShipping = async () => {
+    if (selectedOrders.length === 0) {
+      toast.warn('Bạn chưa chọn đơn hàng')
+      closeShippingRef.current.closeModal()
+    } else {
+      const response = await shippingOrders({ orderIds: selectedOrders })
+      if (response.error) {
+        toast.error(response.error.data.message || 'Có lỗi xảy ra, vui lòng thực hiện lại')
+      } else {
+        toast.success('Cập nhật thành công')
+        await refreshOrderList()
+        closeShippingRef.current.closeModal()
+      }
+    }
+  }
 
   return (
     <div className=''>
@@ -176,16 +146,16 @@ function OrderAll() {
         <AppForm onSubmit={onSubmit} resolver={filterValidation}>
           <div className='grid grid-cols-12 gap-x-4'>
             <div className='col-span-3'>
-              <AppSelect id='type' name='type' label='Tìm kiếm theo' required />
+              <AppSelect id='type' name='type' options={ORDER_FILTER} label='Tìm kiếm theo' required />
             </div>
             <div className='col-span-4'>
               <AppInput className='col-span-3' id='keyword' name='keyword' label='Từ khóa' />
             </div>
             <div className='col-span-2'>
-              <AppDateInput id='fromDay' name='from' required label='Đặt hàng từ' />
+              <AppDateInput defaultValue='2000-01-01' id='startDate' name='startDate' label='Đặt hàng từ' />
             </div>
             <div className='col-span-2'>
-              <AppDateInput id='toDay' name='to' required label='Đến ngày' />
+              <AppDateInput defaultValue={formattedDateNow} id='endDate' name='endDate' label='Đến ngày' />
             </div>
             <div className='col-span-1 flex items-end justify-end py-2'>
               <AppButton type='submit'>Lọc</AppButton>
@@ -201,12 +171,20 @@ function OrderAll() {
             <div className='text-neutral-500 font-semibold text-xl '>Danh sách đơn hàng</div>
           </div>
           <nav className='flex gap-3'>
+            <div
+              onClick={() => handleFilterStatus('')}
+              className={`${
+                filter.status === '' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-500'
+              } h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
+            >
+              Tất cả
+            </div>
             {ORDER_STATUS_ARRAY.map((status) => (
               <div
                 key={status.value}
                 onClick={() => handleFilterStatus(status.value)}
                 className={`${
-                  filter.name === status.value ? 'bg-secondary-green text-neutral-50' : 'text-neutral-500'
+                  filter.status === status.value ? 'bg-primary-green text-neutral-50' : 'text-neutral-500'
                 } h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
               >
                 {status.name}
@@ -215,12 +193,42 @@ function OrderAll() {
           </nav>
         </div>
         <div className='flex gap-2 justify-end mt-2'>
-          <AppButton className='h-8 px-2 py-1 text-sm font-medium'>Xác nhận</AppButton>
-          <AppButton className='h-8 px-2 py-1 text-sm font-medium'>Từ chối</AppButton>
-          <AppButton className='h-8 px-2 py-1 text-sm font-medium'>Giao hàng</AppButton>
+          <PopupAction
+            closeConfirmRef={closeShippingRef}
+            isConfirming={isShipping}
+            handleConfirm={handleShipping}
+            triggerName='Giao hàng'
+            heading='Giao hàng các đơn hàng hợp lệ được chọn'
+          />
+          <PopupAction
+            closeConfirmRef={closeConfirmRef}
+            isConfirming={isConfirming}
+            handleConfirm={handleConfirm}
+            triggerName='Xác nhận'
+            heading='Xác nhận các đơn hàng hợp lệ được chọn'
+          />
+          <PopupAction
+            closeConfirmRef={closeConfirmRef}
+            isConfirming={isConfirming}
+            handleConfirm={handleConfirm}
+            triggerName='Xuất hóa đơn PDF'
+            heading='Xuất hóa đơn các đơn hàng hợp lệ được chọn'
+          />
+          <PopupAction
+            closeConfirmRef={closeConfirmRef}
+            isConfirming={isConfirming}
+            handleConfirm={handleConfirm}
+            triggerName='Xuất hóa đơn excel'
+            heading='Xuất hóa đơn các đơn hàng hợp lệ được chọn'
+          />
         </div>
         <div className='mt-6'>
-          <OrderTable data={orderList?.metadata} />
+          <OrderTable
+            onTableChange={onTableChange}
+            refreshData={refreshOrderList}
+            onSelect={onSelect}
+            data={orderList?.metadata}
+          />
         </div>
       </div>
     </div>

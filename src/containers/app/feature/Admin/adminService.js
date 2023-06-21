@@ -51,14 +51,36 @@ export const adminApi = createApi({
         url: `/category/sub/${id}`
       })
     }),
-    getOrderByShop: build.query({
-      query: () => ({
-        url: '/order/shop'
+    getAndFilterOrder: build.query({
+      query: (params) => ({
+        url: '/order',
+        params: params
       })
     }),
     getOneOrderByShop: build.query({
       query: (id) => ({
         url: `/order/${id}`
+      })
+    }),
+    confirmOrders: build.mutation({
+      query: (body) => ({
+        url: '/order/confirm',
+        method: 'PUT',
+        body: body
+      })
+    }),
+    rejectOrder: build.mutation({
+      query: (body) => ({
+        url: '/order/reject',
+        method: 'PUT',
+        body: body
+      })
+    }),
+    shippingOrders: build.mutation({
+      query: (body) => ({
+        url: '/order/shipping',
+        method: 'PUT',
+        body: body
       })
     })
   })

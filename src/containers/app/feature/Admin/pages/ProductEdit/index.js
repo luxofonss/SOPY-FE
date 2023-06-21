@@ -104,7 +104,7 @@ function ProductEdit() {
 
   return (
     <div className='py-8 px-32 bg-neutral-100 rounded-lg'>
-      <div className='text-neutral-700 font-semibold text-2xl'>Thêm sản phẩm mới</div>
+      <div className='text-neutral-700 font-semibold text-2xl'>Chi tiết sản phẩm</div>
       <AppForm
         encType='multipart/form-data'
         onSubmit={(data) => {
