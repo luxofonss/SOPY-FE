@@ -52,8 +52,8 @@ function OrderAll() {
     setFilter({ ...filter, status: type })
   }
 
-  useEffect(() => {
-    getOrderList(
+  const refreshOrderList = async () => {
+    await getOrderList(
       removeUndefinedObject({
         trackingNumber: searchParams.get('trackingNumber'),
         productName: searchParams.get('productName'),
@@ -67,6 +67,10 @@ function OrderAll() {
       }),
       false
     )
+  }
+
+  useEffect(() => {
+    refreshOrderList()
   }, [location])
 
   useEffect(() => {
@@ -104,10 +108,6 @@ function OrderAll() {
   }
 
   console.log('filter:: ', filter)
-
-  const refreshOrderList = async () => {
-    await getOrderList()
-  }
 
   const handleConfirm = async () => {
     if (selectedOrders.length === 0) {

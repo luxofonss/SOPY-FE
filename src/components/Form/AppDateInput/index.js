@@ -30,8 +30,8 @@ function AppDateInput({
   return (
     <div className='relative my-2 w-full flex-col' style={wrapperStyle}>
       <label
-        className={`mb-1.5 block font-semibold w-full ${
-          !errors[name]?.type ? 'text-neutral-400' : 'text-secondary-orange'
+        className={`mb-1.5 block font-medium w-full text-sm ${
+          !errors[name]?.type ? 'text-neutral-500' : 'text-secondary-orange'
         }`}
         htmlFor={id}
       >

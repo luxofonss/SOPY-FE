@@ -7,8 +7,10 @@ import AppTextArea from '@src/components/Form/AppTextArea'
 import { BeatLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
 import customerApi from '../../customer.service'
+import { useNavigate } from 'react-router'
 
 function ShopRegister() {
+  const navigate = useNavigate()
   const onSubmit = async (data) => {
     const response = await register({
       name: data.name,
@@ -20,6 +22,7 @@ function ShopRegister() {
 
     if (!response.error) {
       toast.success('Chúc mừng bạn đã đăng ký thành công!')
+      navigate('/shop/product/all')
     } else {
       toast.error(response.error?.data?.message)
     }

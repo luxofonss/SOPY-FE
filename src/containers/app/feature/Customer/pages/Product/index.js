@@ -1,18 +1,22 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid'
+import { ChatBubbleLeftIcon, MinusIcon, PlusIcon, ShoppingCartIcon, TruckIcon } from '@heroicons/react/20/solid'
+import { CheapTag, FacebookLogo } from '@src/assets/svgs'
 import AppButton from '@src/components/AppButton'
+import { isEmptyValue } from '@src/helpers/check'
+import appApi from '@src/redux/service'
+import getVariation from '@src/utils/getVariationId'
 import { Carousel } from 'antd'
 import { Rating } from 'flowbite-react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import customerApi from '../../customer.service'
-import appApi from '@src/redux/service'
-import getVariation from '@src/utils/getVariationId'
-import { isEmptyValue } from '@src/helpers/check'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import ProductAttribute from '../../components/ProductAttribute'
+import ProductCard from '../../components/ProductCard'
+import customerApi from '../../customer.service'
 import { setCart } from '../../customer.slice'
-import { useDispatch } from 'react-redux'
+import accounting from 'accounting'
 
 function getVariation2ByVariation1(variation1, variation) {
   let res = []
@@ -37,12 +41,15 @@ function Product() {
   const [chosenVariation, setChosenVariation] = useState({ variation1: null, variation2: null })
   const [productMainThumb, setProductMainThumb] = useState()
   const [variation, setVariation] = useState({ id: null, stock: null })
+  const userInfo = useSelector((state) => state.auth.user)
 
   const { id } = useParams()
   const [queryProduct, { data: product }] = customerApi.endpoints.getProductById.useLazyQuery()
+  const [getSameProducts, { data: sameProduct }] = customerApi.endpoints.getProductByCategoryId.useLazyQuery()
   const [getShopInfo, { data: shopInfo }] = appApi.endpoints.getShopById.useLazyQuery()
   const [addToCart, { isLoading: isAddingToCart }] = customerApi.endpoints.addToCart.useMutation()
   const [getCart] = customerApi.endpoints.getCart.useLazyQuery({ cache: false })
+  const [getProductAttributes, { data: productAttributes }] = appApi.endpoints.getProductAttributes.useLazyQuery()
 
   const dispatch = useDispatch()
 
@@ -58,9 +65,16 @@ function Product() {
   }
   useEffect(() => {
     queryProduct(id, false)
-  }, [])
+  }, [id])
+
+  console.log('productAttributes: ', productAttributes)
 
   useEffect(() => {
+    //get product attributes
+    if (product?.metadata?.typeId) {
+      getProductAttributes({ typeId: product.metadata.typeId })
+      getSameProducts({ id: product.metadata.typeId })
+    }
     //set thumb for product (first image in thumb attribute)
     if (product?.metadata?.thumb[0]) {
       setProductMainThumb(product.metadata.thumb[0])
@@ -107,7 +121,15 @@ function Product() {
   }, [product])
 
   useEffect(() => {
-    setVariation(getVariation(chosenVariation, product))
+    const currVariation = getVariation(chosenVariation, product)
+    setVariation(currVariation)
+    console.log('currVariation:: ', currVariation)
+
+    if (currVariation?.thumb) {
+      setProductMainThumb(currVariation.thumb)
+    } else {
+      if (!isEmptyValue(product?.metadata?.thumb)) setProductMainThumb(product?.metadata?.thumb[0])
+    }
   }, [chosenVariation])
 
   console.log('chosenVariation:: ', chosenVariation)
@@ -154,6 +176,7 @@ function Product() {
       if (response?.data?.status === 200) {
         toast.success('Thêm sản phẩm thành công!')
         const responseCart = await getCart(null, false)
+        console.log('responseCart:: ', responseCart)
         if (!responseCart.error) {
           dispatch(setCart(responseCart.data))
         }
@@ -192,38 +215,64 @@ function Product() {
               </Carousel>
             </div>
           </div>
+          <div className='flex gap-4 mt-4'>
+            <p>Chia sẻ</p>
+            <FacebookLogo />
+          </div>
         </div>
-        <div className='col-span-1'></div>
+        <div className='col-span-1 flex justify-center'>
+          <div className='w-[1px] bg-neutral-300 h-full'></div>
+        </div>
         <div className='col-span-7 flex flex-col'>
           <h4 className='text-xl font-medium line-clamp-2'>{product?.metadata?.name}</h4>
           <div className='flex gap-6 mt-3'>
             <Rating>
               <Rating.Star />
-              <p className='ml-2 text-sm font-bold text-gray-900 dark:text-white'>4.95</p>
+              <p className='ml-2 font-bold text-gray-900 dark:text-white'>4.95</p>
               <span className='mx-1.5 h-1 w-1 rounded-full bg-gray-500 dark:bg-gray-400' />
             </Rating>
-            <div className='text-sm font-medium text-gray-900 hover:no-underline dark:text-white' href='#'>
+            <div className='font-medium text-gray-900 hover:no-underline dark:text-white' href='#'>
               <p>73 reviews</p>
             </div>
             <p>{product?.metadata?.sold} đã bán</p>
           </div>
-          <div className='flex items-center gap-6 w-full px-2 py-4 bg-neutral-300 rounded-lg mt-3'>
-            <div className='line-through text-neutral-400 text-lg'>₫{product?.metadata?.minPrice}</div>
-            <div className='text-xl text-secondary-orange font-semibold'>
-              ₫
-              {product?.metadata?.discount
-                ? product?.metadata?.minPrice - product?.metadata?.discount
-                : product?.metadata?.minPrice}
+          <div className='w-full px-2 py-4 bg-neutral-200 rounded-lg mt-3'>
+            <div className='flex items-center gap-6 w-full '>
+              <div className='flex gap-3'>
+                <div className='text-2xl text-orange-4 font-semibold'>
+                  ₫
+                  {product?.metadata?.discount
+                    ? accounting.formatNumber(product?.metadata?.minPrice - product?.metadata?.discount)
+                    : accounting.formatNumber(product?.metadata?.minPrice)}
+                </div>
+                <div className='line-through font-semibold text-neutral-400 text-base'>
+                  ₫{accounting.formatNumber(product?.metadata?.minPrice)}
+                </div>
+              </div>
+              <div className='py-1 px-2 text-neutral-200 bg-orange-4 shadow-sm rounded-sm'>-50% GIẢM</div>
             </div>
-            <div className='py-1 px-2 text-neutral-200 bg-secondary-green rounded-md'>50% discount</div>
+            <div className='flex gap-3'>
+              <CheapTag />
+              <div>
+                <div className='text-orange-3 font-medium text-sm'>Gì cũng rẻ</div>
+                <div className='text-xs'>Giá tốt nhất so với các sản phẩm cùng loại ở nơi khác!</div>
+              </div>
+            </div>
           </div>
 
           {/* Shipping */}
           <div className='grid grid-cols-12 mt-6'>
             <h4 className='col-span-2'>Vận chuyển</h4>
-            <div className='col-span-10 flex gap-3'>
-              <p>Vận chuyển tới: </p>
-              <p>Đại học Bách Khoa Hà Nội</p>
+            <div className='col-span-10'>
+              <div className='flex gap-3'>
+                <TruckIcon className='w-4 h-4' />
+                <p>Vận chuyển tới: </p>
+                <p>{userInfo?.address[0]}</p>
+              </div>
+              <div className='flex gap-3'>
+                <p className='text-sm'>Phí vận chuyển</p>
+                <p className='text-sm'>₫32.500 - ₫50.000</p>
+              </div>
             </div>
           </div>
           {/*/ Variations*/}
@@ -240,11 +289,11 @@ function Product() {
                         onClick={() => handleClickVariation1(variation)}
                         className={`${
                           variation === chosenVariation?.variation1
-                            ? 'bg-primary-green'
+                            ? 'border-orange-4'
                             : activeVariation.variation1.includes(variation)
                             ? 'bg-neutral-300'
                             : 'bg-neutral-400 pointer-events-none'
-                        } px-2 py-1 border-neutral-400 rounded-sm flex items-center justify-center hover-opacity-90`}
+                        } px-2 py-1 border-[1px] border-neutral-300 cursor-pointer rounded-sm flex items-center justify-center hover-opacity-90`}
                       >
                         {variation}
                       </div>
@@ -264,11 +313,11 @@ function Product() {
                         }}
                         className={`${
                           variation === chosenVariation?.variation2
-                            ? 'bg-primary-green'
+                            ? 'border-orange-4'
                             : activeVariation.variation2.includes(variation)
                             ? 'bg-neutral-300'
                             : 'bg-neutral-400 pointer-events-none'
-                        } px-2 py-1 border-neutral-400 rounded-sm flex items-center justify-center hover-opacity-90`}
+                        } px-2 py-1 border-[1px] border-neutral-300 cursor-pointer rounded-sm flex items-center justify-center hover-opacity-90`}
                       >
                         {variation}
                       </div>
@@ -303,36 +352,97 @@ function Product() {
 
           {/*Actions*/}
           <div className='flex gap-6 mt-auto ml-auto'>
-            <AppButton isLoading={isAddingToCart} onClick={handleAddToCart}>
+            <AppButton
+              className='bg-transparent border-[1px] border-orange-4 text-orange-4 hover:bg-orange-1'
+              isLoading={isAddingToCart}
+              onClick={handleAddToCart}
+              Icon={<ShoppingCartIcon className='w-5 h-5 text-orange-4' />}
+              showIcon
+            >
               Thêm vào giỏ hàng
             </AppButton>
-            <AppButton onClick={handleBuy}>Mua ngay</AppButton>
+            <AppButton className='bg-orange-4 text-neutral-0 hover:bg-orange-3' onClick={handleBuy}>
+              Mua ngay
+            </AppButton>
           </div>
         </div>
       </div>
 
       {/**Shop information */}
       {shopInfo?.metadata ? (
-        <div className='w-full rounded-md mt-6 p-4 bg-neutral-300 flex justify-between'>
+        <div className='w-full rounded-md mt-6 p-4 bg-neutral-0 flex justify-between'>
           <div className='flex gap-6'>
             <img
-              className='w-24 h-2w-24 rounded-2xl'
+              className='w-20 h-20 rounded-full'
               src='https://down-vn.img.susercontent.com/file/1fc4e634d68efb2cac27d1904970dc3d_tn'
               alt='avatar'
             />
 
-            <div className='flex flex-col gap-1'>
+            <div className='flex flex-col'>
               <p className='text-md font-medium'>{shopInfo?.metadata?.name}</p>
               <p className='text-sm'>{shopInfo?.metadata?.shopInfo?.address}</p>
               <div className='flex gap-4 mt-auto'>
-                <AppButton>Chat</AppButton>
-                <AppButton>Xem</AppButton>
+                <AppButton
+                  Icon={<ChatBubbleLeftIcon className='w-5 h-5' />}
+                  showIcon
+                  className='h-9 bg-transparent border-[1px] border-orange-4 text-orange-4 hover:bg-orange-1'
+                >
+                  Chat
+                </AppButton>
+                <AppButton className='h-9 bg-transparent border-[1px] border-neutral-300 text-neutral-600 hover:bg-neutral-200'>
+                  Xem shop
+                </AppButton>
+              </div>
+            </div>
+            <div className='w-[1px] mx-4 bg-neutral-300 h-full'></div>
+            <div className='flex flex-col justify-around'>
+              <div className='flex gap-4 justify-between'>
+                <p className='text-neutral-400 font-medium '>Đánh Giá</p>
+                <p className='text-orange-4 '>14.4k</p>
+              </div>
+              <div className='flex gap-4 justify-between'>
+                <p className='text-neutral-400 font-medium '>Sản phẩm</p>
+                <p className='text-orange-4 '>14</p>
+              </div>
+            </div>
+            <div className='w-[1px] mx-4 bg-neutral-300 h-full'></div>
+            <div className='flex flex-col justify-around'>
+              <div className='flex gap-4 justify-between'>
+                <p className='text-neutral-400 font-medium '>Tham Gia</p>
+                <p className='text-orange-4 '>31 tháng trước</p>
+              </div>
+              <div className='flex gap-4 justify-between'>
+                <p className='text-neutral-400 font-medium '>Người theo dõi</p>
+                <p className='text-orange-4 '>31k</p>
               </div>
             </div>
           </div>
-          <div></div>
         </div>
       ) : null}
+
+      {/**Product attributes */}
+      {product?.metadata?.attributes && productAttributes?.metadata ? (
+        <ProductAttribute data={product.metadata} attributes={productAttributes.metadata} />
+      ) : null}
+
+      {/**same products */}
+      <div className='mt-4 p-4 rounded-lg bg-neutral-200'>
+        <div className='flex justify-between'>
+          <h4 className='text-xl font-semibold text-neutral-400 mb-3'>Sản phẩm tương tự</h4>
+          <Link className='font-medium text-sm text-neutral-500' to='/'>
+            Xem tất cả
+          </Link>
+        </div>
+        <div className='grid grid-cols-6 gap-8'>
+          {sameProduct
+            ? sameProduct?.metadata?.map((product) => (
+                <div key={product.name}>
+                  <ProductCard product={product} />
+                </div>
+              ))
+            : null}
+        </div>
+      </div>
     </div>
   )
 }

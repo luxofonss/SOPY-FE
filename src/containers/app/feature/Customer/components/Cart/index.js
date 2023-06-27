@@ -8,6 +8,7 @@ import customerApi from '../../customer.service'
 import { setCart } from '../../customer.slice'
 import empty_cart from '@src/assets/images/empty_cart.png'
 import AppButton from '@src/components/AppButton'
+import accounting from 'accounting'
 
 function Cart() {
   const [getCart] = customerApi.endpoints.getCart.useLazyQuery({ cache: false })
@@ -35,8 +36,8 @@ function Cart() {
       ${open ? '' : 'text-opacity-90 '}
       group inline-flex items-center rounded-md px-3 text-gray-700 py-2 text-base font-medium  hover:text-opacity-100 focus:outline-none focus-visible:ring-none focus-visible:ring-opacity-75`}
           >
-            <div className='w-8 h-8 rounded-full bg-neutral-300 flex justify-center items-center hover:bg-secondary-purple transition'>
-              <ShoppingCartIcon className='w-6 h-6' />
+            <div className='w-8 h-8 rounded-full flex justify-center items-center hover:bg--orange-3 transition'>
+              <ShoppingCartIcon className='w-6 h-6 text-neutral-0' />
             </div>
           </Popover.Button>
           <Transition
@@ -81,7 +82,9 @@ function Cart() {
                                         item.variation?.subVariation + ': ' + item.variation?.subVariationValue}
                                     </p>
                                   </div>
-                                  <div className='w-20 text-sm text-primary-red ml-auto'>₫{item.variation.price}</div>
+                                  <div className='w-20 text-sm text-primary-red ml-auto'>
+                                    ₫{accounting.formatNumber(item.variation.price)}
+                                  </div>
                                 </Link>
                               )
                             })}
@@ -101,9 +104,9 @@ function Cart() {
                         <img className='w-24 h-24' src={empty_cart} alt='empty-cart' />
                         <div>
                           <p className='text-sm text-neutral-400'>Giỏ hàng của bạn đang trống</p>
-                          <div className='flex justify-center mt-4'>
+                          <Link to='/' className='flex justify-center mt-4'>
                             <AppButton>Mua sắm ngay</AppButton>
-                          </div>
+                          </Link>
                         </div>
                       </div>
                     )}

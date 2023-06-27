@@ -14,6 +14,12 @@ const appApi = createApi({
         method: 'PUT',
         body: body
       })
+    }),
+    getProductAttributes: build.query({
+      query: (args) => ({
+        url: '/product/attributes',
+        params: args
+      })
     })
   })
 })

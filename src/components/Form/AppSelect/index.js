@@ -55,18 +55,20 @@ function AppSelect({
   }
 
   return (
-    <div className='relative my-2 w-full flex-col'>
-      <label
-        onClick={() => {
-          setOpen(!open)
-        }}
-        className={`mb-1.5 font-semibold block w-full ${
-          !errors[name]?.type ? 'text-neutral-400' : 'text-secondary-orange'
-        }`}
-        htmlFor={name}
-      >
-        {label}
-      </label>
+    <div className={`${label ? 'my-2' : ''} relative  w-full flex-col`}>
+      {label ? (
+        <label
+          onClick={() => {
+            setOpen(!open)
+          }}
+          className={`mb-1.5 font-medium block w-full text-sm ${
+            !errors[name]?.type ? 'text-neutral-500' : 'text-secondary-orange'
+          }`}
+          htmlFor={name}
+        >
+          {label}
+        </label>
+      ) : null}
       <div
         onClick={() => {
           setOpen(!open)

@@ -52,8 +52,8 @@ function AddressSelect({ className, name, label, validate, required = false, Ico
         onClick={() => {
           setOpen(!open)
         }}
-        className={`mb-1.5 font-semibold block w-full ${
-          !errors[name]?.type ? 'text-neutral-400' : 'text-secondary-orange'
+        className={`mb-1.5 font-medium block w-full text-sm ${
+          !errors[name]?.type ? 'text-neutral-500' : 'text-secondary-orange'
         }`}
         htmlFor={name}
       >

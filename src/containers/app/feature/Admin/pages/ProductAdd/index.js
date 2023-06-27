@@ -16,6 +16,7 @@ import { useAddProductMutation } from '../../adminService'
 import SellInformation from '../../components/SellInformation'
 import AppSelect from '@src/components/Form/AppSelect'
 import ChooseCategory from '../../components/ChooseCategory'
+import { toast } from 'react-toastify'
 
 function ProductAdd() {
   const [imageList, setImageList] = useState([])
@@ -90,6 +91,11 @@ function ProductAdd() {
 
     const response = await addProduct(flatData)
     console.log('response:: ', response)
+    if (response.error) {
+      toast.error(response.error?.data?.message)
+    } else {
+      toast.success('Thêm sản phẩm thành công!')
+    }
   }
 
   console.log('productAttributeList:: ', productAttributeList)

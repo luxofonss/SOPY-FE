@@ -40,7 +40,7 @@ function AppFileInput({
         htmlFor={id}
         className={`${className} ${
           errors[name]?.type ? 'border-secondary-orange focus:border-secondary-orange' : 'border-neutral-300'
-        } h-9 block bg-neutral-200 box-border w-full rounded-md border-2  py-1.5 px-4 text-neutral-700 outline-none transition duration-500 focus:secondary-purple ${className}`}
+        } h-9 block bg-neutral-200 box-border w-full rounded-md border-2  py-1.5 px-4 text-neutral-500 text-sm outline-none transition duration-500 focus:secondary-purple ${className}`}
       >
         {fileName ? fileName : 'Choose a file'}
       </label>

@@ -10,6 +10,7 @@ import Product from './pages/Product'
 import ShopRegister from './pages/ShopRegister'
 import UserProfileLayout from '@src/components/Layouts/UserProfileLayout'
 import Profile from './pages/Profile'
+import ProductSearch from './pages/ProductSearch'
 
 export const customerRouteList = [
   {
@@ -35,12 +36,16 @@ export const customerRouteList = [
       {
         path: '/product/:id',
         element: <Product />
+      },
+      {
+        path: '/search',
+        element: <ProductSearch />
       }
     ]
   },
   {
     path: '/',
-    // element: <RequireAuth allowedRoles={[USER_ROLE.USER, USER_ROLE.ADMIN]}></RequireAuth>,
+    // element: <RequireAuth allowedRoles={[USER_ROLE.USER, USER_ROLE.SHOP]}></RequireAuth>,
     children: [
       {
         path: '/cart',
@@ -62,7 +67,7 @@ export const customerRouteList = [
   },
   {
     path: '/',
-    element: <RequireAuth allowedRoles={[USER_ROLE.USER]}></RequireAuth>,
+    element: <RequireAuth allowedRoles={[USER_ROLE.USER, USER_ROLE.SHOP]}></RequireAuth>,
     children: [
       {
         path: '/me/orders',

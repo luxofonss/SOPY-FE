@@ -21,12 +21,12 @@ const customerApi = createApi({
     getCart: build.query({
       query: () => ({
         url: '/cart'
-      }),
-      reducers: {
-        // The `cache` reducer is built-in to Redux Toolkit Query and handles caching behavior
-        cache: false
-      },
-      invalidates: ['getCart'] // Invalidate the cache for this query whenever it's run again
+      })
+      // reducers: {
+      //   // The `cache` reducer is built-in to Redux Toolkit Query and handles caching behavior
+      //   cache: false
+      // },
+      // invalidates: ['getCart'] // Invalidate the cache for this query whenever it's run again
     }),
     addToCart: build.mutation({
       query: (body) => ({
@@ -88,6 +88,28 @@ const customerApi = createApi({
         url: '/order/cancel',
         method: 'PUT',
         body: body
+      })
+    }),
+    updateAvatar: build.mutation({
+      query: (body) => ({
+        url: 'user/update/avatar',
+        method: 'POST',
+        body: body,
+        prepareHeaders: (headers) => {
+          headers.set('Content-Type', 'multipart/form-data')
+          return headers
+        }
+      })
+    }),
+    getProductByCategoryId: build.query({
+      query: ({ id }) => ({
+        url: `product/category/${id}`
+      })
+    }),
+    filterProduct: build.query({
+      query: (params) => ({
+        url: 'product/search',
+        params: params
       })
     })
   })

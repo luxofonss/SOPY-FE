@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import ProductCard from '../../components/ProductCard'
 import Slider from '../../components/Slider'
 import customerApi from '../../customer.service'
+import { ADS_HOME } from '@src/configs'
 
 const slider1 = [
   { image: 'https://down-vn.img.susercontent.com/file/vn-50009109-a711fcb9172f374209ccd7e2de7b1a25', link: '/' },
@@ -34,35 +35,32 @@ function Home() {
   }, [])
   return (
     <div className='container mx-auto'>
-      <div className='h-80 flex gap-2 mt-4'>
-        <div className='h-80 w-3/5'>
+      <div className='h-64 flex gap-2 mt-4'>
+        <div className='h-64 w-3/5'>
           <Slider data={slider1} />
         </div>
-        <div className='h-80 w-2/5 flex flex-col gap-1'>
-          <div className='h-1/2 w-full'>
-            <img
-              className='w-full h-full object-cover rounded-md'
-              src='https://daotaodigitalmarketing.vn/wp-content/uploads/2021/09/cong-cu-tao-banner-shopee.jpg'
-              alt='banner'
-            />
-          </div>
-          <div className='h-1/2 w-full'>
-            <img
-              className='w-full h-full object-cover rounded-md'
-              src='https://1.bp.blogspot.com/-cXEO3NeZR2w/YBe43-baJQI/AAAAAAAACGA/_LCZno77xjYB72zO_cQu3aN59WcAOnMCACLcBGAsYHQ/s800/shopee.png'
-              alt='banner'
-            />
-          </div>
+        <div className='h-64 w-2/5 grid grid-cols-5 gap-2  p-2 bg-neutral-0 rounded-md'>
+          {ADS_HOME.map((item) => {
+            return (
+              <div
+                key={item.image}
+                className='w-full my-1 flex flex-col items-center justify-center gap-3 bg-neutral-200 rounded-md hover:scale-105 hover:cursor-pointer transition'
+              >
+                <img className='w-10 h-10 object-cover rounded-md' src={item.image} alt='banner' />
+                <p className='text-neutral-500 text-xs text-center line-clamp-2'>{item.name}</p>
+              </div>
+            )
+          })}
         </div>
       </div>
       {/*category selections*/}
-      <div className='mt-4'>
-        <h4 className='text-xl font-semibold text-neutral-600 mb-3'>Danh mục</h4>
+      <div className='mt-4 p-4 rounded-lg bg-neutral-200'>
+        <h4 className='text-xl font-semibold text-neutral-400 mb-3'>Danh mục</h4>
         <div className='grid grid-cols-10 gap-2'>
           {categories?.metadata?.map((category) => (
             <Link
               key={category?.name}
-              to='/'
+              to={`/search?typeId=${category._id}`}
               className='w-full h-32 bg-neutral-200 rounded-md flex flex-col justify-center items-center gap-2 cursor-pointer hover:bg-neutral-100 hover:scale-105 transition'
             >
               <img className='w-16 h-16 rounded-md' src={category?.thumb} alt='bg' />
@@ -72,11 +70,11 @@ function Home() {
         </div>
       </div>
 
-      <div className='mt-4'>
+      <div className='mt-4 p-4 rounded-lg bg-neutral-200'>
         <div className='flex justify-between'>
-          <h4 className='font-semibold text-lg text-neutral-700'>Hot sale</h4>
-          <Link className='font-medium text-neutral-500' to='/'>
-            See all
+          <h4 className='text-xl font-semibold text-neutral-400 mb-3'>Dành cho bạn</h4>
+          <Link className='font-medium text-sm text-neutral-500' to='/'>
+            Xem tất cả
           </Link>
         </div>
         <div className='grid grid-cols-6 gap-8'>

@@ -5,6 +5,7 @@ export default function getVariation(variations, product) {
       if (variation.keyVariationValue === variations.variation1) {
         variationRes.id = variation._id
         variationRes.stock = variation.stock
+        variationRes.thumb = variation.thumb
       }
     } else {
       if (
@@ -13,6 +14,7 @@ export default function getVariation(variations, product) {
       ) {
         variationRes.id = variation._id
         variationRes.stock = variation.stock
+        variationRes.thumb = variation.thumb
       }
     }
   })

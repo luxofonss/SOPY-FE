@@ -1,7 +1,13 @@
 import { DeliveryIcon, OrderManagementIcon } from '@src/assets/svgs'
+import ImageCrop from '@src/components/ImageCrop'
+import customerApi from '@src/containers/app/feature/Customer/customer.service'
+import { authApi } from '@src/containers/authentication/feature/Auth/authService'
+import { setUser } from '@src/containers/authentication/feature/Auth/authSlice'
 import { Divider } from 'antd'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const menuList = [
   {
@@ -26,7 +32,14 @@ const menuList = [
 
 function UserSider() {
   const [openList, setOpenList] = useState([])
+  const userInfo = useSelector((state) => state.auth.user)
   const location = useLocation()
+  const closeModalRef = useRef()
+  const openAvatarRef = useRef()
+  const dispatch = useDispatch()
+
+  const [updateAvatar] = customerApi.endpoints.updateAvatar.useMutation()
+  const [getProfile] = authApi.endpoints.getProfile.useLazyQuery()
 
   const handleMenuClick = (name) => {
     if (openList.includes(name)) {
@@ -42,17 +55,45 @@ function UserSider() {
       setOpenList([...openList, name])
     }
   }
+
+  const handleUpdateAvatar = async (file) => {
+    console.log('file:: ', file)
+    const updateData = new FormData()
+    updateData.append('avatar', file)
+
+    console.log('updateData:: ', updateData)
+
+    const response = await updateAvatar(updateData)
+
+    if (response.error) {
+      toast.error(response.error.data.message)
+    } else {
+      toast.success('Đã cập nhật ảnh đại diện')
+      const profile = await getProfile()
+      if (!profile.error) dispatch(setUser(profile.data.metadata.user))
+    }
+  }
   return (
     <div className='p-2 flex flex-col'>
       <div className='flex gap-4'>
-        <img
-          className='w-12 h-12 rounded-md'
-          src='https://sm.ign.com/ign_ap/cover/a/avatar-gen/avatar-generations_hugw.jpg'
-          alt='avatar'
-        />
-        <div className='flex flex-col justify-between'>
-          <div>name</div>
-          <div>sdt</div>
+        <div className='w-14 relative'>
+          <img className='w-14 h-14 rounded-md' src={userInfo?.avatar} alt='avatar' />
+          <div
+            onClick={() => openAvatarRef.current.openModal()}
+            className='w-full h-full absolute flex items-center rounded-lg justify-center top-0 right-0 bg-transparent hover:bg-neutral-400 hover:bg-opacity-20 hover:cursor-pointer'
+          ></div>
+          <ImageCrop
+            openRef={openAvatarRef}
+            image={userInfo?.avatar}
+            handleConfirm={handleUpdateAvatar}
+            closeModalRef={closeModalRef}
+          />
+        </div>
+        <div className='flex flex-col gap-4'>
+          <div className='font-medium text-neutral-700 line-clamp-1'>{userInfo?.name}</div>
+          <div className='text-xs text-neutral-500 line-clamp-1'>
+            {userInfo?.phone ? userInfo?.phone : userInfo?.email}
+          </div>
         </div>
       </div>
       <Divider />

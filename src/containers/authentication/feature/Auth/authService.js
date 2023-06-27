@@ -99,16 +99,15 @@ export const authApi = createApi({
       }
     }),
 
-    refreshToken: build.mutation({
+    refreshToken: build.query({
       query: () => {
         return {
           url: '/auth/refresh-token',
-          method: 'POST',
           responseHandler: async (response) => {
             const responseBody = await response.json()
             if (responseBody.errorStatus !== RESPONSE_ERROR_STATUS) {
               cookies.set('user_id', responseBody?.metadata?.user?._id)
-              cookies.set('access_token', responseBody?.metadata?.tokens?.accessToken)
+              cookies.set('access_token', responseBody?.metadata?.accessToken)
             }
             return responseBody
           }
@@ -118,10 +117,4 @@ export const authApi = createApi({
   })
 })
 
-export const {
-  useRefreshTokenMutation,
-  useLoginMutation,
-  useSignupMutation,
-  useLogoutMutation,
-  useLazyGetProfileQuery
-} = authApi
+export const { useLoginMutation, useSignupMutation, useLogoutMutation, useLazyGetProfileQuery } = authApi

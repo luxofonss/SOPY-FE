@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import AppButton from '@src/components/AppButton'
+import appApi from '@src/redux/service'
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
-import { useGetAllCategoryQuery, useLazyGetProductAttributesQuery } from '../../adminService'
-
+import { useGetAllCategoryQuery } from '../../adminService'
 const { default: AppInput } = require('@src/components/Form/AppInput')
 const { default: AppModal } = require('@src/components/Modal')
 
@@ -11,7 +11,7 @@ function ChooseCategory({ handleCategoryResponse, handleChooseCategory, required
   const closeRef = useRef()
   const [productCategory, setProductCategory] = useState({ parent: null, child: null })
   const { data: categoryList } = useGetAllCategoryQuery()
-  const [getProductAttributes] = useLazyGetProductAttributesQuery()
+  const [getProductAttributes] = appApi.endpoints.getProductAttributes.useLazyQuery()
   const [categoryError, setCategoryError] = useState(null)
 
   console.log(typeof handleCategoryResponse)

@@ -11,7 +11,6 @@ import appApi from '@src/redux/service'
 import accounting from 'accounting'
 import { Checkbox } from 'flowbite-react'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import Skeleton from 'react-loading-skeleton'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
@@ -53,7 +52,7 @@ function UserCart() {
   }, [])
 
   useEffect(() => {
-    setChosenAddress(userInfo?.address[0])
+    if (userInfo) setChosenAddress(userInfo?.address[0])
   }, [userInfo])
 
   const updateCartRedux = async () => {
@@ -121,7 +120,7 @@ function UserCart() {
   const onAddAddress = async (data) => {
     const response = await updateUser({ address: [data.address] })
     if (response.error) {
-      toast.error('response.error.data.message')
+      toast.error(response.error.data.message)
     } else {
       const profile = await getProfile()
       console.log('profile:: ', profile)
@@ -348,7 +347,11 @@ function UserCart() {
                                 type='submit'
                                 disabled={isUpdating}
                               >
-                                {isUpdating ? <Skeleton /> : <PlusCircleIcon className='w-6 h-6' />}
+                                {isUpdating ? (
+                                  <BeatLoader size={12} color='#36d7b7' />
+                                ) : (
+                                  <PlusCircleIcon className='w-6 h-6' />
+                                )}
                               </button>
                             </div>
                           </AppForm>

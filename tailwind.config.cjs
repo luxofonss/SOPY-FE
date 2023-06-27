@@ -8,9 +8,12 @@ module.exports = {
         sm: '640px',
         md: '768px',
         lg: '1024px',
-        xl: '1280px',
-        '2xl': '1538px'
+        xl: '1200px',
+        '2xl': '1200px'
       }
+    },
+    backgroundImage: {
+      'page-bg': 'linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);'
     },
     fontFamily: {
       sans: ['"PT Sans"', 'sans-serif'],
@@ -66,7 +69,12 @@ module.exports = {
         'primary-650': '#711231',
         'primary-700': '#5f0f29',
         'primary-750': '#4c0c20',
-        'primary-800': '#390918'
+        'primary-800': '#390918',
+        'orange-1': 'rgba(255,87,34,0.1)',
+        'orange-2': '#ff9a00',
+        'orange-3': '#ff7400',
+        'orange-4': '#ff4d00',
+        'orange-5': '#ff0000'
       }
     }
   },

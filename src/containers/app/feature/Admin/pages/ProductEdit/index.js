@@ -17,6 +17,7 @@ import { useParams } from 'react-router'
 import { v4 as uuidv4 } from 'uuid'
 import { adminApi, useAddProductMutation, useGetProductByIdQuery } from '../../adminService'
 import SellInformation from '../../components/SellInformation'
+import appApi from '@src/redux/service'
 
 function ProductEdit() {
   const [imageList, setImageList] = useState([])
@@ -26,7 +27,7 @@ function ProductEdit() {
   const { id } = useParams()
   const { data: product } = useGetProductByIdQuery(id)
   const [getCategory, { data: category }] = adminApi.endpoints.getCategoryBySubId.useLazyQuery()
-  const [getProductAttributes, { data: productAttributes }] = adminApi.endpoints.getProductAttributes.useLazyQuery()
+  const [getProductAttributes, { data: productAttributes }] = appApi.endpoints.getProductAttributes.useLazyQuery()
 
   useEffect(() => {
     if (product?.metadata?.typeId) {

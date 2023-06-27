@@ -11,16 +11,18 @@ import { setUser } from '@src/containers/authentication/feature/Auth/authSlice'
 import appApi from '@src/redux/service'
 import accounting from 'accounting'
 import { Fragment, useEffect, useRef, useState } from 'react'
-import Skeleton from 'react-loading-skeleton'
 import { useDispatch, useSelector } from 'react-redux'
+import { BeatLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
 import customerApi from '../../customer.service'
 import { setCart } from '../../customer.slice'
+import { useNavigate } from 'react-router'
 
 function Checkout() {
   const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.auth.user)
   const cartData = useSelector((state) => state.customer.cart)
+  const navigate = useNavigate()
 
   const addAddressCloseRef = useRef(null)
   const [chosenAddress, setChosenAddress] = useState()
@@ -41,13 +43,13 @@ function Checkout() {
   }, [])
 
   useEffect(() => {
-    setChosenAddress(userInfo?.address[0])
+    if (userInfo) setChosenAddress(userInfo?.address[0])
   }, [userInfo])
 
   const onAddAddress = async (data) => {
     const response = await updateUser({ address: [data.address] })
     if (response.error) {
-      toast.error('response.error.data.message')
+      toast.error(response.error.data.message)
     } else {
       const profile = await getProfile()
 
@@ -64,7 +66,10 @@ function Checkout() {
     const response = await buyProducts({ address: chosenAddress })
     if (response.error) {
       toast.error(response.error.data.message)
-    } else toast.success('Tạo đơn hàng thành công!')
+    } else {
+      toast.success('Tạo đơn hàng thành công!')
+      navigate('/me/orders')
+    }
   }
 
   return (
@@ -215,7 +220,11 @@ function Checkout() {
                                 type='submit'
                                 disabled={isUpdating}
                               >
-                                {isUpdating ? <Skeleton /> : <PlusCircleIcon className='w-6 h-6' />}
+                                {isUpdating ? (
+                                  <BeatLoader size={12} color='#36d7b7' />
+                                ) : (
+                                  <PlusCircleIcon className='w-6 h-6' />
+                                )}
                               </button>
                             </div>
                           </AppForm>

@@ -108,7 +108,7 @@ module.exports = (env, argv) => {
         watch: true // khi thay đổi content trong index.html thì cũng sẽ reload
       }
     },
-    devtool: isProduction ? false : 'source-map',
+    devtool: isProduction ? false : 'inline-source-map',
     plugins: [
       // Đưa css ra thành một file .css riêng biệt thay vì bỏ vào file .js
       new MiniCssExtractPlugin({

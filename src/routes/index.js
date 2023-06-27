@@ -5,28 +5,32 @@ import { memo, useEffect } from 'react'
 import { useLocation, useNavigate, useRoutes } from 'react-router-dom'
 import jwt_decode from 'jwt-decode'
 import Cookies from 'universal-cookie'
-import { authApi, useLazyGetProfileQuery } from '@src/containers/authentication/feature/Auth/authService'
-import { useDispatch } from 'react-redux'
+import { authApi } from '@src/containers/authentication/feature/Auth/authService'
 import { toast } from 'react-toastify'
 import { login, setUser } from '@src/containers/authentication/feature/Auth/authSlice'
+import { isEmptyValue } from '@src/helpers/check'
+import { useDispatch } from 'react-redux'
 
 const cookies = new Cookies()
 
 export const AppRoutes = () => {
-  const [getProfile] = useLazyGetProfileQuery()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+
   const [loginSuccess] = authApi.endpoints.oAuthLogin.useLazyQuery()
+  const [refreshToken] = authApi.endpoints.refreshToken.useLazyQuery()
+  const [getProfile] = authApi.endpoints.getProfile.useLazyQuery()
 
   useEffect(() => {
-    console.log('accessToken', accessToken)
     const accessToken = cookies.get('access_token')
-    if (!accessToken) {
+    console.log('accessToken', accessToken)
+    if (isEmptyValue(accessToken)) {
       const loginRequest = async () => {
         console.log('login request running')
-        const response = await loginSuccess()
-        if (response.isSuccess) {
+        const response = await loginSuccess(null, false)
+        console.log('response login:: ', response)
+        if (!response?.error) {
           dispatch(setUser(response.data.metadata.user))
           dispatch(login())
         } else if (response) {
@@ -37,19 +41,17 @@ export const AppRoutes = () => {
         }
       }
       loginRequest()
-    }
-  }, [])
-
-  useEffect(() => {
-    const accessToken = cookies.get('access_token')
-    if (accessToken) {
+    } else {
+      console.log('else')
       const decodeToken = jwt_decode(accessToken)
       const now = new Date().getTime()
       if (decodeToken.exp * 1000 < now) {
-        getProfile()
+        getProfile(null, false)
+      } else {
+        console.log('else')
+        refreshToken()
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const routes = [...AppRouteList, ...AuthRouteList]
