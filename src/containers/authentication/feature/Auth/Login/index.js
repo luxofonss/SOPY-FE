@@ -93,7 +93,7 @@ function Login() {
             />
 
             <AppButton disabled={isLoading} className='w-full my-4' formNoValidate type='submit'>
-              {!isLoading ? 'Login' : <BeatLoader size={12} color='#36d7b7' />}
+              {!isLoading ? 'Login' : <BeatLoader size={12} color='#ff4d00' />}
             </AppButton>
           </div>
           <div className='col-span-6 '>

@@ -167,7 +167,7 @@ function ProductSearch() {
             <div className='grid grid-cols-5 gap-4'>
               {isGettingProduct ? (
                 <div className='flex justify-center items-center'>
-                  <BeatLoader size={12} color='#36d7b7' />
+                  <BeatLoader size={12} color='#ff4d00' />
                 </div>
               ) : !isEmpty(products?.metadata?.products) ? (
                 products?.metadata?.products?.map((product) => (

@@ -221,7 +221,7 @@ function Checkout() {
                                 disabled={isUpdating}
                               >
                                 {isUpdating ? (
-                                  <BeatLoader size={12} color='#36d7b7' />
+                                  <BeatLoader size={12} color='#ff4d00' />
                                 ) : (
                                   <PlusCircleIcon className='w-6 h-6' />
                                 )}

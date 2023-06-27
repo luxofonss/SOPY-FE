@@ -61,7 +61,7 @@ function Profile() {
             type='submit'
             disabled={isUpdating}
           >
-            {isUpdating ? <BeatLoader size={12} color='#36d7b7' /> : <PlusCircleIcon className='w-6 h-6' />}
+            {isUpdating ? <BeatLoader size={12} color='#ff4d00' /> : <PlusCircleIcon className='w-6 h-6' />}
           </button>
         </div>
       </AppForm>

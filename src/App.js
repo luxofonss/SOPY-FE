@@ -12,7 +12,7 @@ import { history } from './utils/history'
 const App = () => {
   return (
     <PersistGate loading={null} persistor={persistor}>
-      <ToastContainer />
+      <ToastContainer style={{ marginTop: '86px' }} />
       <Suspense fallback={<div>Loading...</div>}>
         <BrowserRouter history={history}>
           <WebRoutes />

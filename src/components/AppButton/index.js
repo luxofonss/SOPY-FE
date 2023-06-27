@@ -9,7 +9,7 @@ const AppButton = ({ className, type, isLoading = false, children, showIcon, Ico
   `)
   return (
     <button type={type} className={classes} {...props}>
-      {isLoading ? <BeatLoader size={12} color='#36d7b7' /> : children}
+      {isLoading ? <BeatLoader size={12} color='#ff4d00' /> : children}
       {showIcon && <div>{Icon}</div>}
     </button>
   )

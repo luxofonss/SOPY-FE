@@ -141,7 +141,7 @@ function UserCart() {
           isChangingCart || isDeletingItem ? '' : 'hidden'
         } w-screen h-screen bg-neutral-300 bg-opacity-30 flex items-center justify-center`}
       >
-        <BeatLoader size={16} color='#36d7b7' />
+        <BeatLoader size={16} color='#ff4d00' />
       </div>
       <div className='container mx-auto '>
         <AppModal openRef={openRef} closeRef={closeRef} Trigger={null}>
@@ -348,7 +348,7 @@ function UserCart() {
                                 disabled={isUpdating}
                               >
                                 {isUpdating ? (
-                                  <BeatLoader size={12} color='#36d7b7' />
+                                  <BeatLoader size={12} color='#ff4d00' />
                                 ) : (
                                   <PlusCircleIcon className='w-6 h-6' />
                                 )}

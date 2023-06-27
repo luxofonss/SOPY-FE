@@ -76,7 +76,7 @@ function Signup() {
               thập, sử dụng, và tiết lộ dữ liệu cá nhân của tôi theo pháp luật quy định.
             </p>
             <AppButton disabled={isLoading} className='mt-6 w-full' formNoValidate type='submit'>
-              {!isLoading ? 'Submit' : <BeatLoader size={12} color='#36d7b7' />}
+              {!isLoading ? 'Submit' : <BeatLoader size={12} color='#ff4d00' />}
             </AppButton>
             <h4 className='font-medium text-neutral-500 mt-4'>Hoặc đăng ký với</h4>
             <Link

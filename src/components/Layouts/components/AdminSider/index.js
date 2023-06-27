@@ -118,9 +118,9 @@ function AdminSider() {
 
   return (
     <div className='p-6 h-full fixed bg-[#FCFCFC]'>
-      <div>
+      <Link to='/'>
         <AppLogo />
-      </div>
+      </Link>
       <div className='mt-12 py-3 pl-3'>
         {menuList.map((menu) => {
           if (menu.path) {

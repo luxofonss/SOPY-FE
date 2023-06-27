@@ -64,7 +64,7 @@ function ShopRegister() {
             required='Bạn phải đồng ý với điều khoản dịch vụ'
           />
           <AppButton disabled={isLoading} className='w-full my-4' formNoValidate type='submit'>
-            {!isLoading ? ' Đăng ký' : <BeatLoader size={12} color='#36d7b7' />}
+            {!isLoading ? ' Đăng ký' : <BeatLoader size={12} color='#ff4d00' />}
           </AppButton>
         </AppForm>
       </div>
