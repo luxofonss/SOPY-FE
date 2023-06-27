@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "SET NODE_ENV=development&& webpack-dev-server --mode development --open --hot",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "export NODE_ENV=development&& webpack-dev-server --mode development --open --hot",
+    "build": "export NODE_ENV=production&& webpack --mode production",
     "build:analyze": "SET NODE_ENV=production&& webpack --mode production --env analyze",
     "preview": "serve dist/ -s",
     "lint": "eslint --ext js,jsx,ts,tsx src/",
