@@ -24,7 +24,7 @@ function Header() {
             </Link>
             {userInfo?.roles?.includes(USER_ROLE.SHOP) ? null : (
               <Link className='hover:opacity-90 hover:cursor-pointer' to='/shop/register'>
-                Trở thành người bán Sope
+                Trở thành người bán SOPE
               </Link>
             )}
             <div className='hover:opacity-90 hover:cursor-pointer'>Tải ứng dụng</div>
