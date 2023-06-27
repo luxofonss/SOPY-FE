@@ -6,17 +6,18 @@ import AppButton from '@src/components/AppButton'
 import { isEmptyValue } from '@src/helpers/check'
 import appApi from '@src/redux/service'
 import getVariation from '@src/utils/getVariationId'
+import accounting from 'accounting'
 import { Carousel } from 'antd'
 import { Rating } from 'flowbite-react'
+import { isEmpty } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import ProductAttribute from '../../components/ProductAttribute'
 import ProductCard from '../../components/ProductCard'
 import customerApi from '../../customer.service'
 import { setCart } from '../../customer.slice'
-import accounting from 'accounting'
 
 function getVariation2ByVariation1(variation1, variation) {
   let res = []
@@ -52,6 +53,7 @@ function Product() {
   const [getProductAttributes, { data: productAttributes }] = appApi.endpoints.getProductAttributes.useLazyQuery()
 
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const increaseQuantity = () => {
     console.log(quantity, variation.quantity, product?.metadata?.quantity)
@@ -161,27 +163,30 @@ function Product() {
   }
 
   const handleAddToCart = async () => {
-    console.log('variation', variation)
-    if (isEmptyValue(variation)) toast.warn('Hãy chọn phân loại sản phẩm')
-    else if (quantity <= 0) toast.warn('Số lượng bé nhất bằng 1')
-    else if (quantity > variation?.quantity) toast.warn('Số lượng vượt quá kho hàng')
-    else {
-      const response = await addToCart({
-        productId: product.metadata._id,
-        shopId: shopInfo.metadata._id,
-        variationId: variation.id,
-        quantity: quantity
-      })
+    if (isEmpty(userInfo)) {
+      navigate('/login')
+    } else {
+      if (isEmptyValue(variation)) toast.warn('Hãy chọn phân loại sản phẩm')
+      else if (quantity <= 0) toast.warn('Số lượng bé nhất bằng 1')
+      else if (quantity > variation?.quantity) toast.warn('Số lượng vượt quá kho hàng')
+      else {
+        const response = await addToCart({
+          productId: product.metadata._id,
+          shopId: shopInfo.metadata._id,
+          variationId: variation.id,
+          quantity: quantity
+        })
 
-      if (response?.data?.status === 200) {
-        toast.success('Thêm sản phẩm thành công!')
-        const responseCart = await getCart(null, false)
-        console.log('responseCart:: ', responseCart)
-        if (!responseCart.error) {
-          dispatch(setCart(responseCart.data))
+        if (response?.data?.status === 200) {
+          toast.success('Thêm sản phẩm thành công!')
+          const responseCart = await getCart(null, false)
+          console.log('responseCart:: ', responseCart)
+          if (!responseCart.error) {
+            dispatch(setCart(responseCart.data))
+          }
+        } else {
+          toast.error('Có lỗi xảy ra, vui lòng kiểm tra lại!')
         }
-      } else {
-        toast.error('Có lỗi xảy ra, vui lòng kiểm tra lại!')
       }
     }
   }
@@ -267,7 +272,7 @@ function Product() {
               <div className='flex gap-3'>
                 <TruckIcon className='w-4 h-4' />
                 <p>Vận chuyển tới: </p>
-                <p>{userInfo?.address[0]}</p>
+                {!isEmpty(userInfo) ? <p>{userInfo?.address[0]}</p> : null}
               </div>
               <div className='flex gap-3'>
                 <p className='text-sm'>Phí vận chuyển</p>
@@ -374,12 +379,17 @@ function Product() {
           <div className='flex gap-6'>
             <img
               className='w-20 h-20 rounded-full'
-              src='https://down-vn.img.susercontent.com/file/1fc4e634d68efb2cac27d1904970dc3d_tn'
+              src={
+                shopInfo?.metadata?.avatar ||
+                'https://down-vn.img.susercontent.com/file/1fc4e634d68efb2cac27d1904970dc3d_tn'
+              }
               alt='avatar'
             />
 
             <div className='flex flex-col'>
-              <p className='text-md font-medium'>{shopInfo?.metadata?.name}</p>
+              <p className='text-md font-medium'>
+                {shopInfo?.metadata?.shopInfo?.shopName || shopInfo?.metadata?.name}
+              </p>
               <p className='text-sm'>{shopInfo?.metadata?.shopInfo?.address}</p>
               <div className='flex gap-4 mt-auto'>
                 <AppButton

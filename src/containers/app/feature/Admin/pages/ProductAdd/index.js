@@ -23,7 +23,7 @@ function ProductAdd() {
   const [imageListObject, setImageListObject] = useState([])
   const [limitUpload, setLimitUpload] = useState(false)
   const [productAttributeList, setProductAttributeList] = useState()
-  const [addProduct] = useAddProductMutation()
+  const [addProduct, { isLoading: isAddingProduct }] = useAddProductMutation()
   const [categoryId, setCategoryId] = useState()
 
   function handleChooseCategory(id) {
@@ -242,7 +242,9 @@ function ProductAdd() {
           </div>
         </div>
         <div className='mt-6 w-44 ml-auto'>
-          <AppButton type='submit'>Tạo sản phẩm</AppButton>
+          <AppButton isLoading={isAddingProduct} type='submit'>
+            Tạo sản phẩm
+          </AppButton>
         </div>
       </AppForm>
     </div>

@@ -4,21 +4,15 @@ import Divider from '@src/components/Divider'
 import AppForm from '@src/components/Form/AppForm'
 import AppInput from '@src/components/Form/AppInput'
 import AppSelect from '@src/components/Form/AppSelect'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router'
 import ProductCard from '../../components/ProductCard'
 import customerApi from '../../customer.service'
 import { BeatLoader } from 'react-spinners'
+import { isEmpty } from 'lodash'
+import appApi from '@src/redux/service'
 
-const filters = [
-  {
-    name: 'Danh mục',
-    value: [
-      { name: 'test', value: 'test' },
-      { name: 'test', value: 'test' },
-      { name: 'test', value: 'test' }
-    ]
-  },
+let filters = [
   {
     name: 'Nơi bán',
     value: [
@@ -40,24 +34,63 @@ const filters = [
 
 function ProductSearch() {
   // const [getProducts, { data: products }] = customerApi.endpoints.getAllProducts.useLazyQuery()
+  const [filterSet, setFilterSet] = useState({ minPrice: null, maxPrice: null })
   const [filterProduct, { data: products, isFetching: isGettingProduct }] =
     customerApi.endpoints.filterProduct.useLazyQuery()
+  const [getCategory, { data: categories }] = appApi.endpoints.getCategory.useLazyQuery()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const searchText = searchParams.get('keyword')
 
   useEffect(() => {
-    filterProduct(
-      {
-        name: searchParams.get('keyword') || '',
-        typeId: searchParams.get('typeId') || ''
-      },
-      false
-    )
-  }, [location])
+    const typeId = searchParams.get('typeId')
+    if (!isEmpty(typeId)) {
+      getCategory({ id: typeId })
+    }
+
+    const filter = {
+      name: searchParams.get('keyword') || '',
+      typeId: typeId || ''
+    }
+
+    if (!isEmpty(filterSet.minPrice)) {
+      filter.minPrice = filterSet.minPrice
+    }
+
+    if (!isEmpty(filterSet.maxPrice)) {
+      filter.maxPrice = filterSet.maxPrice
+    }
+
+    filterProduct(filter, false)
+  }, [location, filterSet])
+
+  useEffect(() => {
+    let categoryList = []
+    if (!isEmpty(categories)) {
+      categories.metadata.subTypes.forEach((type) => {
+        categoryList.push({
+          name: type.name,
+          value: type._id
+        })
+      })
+
+      filters.unshift({
+        name: 'Danh mục',
+        value: categoryList
+      })
+    }
+  }, [categories])
+
   const handleFilterPrice = (data) => {
     console.log('data:: ', data)
+    setFilterSet({
+      ...filterSet,
+      minPrice: data.minPrice,
+      maxPrice: data.maxPrice
+    })
   }
+
+  console.log('pcategories: ', categories)
   return (
     <div className='container mx-auto'>
       <div className='grid grid-cols-12 gap-3'>
@@ -66,8 +99,8 @@ function ProductSearch() {
           <div className='mb-2'>
             <div className='text-neutral-700 font-medium mb-2'>Khoảng giá</div>
             <AppForm onSubmit={handleFilterPrice}>
-              <AppInput type='number' name='startPrice' placeholder='Từ' />
-              <AppInput type='number' name='endPrice' placeholder='Đến' />
+              <AppInput type='number' name='minPrice' placeholder='Từ' />
+              <AppInput type='number' name='maxPrice' placeholder='Đến' />
               <AppButton type='submit' className='w-full h-9 bg-orange-4 text-neutral-0 hover:bg-orange-3'>
                 Áp dụng
               </AppButton>
@@ -136,14 +169,14 @@ function ProductSearch() {
                 <div className='flex justify-center items-center'>
                   <BeatLoader size={12} color='#36d7b7' />
                 </div>
-              ) : products?.metadata?.products ? (
+              ) : !isEmpty(products?.metadata?.products) ? (
                 products?.metadata?.products?.map((product) => (
                   <div key={product.name}>
                     <ProductCard product={product} />
                   </div>
                 ))
               ) : (
-                <div className='flex justify-center items-center'>Không tìm thấy sản phẩm</div>
+                <div className='w-full lex justify-center items-center'>Không tìm thấy sản phẩm</div>
               )}
             </div>
           </div>

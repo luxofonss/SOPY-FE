@@ -17,7 +17,7 @@ function ProductCard({ product }) {
       <p className='line-clamp-2 text-sm mt-1'>{product?.name}</p>
       <div className='flex justify-between items-end flex-1'>
         <p className='text-sm font-medium text-orange-4'>₫{accounting.formatNumber(product?.minPrice)}</p>
-        <p className='text-xs font-normal text-neutral-500'>Đã bán 209</p>
+        <p className='text-xs font-normal text-neutral-500'>Đã bán {product.sold}</p>
       </div>
     </Link>
   )

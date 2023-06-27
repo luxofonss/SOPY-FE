@@ -87,7 +87,7 @@ const menuList = [
         title: 'Đánh giá shop',
         path: '/'
       },
-      { title: 'Hồ sơ shop', path: '/' },
+      { title: 'Hồ sơ shop', path: '/shop/profile' },
       {
         title: 'Quản lý tài khoản',
         path: '/'

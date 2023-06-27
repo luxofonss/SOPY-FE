@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Popover, Transition } from '@headlessui/react'
 import { IconDashboard, IconUser } from '@src/assets/svgs'
 import LogOut from '@src/components/LogOut'
+import { USER_ROLE } from '@src/configs'
 import { authApi } from '@src/containers/authentication/feature/Auth/authService'
 import { logout } from '@src/containers/authentication/feature/Auth/authSlice'
 import { Divider } from 'antd'
-import { Fragment } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -13,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid'
 const cookies = new Cookies()
 
 function AvatarDropdown() {
+  const [actionsList, setActionList] = useState()
   const userInfo = useSelector((state) => state.auth.user)
   const dispatch = useDispatch()
 
@@ -28,6 +31,7 @@ function AvatarDropdown() {
       toast.error('Can not logout, please try again!')
     }
   }
+
   const userActions = [
     {
       group: 'group1',
@@ -46,17 +50,6 @@ function AvatarDropdown() {
         }
       ]
     },
-    // {
-    //   group: 'group2',
-    //   children: [
-    //     {
-    //       name: 'Theme',
-    //       path: '',
-    //       type: 'element',
-    //       element: <ThemeSwitch className='px-1 h-9 rounded-sm hover:bg-fuchsia-300 transition duration-200' />
-    //     }
-    //   ]
-    // },
     {
       group: 'group3',
       children: [
@@ -75,6 +68,69 @@ function AvatarDropdown() {
       ]
     }
   ]
+
+  const shopActions = [
+    {
+      group: 'group1',
+      children: [
+        {
+          name: 'Thông tin cá nhân',
+          path: '/me',
+          type: '',
+          icon: <IconUser />
+        },
+        {
+          name: 'Đơn hàng',
+          path: '/me/orders',
+          type: '',
+          icon: <IconDashboard />
+        }
+      ]
+    },
+    {
+      group: 'group2',
+      children: [
+        {
+          name: 'Quản lý sản phẩm',
+          path: '/shop/product/all',
+          type: '',
+          icon: <IconUser />
+        },
+        {
+          name: 'Quản lý đơn hàng',
+          path: '/shop/order/all',
+          type: '',
+          icon: <IconDashboard />
+        }
+      ]
+    },
+    {
+      group: 'group3',
+      children: [
+        {
+          name: 'Log out',
+          type: 'element',
+          element: (
+            <div
+              onClick={handleLogOut}
+              className='px-1 h-9 rounded-sm items-center flex hover:bg-fuchsia-300 transition duration-200 cursor-pointer'
+            >
+              <LogOut />
+            </div>
+          )
+        }
+      ]
+    }
+  ]
+
+  useEffect(() => {
+    if (userInfo.roles.includes(USER_ROLE.SHOP)) {
+      setActionList(shopActions)
+    } else {
+      setActionList(userActions)
+    }
+  }, [])
+
   return (
     <div className='flex'>
       <Popover className='relative z-[1000]'>
@@ -105,7 +161,7 @@ function AvatarDropdown() {
               leaveTo='opacity-0 translate-y-1'
             >
               <Popover.Panel className='absolute bg-neutral-100 right-0 z-10 mt-3 w-56 border-[1px] border-neutral-300 rounded-md p-4 max-w-sm transform sm:p-4 lg:max-w-3xl'>
-                {userActions.map((groupList, index) => {
+                {actionsList?.map((groupList, index) => {
                   let groupAction = groupList.children?.map((action) => {
                     switch (action.type) {
                       case '': {
@@ -128,7 +184,7 @@ function AvatarDropdown() {
                   return (
                     <Fragment key={uuidv4()}>
                       {groupAction}
-                      {index !== userActions.length - 1 && <Divider />}
+                      {index !== actionsList?.length - 1 && <Divider className='my-1' />}
                     </Fragment>
                   )
                 })}

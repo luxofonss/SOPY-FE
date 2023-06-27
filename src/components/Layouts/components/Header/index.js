@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import logo from '../../../../assets/images/logo.png'
 import AvatarDropdown from '../AvatarDropdown'
 import SearchBar from '../SearchBar'
+import { USER_ROLE } from '@src/configs'
 
 function Header() {
   const userInfo = useSelector((state) => state.auth.user)
@@ -18,24 +19,26 @@ function Header() {
       <div className='border-b-[1px] border-b-orange-3'>
         <div className='container mx-auto h-6 text-neutral-0 font-medium text-xs flex justify-between'>
           <div className='flex gap-2 items-center'>
-            <div>Kênh người bán</div>
-            {userInfo?.roles?.includes('ADMIN') ? null : (
+            <Link className='hover:opacity-90 hover:cursor-pointer' to='/shop/product/all'>
+              Kênh người bán
+            </Link>
+            {userInfo?.roles?.includes(USER_ROLE.SHOP) ? null : (
               <Link className='hover:opacity-90 hover:cursor-pointer' to='/shop/register'>
                 Trở thành người bán Sope
               </Link>
             )}
-            <div>Tải ứng dụng</div>
+            <div className='hover:opacity-90 hover:cursor-pointer'>Tải ứng dụng</div>
             <div className='flex gap-1 items-center'>
               <p>Kết nối</p>
-              <div>FB</div>
-              <div>IG</div>
+              <div className='hover:opacity-90 hover:cursor-pointer'>FB</div>
+              <div className='hover:opacity-90 hover:cursor-pointer'>IG</div>
             </div>
           </div>
           <div className='flex gap-gap1 items-center gap-2'>
-            <div>Săn đơn 1k ngay bây giờ</div>
-            <div>Free ship đơn không giới hạn</div>
-            <div>Thông báo</div>
-            <div>Hỗ trợ</div>
+            <div className='hover:opacity-90 hover:cursor-pointer'>Săn đơn 1k ngay bây giờ</div>
+            <div className='hover:opacity-90 hover:cursor-pointer'>Free ship đơn không giới hạn</div>
+            <div className='hover:opacity-90 hover:cursor-pointer'>Thông báo</div>
+            <div className='hover:opacity-90 hover:cursor-pointer'>Hỗ trợ</div>
             {auth.isLoggedIn ? null : (
               <Fragment>
                 <Link className='hover:opacity-90 hover:cursor-pointer' to='/signup'>

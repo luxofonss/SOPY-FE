@@ -16,7 +16,7 @@ export const ORDER_STATUS = {
   REJECTED: { value: 'REJECTED', color: '#FF6A55', name: 'Đơn từ chối' },
   SHIPPING: { value: 'SHIPPING', color: '#8E59FF', name: 'Đang giao' },
   DELIVERED: { value: 'DELIVERED', color: '#83BF6E', name: 'Đã giao' },
-  RETURN: { value: 'RETURN', color: '#FF6A55', name: 'Trả hàng/hoàn tiền' }
+  RETURN: { value: 'RETURN', color: '#FF6A55', name: 'Trả hàng' }
 }
 
 export const ORDER_FILTER = [

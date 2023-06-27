@@ -30,6 +30,7 @@ export default function SearchBar() {
       }
       // Store the updated array in localStorage
       localStorage.setItem('searchTextStorages', JSON.stringify(items))
+      setSelected(query)
       navigate(`/search?${queryParams.toString()}`)
     }
   }
@@ -74,12 +75,12 @@ export default function SearchBar() {
             afterLeave={() => setQuery('')}
           >
             <Combobox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
-              {filteredSearch.length === 0 && query !== '' ? (
+              {filteredSearch?.length === 0 && query !== '' ? (
                 <div className='relative cursor-default select-none py-2 px-4 text-gray-700'>
                   Tìm kiếm sản phẩm bạn yêu thích
                 </div>
               ) : (
-                filteredSearch.map((person) => (
+                filteredSearch?.map((person) => (
                   <Combobox.Option
                     key={person}
                     className={({ active }) =>

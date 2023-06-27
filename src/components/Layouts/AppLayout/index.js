@@ -4,7 +4,7 @@ function AppLayout({ children }) {
   return (
     <div className='flex-col flex'>
       <Header />
-      <div className='pt-24 bg-page-bg'>{children}</div>
+      <div className='pt-24 min-h-screen bg-page-bg'>{children}</div>
     </div>
   )
 }

@@ -62,13 +62,13 @@ function Order() {
     <div className='w-full px-4 bg-neutral-200 rounded-md'>
       <div className='w-full'>
         <div className='text-neutral-500 font-semibold text-xl '>Danh sách đơn hàng</div>
-        <div className='w-full flex justify-between gap-3 px-2 bg-white rounded-2xl '>
-          <nav className='flex gap-3 mt-3'>
+        <div className='w-full grid grid-cols-12 gap-3 px-2 bg-white rounded-2xl '>
+          <nav className='col-span-10 grid grid-cols-4 gap-3 mt-3'>
             <div
               onClick={() => setSelectStatus('')}
               className={`${
                 selectStatus === '' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-500'
-              } h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
+              } w-4/5 flex justify-center h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
             >
               Tất cả
             </div>
@@ -78,13 +78,13 @@ function Order() {
                 onClick={() => setSelectStatus(status.value)}
                 className={`${
                   selectStatus === status.value ? 'bg-primary-green text-neutral-50' : 'text-neutral-500'
-                } h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
+                } w-4/5 flex justify-center h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
               >
                 {status.name}
               </div>
             ))}
           </nav>
-          <div>
+          <div className='col-span-2'>
             <AppForm onSubmit={handleFilterDate}>
               <AppSelect
                 className='w-36'

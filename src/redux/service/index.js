@@ -20,6 +20,11 @@ const appApi = createApi({
         url: '/product/attributes',
         params: args
       })
+    }),
+    getCategory: build.query({
+      query: ({ id }) => ({
+        url: `/category/${id}`
+      })
     })
   })
 })

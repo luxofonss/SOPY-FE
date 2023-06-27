@@ -13,7 +13,7 @@ function ShopRegister() {
   const navigate = useNavigate()
   const onSubmit = async (data) => {
     const response = await register({
-      name: data.name,
+      shopName: data.name,
       address: data.address,
       phoneNumber: data.phoneNumber,
       description: data.description

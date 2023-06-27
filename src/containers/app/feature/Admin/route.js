@@ -7,6 +7,7 @@ import ProductAll from './pages/ProductAll'
 import ProductEdit from './pages/ProductEdit'
 import OrderAll from './pages/OrderAll'
 import OrderDetail from './pages/OrderDetail'
+import Profile from './pages/Profile'
 
 export const adminRouteList = [
   {
@@ -50,6 +51,22 @@ export const adminRouteList = [
       {
         path: 'all',
         element: <OrderAll />
+      }
+    ]
+  },
+  {
+    path: '/shop',
+    element: (
+      <AdminLayout>
+        <RequireAuth allowedRoles={[USER_ROLE.SHOP, USER_ROLE.USER]}>
+          <Outlet />
+        </RequireAuth>
+      </AdminLayout>
+    ),
+    children: [
+      {
+        path: 'profile',
+        element: <Profile />
       }
     ]
   }
