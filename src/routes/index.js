@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { AppRouteList } from '@src/containers/app/AppRoutes'
 import { AuthRouteList } from '@src/containers/authentication/AuthRoutes'
-import { memo, useEffect } from 'react'
-import { useLocation, useNavigate, useRoutes } from 'react-router-dom'
-import jwt_decode from 'jwt-decode'
-import Cookies from 'universal-cookie'
 import { authApi } from '@src/containers/authentication/feature/Auth/authService'
-import { toast } from 'react-toastify'
 import { login, setUser } from '@src/containers/authentication/feature/Auth/authSlice'
+import { SocketContext, disConnectSocket } from '@src/context/socket.context'
 import { isEmptyValue } from '@src/helpers/check'
-import { useDispatch } from 'react-redux'
+import jwt_decode from 'jwt-decode'
+import { memo, useContext, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate, useRoutes } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import Cookies from 'universal-cookie'
 
 const cookies = new Cookies()
 
@@ -17,9 +18,11 @@ export const AppRoutes = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+  const userInfo = useSelector((state) => state.auth.user)
+
+  const socket = useContext(SocketContext)
 
   const [loginSuccess] = authApi.endpoints.oAuthLogin.useLazyQuery()
-  const [refreshToken] = authApi.endpoints.refreshToken.useLazyQuery()
   const [getProfile] = authApi.endpoints.getProfile.useLazyQuery()
 
   useEffect(() => {
@@ -32,6 +35,7 @@ export const AppRoutes = () => {
         console.log('response login:: ', response)
         if (!response?.error) {
           dispatch(setUser(response.data.metadata.user))
+          socket.emit('newConnection', response.data.metadata.user._id)
           dispatch(login())
         } else if (response) {
           console.log('response:: ', response)
@@ -45,11 +49,19 @@ export const AppRoutes = () => {
       console.log('else')
       const decodeToken = jwt_decode(accessToken)
       const now = new Date().getTime()
+      console.log('decode token:: ', decodeToken.exp, now)
       if (decodeToken.exp * 1000 < now) {
-        getProfile(null, false)
+        getProfile(null, false).then((response) => {
+          console.log('response get profile:: ', response)
+        })
+        socket.emit('newConnection', userInfo?._id)
       } else {
-        console.log('else')
-        refreshToken()
+        if (!socket && userInfo?._id) {
+          socket.emit('newConnection', userInfo?._id)
+        } else {
+          disConnectSocket(userInfo?._id)
+          socket.emit('newConnection', userInfo?._id)
+        }
       }
     }
   }, [])

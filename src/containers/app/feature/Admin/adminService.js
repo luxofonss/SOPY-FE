@@ -82,6 +82,12 @@ export const adminApi = createApi({
         method: 'PUT',
         body: body
       })
+    }),
+    publicProduct: build.mutation({
+      query: (id) => ({
+        url: `/product/${id}`,
+        method: 'POST'
+      })
     })
   })
 })

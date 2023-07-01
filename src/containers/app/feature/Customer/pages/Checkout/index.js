@@ -81,8 +81,8 @@ function Checkout() {
           </div>
           <div className='col-span-8'>
             {cartData ? (
-              cartData?.metadata[0]?.products?.map((shop, index) => {
-                let length = cartData?.metadata[0]?.products?.length
+              cartData?.metadata?.map((shop, index) => {
+                let length = cartData?.metadata?.length
                 return (
                   <div key={shop.shop._id} className='bg-white mb-2 p-3'>
                     <div className='h-8 py-1 px-2 rounded-sm flex  justify-between items-center bg-secondary-purple'>

@@ -101,6 +101,12 @@ function AvatarDropdown() {
           path: '/shop/order/all',
           type: '',
           icon: <IconDashboard />
+        },
+        {
+          name: 'Thông tin shop',
+          path: '/shop/profile',
+          type: '',
+          icon: <IconDashboard />
         }
       ]
     },
@@ -124,7 +130,7 @@ function AvatarDropdown() {
   ]
 
   useEffect(() => {
-    if (userInfo.roles.includes(USER_ROLE.SHOP)) {
+    if (userInfo?.roles?.includes(USER_ROLE.SHOP)) {
       setActionList(shopActions)
     } else {
       setActionList(userActions)
@@ -144,7 +150,7 @@ function AvatarDropdown() {
               <div className='w-8 h-8 rounded-full bg-green-500 flex justify-center items-center'>
                 {userInfo?.avatar ? (
                   <img src={userInfo.avatar} alt='avatar' className='w-full h-full rounded-full' />
-                ) : userInfo ? (
+                ) : userInfo.name ? (
                   userInfo?.name[0]
                 ) : (
                   ''

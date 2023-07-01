@@ -1,10 +1,11 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query'
+import { logout, setUser } from '@src/containers/authentication/feature/Auth/authSlice'
+import { connectSocket, disConnectSocket } from '@src/context/socket.context'
+import store from '@src/redux/store'
 import { history } from '@src/utils/history'
 import { Mutex } from 'async-mutex'
 import Cookies from 'universal-cookie'
 import { HEADER, REFRESH_TOKEN_EXPIRATION } from '.'
-import store from '@src/redux/store'
-import { logout, setUser } from '@src/containers/authentication/feature/Auth/authSlice'
 
 const cookies = new Cookies()
 const baseUrl = process.env.BASE_API_URL
@@ -38,15 +39,14 @@ const customFetchBase = async (args, api, extraOptions) => {
           // set cookies
           cookies.set('access_token', refreshResult.data?.metadata?.accessToken, {
             maxAge: REFRESH_TOKEN_EXPIRATION
-          }),
-            cookies.set('user_id', refreshResult.data?.metadata?.user._id, {
-              maxAge: REFRESH_TOKEN_EXPIRATION
-            })
+          })
+          cookies.set('user_id', refreshResult.data?.metadata?.user._id, {
+            maxAge: REFRESH_TOKEN_EXPIRATION
+          })
+          connectSocket(refreshResult.data?.metadata?.user._id)
           result = await baseQuery(args, api, extraOptions)
         } else {
-          // api.dispatch(logout())
-          // window.location.href = '/login'
-          // clear cookies
+          disConnectSocket(cookies.get('user_id'))
           cookies.remove('access_token')
           cookies.remove('user_id')
           store.dispatch(setUser({}))

@@ -179,7 +179,7 @@ function UserCart() {
           </div>
           <div className='col-span-8'>
             {cartData ? (
-              cartData?.metadata[0]?.products?.map((shop) => {
+              cartData?.metadata?.map((shop) => {
                 return (
                   <div key={shop.shop._id} className='bg-white mb-2 p-3'>
                     <div className='h-8 py-1 px-2 rounded-sm flex items-center gap-4 bg-secondary-purple'>

@@ -4,7 +4,7 @@ import AppDateInput from '@src/components/Form/AppDateInput'
 import AppForm from '@src/components/Form/AppForm'
 import AppInput from '@src/components/Form/AppInput'
 import { getEmailValidationRegex } from '@src/helpers/validator'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -12,6 +12,7 @@ import { BeatLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
 import { useSignupMutation } from '../authService'
 import { login, setUser } from '../authSlice'
+import { SocketContext } from '@src/context/socket.context'
 
 function Signup() {
   const [open, setOpen] = useState(false)
@@ -19,6 +20,8 @@ function Signup() {
   const auth = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const socket = useContext(SocketContext)
 
   useEffect(() => {
     if (auth.isLoggedIn) {
@@ -31,6 +34,7 @@ function Signup() {
     const response = await signup(data)
     if (!response.error) {
       dispatch(setUser(response.data.metadata.user))
+      socket.emit('newConnection', response.data.metadata.user._id)
       dispatch(login())
     } else {
       toast.error(response.error?.data?.message?.error || 'Có lỗi xảy ra, vui lòng thử lại!')

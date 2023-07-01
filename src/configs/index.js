@@ -69,3 +69,5 @@ export const ADS_HOME = [
     image: 'https://cf.shopee.vn/file/b3535d7e56c58c4ebe9a87672d38cc5e_xhdpi'
   }
 ]
+
+export const ORDER_NOTIFICATION = 'ORDER_NOTIFICATION'

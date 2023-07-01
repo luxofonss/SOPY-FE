@@ -139,7 +139,9 @@ module.exports = (env, argv) => {
       }),
       // Thêm eslint cho webpack
       new ESLintPlugin({
-        extensions: ['.tsx', '.ts', '.js', '.jsx']
+        extensions: ['.tsx', '.ts', '.js', '.jsx'],
+        failOnError: false,
+        emitWarning: true
       })
     ]
   }

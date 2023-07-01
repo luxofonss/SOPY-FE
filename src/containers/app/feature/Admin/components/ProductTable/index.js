@@ -2,6 +2,8 @@
 import { DownOutlined } from '@ant-design/icons'
 import { Dropdown, Space, Table } from 'antd'
 import { Link } from 'react-router-dom'
+// import { adminApi } from '../../adminService'
+// import { toast } from 'react-toastify'
 const items = [
   {
     key: '1',
@@ -25,6 +27,8 @@ const rowSelection = {
 }
 
 const ProductTable = ({ data, onTableChange }) => {
+  // const [publicProduct] = adminApi.endpoints.publicProduct.useMutation()
+
   const expandedRowRender = (row) => {
     console.log('row: ', row)
     const columns = [
@@ -145,6 +149,16 @@ const ProductTable = ({ data, onTableChange }) => {
       id: product._id
     })
   })
+
+  // const handlePublictProduct = async (id) => {
+  //   const response = await publicProduct(id)
+  //   console.log('response:: ', response)
+  //   if (response.error) {
+  //     toast.error(response.error?.data?.message)
+  //   } else {
+  //     toast.success('Thêm sản phẩm thành công!')
+  //   }
+  // }
 
   return (
     <>

@@ -10,6 +10,7 @@ import storage from 'redux-persist/lib/storage'
 import { adminApi } from '@src/containers/app/feature/Admin/adminService.js'
 import customerApi from '@src/containers/app/feature/Customer/customer.service.js'
 import appApi from '../service/index.js'
+import chatApi from '@src/containers/app/feature/Chat/chat.service.js'
 
 const persistConfig = {
   key: 'root',
@@ -48,6 +49,7 @@ export function configureAppStore(preloadedState) {
         adminApi.middleware,
         customerApi.middleware,
         appApi.middleware,
+        chatApi.middleware,
         rtkQueryToastify
       ),
     preloadedState,

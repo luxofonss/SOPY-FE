@@ -45,7 +45,7 @@ function ProductSearch() {
   useEffect(() => {
     const typeId = searchParams.get('typeId')
     if (!isEmpty(typeId)) {
-      getCategory({ id: typeId })
+      getCategory({ id: typeId }, false)
     }
 
     const filter = {

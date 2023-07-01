@@ -7,8 +7,9 @@
     "dev": "SET NODE_ENV=development&& webpack-dev-server --mode development --open --hot",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "export NODE_ENV=production&& webpack --mode production",
+    "build:test": "SET NODE_ENV=production&& webpack --mode production",
     "build:analyze": "SET NODE_ENV=production&& webpack --mode production --env analyze",
-    "preview": "serve dist/ -s",
+    "preview": "set port=3003 && serve dist/ -s",
     "lint": "eslint --ext js,jsx,ts,tsx src/",
     "lint:fix": "eslint --fix --ext js,jsx,ts,tsx src/",
     "prettier": "prettier --check \"src/**/(*.tsx|*.ts|*.jsx|*.js|*.scss|*.css)\"",
@@ -87,6 +88,7 @@
     "react-toastify": "^9.1.1",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
+    "socket.io-client": "^4.7.0",
     "tailwind-merge": "^1.13.2",
     "universal-cookie": "^4.0.4",
     "uuid": "^9.0.0"

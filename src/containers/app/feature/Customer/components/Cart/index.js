@@ -56,49 +56,51 @@ function Cart() {
                     <h4 className='text-neutral-700 text-lg font-semibold'>Giỏ hàng của tôi</h4>
                   </div>
                   <div className='mt-3'>
-                    {cartData && cartData.metadata[0]?.products.length > 0 ? (
-                      cartData?.metadata[0]?.products?.map((product) => {
-                        return (
-                          <>
-                            {product?.products?.map((item) => {
-                              return (
-                                <Link
-                                  to={`/product/${item.product._id}`}
-                                  className='flex gap-1 px-[1px] py-[2px] my-[2px] hover:bg-neutral-300 hover:cursor-pointer hover:translate-x-[2px] transition'
-                                  key={item.variation._id}
-                                >
-                                  <img
-                                    className='w-12 h-12'
-                                    src={item.variation?.thumb ? item.variation.thumb : item.product.thumb[0]}
-                                    alt='thumb'
-                                  />
-                                  <div className='flex flex-col justify-around'>
-                                    <p className='text-sm text-neutral-700 font-medium line-clamp-1'>
-                                      {item.product.name}
-                                    </p>
-                                    <p className='text-xs text-neutral-500 line-clamp-1'>
-                                      {item.variation.keyVariation + ': ' + item.variation.keyVariationValue}{' '}
-                                      {item.variation?.subVariation &&
-                                        item.variation?.subVariation + ': ' + item.variation?.subVariationValue}
-                                    </p>
-                                  </div>
-                                  <div className='w-20 text-sm text-primary-red ml-auto'>
-                                    ₫{accounting.formatNumber(item.variation.price)}
-                                  </div>
-                                </Link>
-                              )
-                            })}
-                            <div className='flex justify-end mt-4'>
-                              <Link
-                                className='text-neutral-500 text-sm hover:text-neutral-800 hover:font-medium hover:cursor-pointer'
-                                to='/cart'
-                              >
-                                View all
-                              </Link>
-                            </div>
-                          </>
-                        )
-                      })
+                    {cartData && cartData.metadata.length > 0 ? (
+                      <>
+                        {cartData?.metadata?.map((shop) => {
+                          return (
+                            <>
+                              {shop?.products?.map((item) => {
+                                return (
+                                  <Link
+                                    to={`/product/${item.product._id}`}
+                                    className='flex gap-1 px-[1px] py-[2px] my-[2px] hover:bg-neutral-300 hover:cursor-pointer hover:translate-x-[2px] transition'
+                                    key={item.variation._id}
+                                  >
+                                    <img
+                                      className='w-12 h-12'
+                                      src={item.variation?.thumb ? item.variation.thumb : item.product.thumb[0]}
+                                      alt='thumb'
+                                    />
+                                    <div className='flex flex-col justify-around'>
+                                      <p className='text-sm text-neutral-700 font-medium line-clamp-1'>
+                                        {item.product.name}
+                                      </p>
+                                      <p className='text-xs text-neutral-500 line-clamp-1'>
+                                        {item.variation.keyVariation + ': ' + item.variation.keyVariationValue}{' '}
+                                        {item.variation?.subVariation &&
+                                          item.variation?.subVariation + ': ' + item.variation?.subVariationValue}
+                                      </p>
+                                    </div>
+                                    <div className='w-20 text-sm text-primary-red ml-auto'>
+                                      ₫{accounting.formatNumber(item.variation.price)}
+                                    </div>
+                                  </Link>
+                                )
+                              })}
+                            </>
+                          )
+                        })}
+                        <div className='flex justify-end mt-4'>
+                          <Link
+                            className='text-neutral-500 text-sm hover:text-neutral-800 hover:font-medium hover:cursor-pointer'
+                            to='/cart'
+                          >
+                            View all
+                          </Link>
+                        </div>
+                      </>
                     ) : (
                       <div className='flex flex-col items-center justify-center text-lg text-neutral-500 font-semibold'>
                         <img className='w-24 h-24' src={empty_cart} alt='empty-cart' />

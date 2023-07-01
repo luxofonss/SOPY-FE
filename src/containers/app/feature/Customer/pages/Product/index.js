@@ -4,6 +4,7 @@ import { ChatBubbleLeftIcon, MinusIcon, PlusIcon, ShoppingCartIcon, TruckIcon } 
 import { CheapTag, FacebookLogo } from '@src/assets/svgs'
 import AppButton from '@src/components/AppButton'
 import { isEmptyValue } from '@src/helpers/check'
+import useNewConversation from '@src/hooks/useNewConversation'
 import appApi from '@src/redux/service'
 import getVariation from '@src/utils/getVariationId'
 import accounting from 'accounting'
@@ -198,6 +199,8 @@ function Product() {
     console.log('variation:: ', variation)
   }
 
+  const handleNewConversation = useNewConversation()
+
   return (
     <div className='container mx-auto'>
       <div className='grid grid-cols-12 bg-white p-4 rounded-md'>
@@ -272,7 +275,7 @@ function Product() {
               <div className='flex gap-3'>
                 <TruckIcon className='w-4 h-4' />
                 <p>Vận chuyển tới: </p>
-                {!isEmpty(userInfo) ? <p>{userInfo?.address[0]}</p> : null}
+                {!isEmpty(userInfo?.address) ? <p>{userInfo?.address[0]}</p> : null}
               </div>
               <div className='flex gap-3'>
                 <p className='text-sm'>Phí vận chuyển</p>
@@ -395,10 +398,18 @@ function Product() {
                 <AppButton
                   Icon={<ChatBubbleLeftIcon className='w-5 h-5' />}
                   showIcon
+                  onClick={() => {
+                    handleNewConversation({
+                      receiverId: shopInfo?.metadata?._id,
+                      name: shopInfo?.metadata?.shopInfo?.shopName || shopInfo?.metadata?.name,
+                      avatar: shopInfo?.metadata?.avatar
+                    })
+                  }}
                   className='h-9 bg-transparent border-[1px] border-orange-4 text-orange-4 hover:bg-orange-1'
                 >
                   Chat
                 </AppButton>
+
                 <AppButton className='h-9 bg-transparent border-[1px] border-neutral-300 text-neutral-600 hover:bg-neutral-200'>
                   Xem shop
                 </AppButton>

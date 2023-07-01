@@ -48,7 +48,7 @@ export default function SearchBar() {
   const filteredSearch =
     query === ''
       ? searchTextStorage
-      : searchTextStorage.filter((person) =>
+      : searchTextStorage?.filter((person) =>
           person.toLowerCase().replace(/\s+/g, '').includes(query.toLowerCase().replace(/\s+/g, ''))
         )
 
