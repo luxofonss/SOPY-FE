@@ -55,8 +55,8 @@ function Login() {
 
   const handleGoogleLogin = async () => {
     let timer = null
-    const googleLoginUrl = 'http://localhost:8080/v1/api/auth/login/google'
-    // const googleLoginUrl = 'https://sopt.onrender.com/v1/api/auth/login/google'
+    // const googleLoginUrl = 'http://localhost:8080/v1/api/auth/login/google'
+    const googleLoginUrl = 'https://sopt.onrender.com/v1/api/auth/login/google'
     const newWindow = window.open(googleLoginUrl, '_self')
     if (newWindow) {
       timer = setInterval(() => {
