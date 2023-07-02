@@ -8,9 +8,13 @@ import { BeatLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
 import customerApi from '../../customer.service'
 import { useNavigate } from 'react-router'
+import { useTitle } from '@src/hooks/useTitle'
 
 function ShopRegister() {
   const navigate = useNavigate()
+
+  useTitle('Đăng ký bán hàng')
+
   const onSubmit = async (data) => {
     const response = await register({
       shopName: data.name,

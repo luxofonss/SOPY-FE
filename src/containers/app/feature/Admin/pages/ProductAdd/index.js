@@ -17,6 +17,7 @@ import SellInformation from '../../components/SellInformation'
 import AppSelect from '@src/components/Form/AppSelect'
 import ChooseCategory from '../../components/ChooseCategory'
 import { toast } from 'react-toastify'
+import { useTitle } from '@src/hooks/useTitle'
 
 function ProductAdd() {
   const [imageList, setImageList] = useState([])
@@ -25,6 +26,8 @@ function ProductAdd() {
   const [productAttributeList, setProductAttributeList] = useState()
   const [addProduct, { isLoading: isAddingProduct }] = useAddProductMutation()
   const [categoryId, setCategoryId] = useState()
+
+  useTitle('Thêm sản phẩm mới')
 
   function handleChooseCategory(id) {
     setCategoryId(id)

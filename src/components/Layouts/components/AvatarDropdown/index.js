@@ -166,7 +166,7 @@ function AvatarDropdown() {
               leaveFrom='opacity-100 translate-y-0'
               leaveTo='opacity-0 translate-y-1'
             >
-              <Popover.Panel className='absolute bg-neutral-100 right-0 z-10 mt-3 w-56 border-[1px] border-neutral-300 rounded-md p-4 max-w-sm transform sm:p-4 lg:max-w-3xl'>
+              <Popover.Panel className='absolute shadow-xl bg-neutral-100 right-0 z-10 mt-3 w-56 border-[1px] border-neutral-300 rounded-md p-4 max-w-sm transform sm:p-4 lg:max-w-3xl'>
                 {actionsList?.map((groupList, index) => {
                   let groupAction = groupList.children?.map((action) => {
                     switch (action.type) {

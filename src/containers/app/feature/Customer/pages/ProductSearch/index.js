@@ -11,6 +11,7 @@ import customerApi from '../../customer.service'
 import { BeatLoader } from 'react-spinners'
 import { isEmpty } from 'lodash'
 import appApi from '@src/redux/service'
+import { useTitle } from '@src/hooks/useTitle'
 
 let filters = [
   {
@@ -41,6 +42,8 @@ function ProductSearch() {
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
   const searchText = searchParams.get('keyword')
+
+  useTitle('Khám phá - Sopy')
 
   useEffect(() => {
     const typeId = searchParams.get('typeId')

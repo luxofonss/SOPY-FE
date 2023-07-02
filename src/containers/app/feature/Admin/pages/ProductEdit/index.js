@@ -29,6 +29,8 @@ function ProductEdit() {
   const [getCategory, { data: category }] = adminApi.endpoints.getCategoryBySubId.useLazyQuery()
   const [getProductAttributes, { data: productAttributes }] = appApi.endpoints.getProductAttributes.useLazyQuery()
 
+  useTitle('Chỉnh sửa sản phẩm')
+
   useEffect(() => {
     if (product?.metadata?.typeId) {
       setImageList([...imageList, product.metadata.thumb])

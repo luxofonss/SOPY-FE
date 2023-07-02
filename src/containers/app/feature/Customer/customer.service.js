@@ -111,6 +111,11 @@ const customerApi = createApi({
         url: 'product/search',
         params: params
       })
+    }),
+    getOrderById: build.query({
+      query: (id) => ({
+        url: `order/user/${id}`
+      })
     })
   })
 })

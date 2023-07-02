@@ -1,6 +1,7 @@
 import { MessageIcon, NotifyIcon } from '@src/assets/svgs'
 import AvatarDropdown from '../AvatarDropdown'
 import { useSelector } from 'react-redux'
+import MessengerDropdown from '../MessengerDropdown'
 
 function AdminHeader() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
@@ -15,6 +16,7 @@ function AdminHeader() {
         </div>
         {isLoggedIn ? (
           <div>
+            <MessengerDropdown />
             <AvatarDropdown />
           </div>
         ) : null}

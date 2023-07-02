@@ -13,12 +13,13 @@ import { Rating } from 'flowbite-react'
 import { isEmpty } from 'lodash'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import ProductAttribute from '../../components/ProductAttribute'
 import ProductCard from '../../components/ProductCard'
 import customerApi from '../../customer.service'
 import { setCart } from '../../customer.slice'
+import { useTitle } from '@src/hooks/useTitle'
 
 function getVariation2ByVariation1(variation1, variation) {
   let res = []
@@ -55,6 +56,9 @@ function Product() {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useTitle(product?.metadata?.name || 'Sopy - Có gì bán hết')
 
   const increaseQuantity = () => {
     console.log(quantity, variation.quantity, product?.metadata?.quantity)
@@ -70,7 +74,10 @@ function Product() {
     queryProduct(id, false)
   }, [id])
 
-  console.log('productAttributes: ', productAttributes)
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })
+  }, [location])
 
   useEffect(() => {
     //get product attributes
@@ -410,9 +417,12 @@ function Product() {
                   Chat
                 </AppButton>
 
-                <AppButton className='h-9 bg-transparent border-[1px] border-neutral-300 text-neutral-600 hover:bg-neutral-200'>
+                <Link
+                  to={`/shop/${shopInfo?.metadata?._id}`}
+                  className='h-9 bg-transparent border-[1px] border-neutral-300 text-neutral-600 hover:bg-neutral-200'
+                >
                   Xem shop
-                </AppButton>
+                </Link>
               </div>
             </div>
             <div className='w-[1px] mx-4 bg-neutral-300 h-full'></div>

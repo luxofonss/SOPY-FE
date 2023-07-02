@@ -49,16 +49,16 @@ function Cart() {
             leaveFrom='opacity-100 translate-y-0'
             leaveTo='opacity-0 translate-y-1'
           >
-            <Popover.Panel className='absolute bg-neutral-0 rounded-xl p-3 right-0 z-10 mt-3 w-96 border-2 max-w-sm transform sm:p-4 lg:max-w-3xl'>
+            <Popover.Panel className='absolute max-h-96 overflow-y-scroll shadow-xl bg-neutral-0 rounded-xl p-3 right-0 z-10 mt-3 w-96 border-2 max-w-sm transform sm:p-4 lg:max-w-3xl'>
               {cartData ? (
                 <>
                   <div className='px-3'>
                     <h4 className='text-neutral-700 text-lg font-semibold'>Giỏ hàng của tôi</h4>
                   </div>
                   <div className='mt-3'>
-                    {cartData && cartData.metadata.length > 0 ? (
+                    {cartData && cartData?.metadata?.data?.length > 0 ? (
                       <>
-                        {cartData?.metadata?.map((shop) => {
+                        {cartData?.metadata?.data.map((shop) => {
                           return (
                             <>
                               {shop?.products?.map((item) => {

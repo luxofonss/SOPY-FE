@@ -3,6 +3,7 @@ import AppForm from '@src/components/Form/AppForm'
 import AppInput from '@src/components/Form/AppInput'
 import { authApi } from '@src/containers/authentication/feature/Auth/authService'
 import { setUser } from '@src/containers/authentication/feature/Auth/authSlice'
+import { useTitle } from '@src/hooks/useTitle'
 import appApi from '@src/redux/service'
 import { Divider } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,6 +17,8 @@ function Profile() {
 
   const [updateUser, { isLoading: isUpdating }] = appApi.endpoints.updateUserInfo.useMutation()
   const [getProfile] = authApi.endpoints.getProfile.useLazyQuery()
+
+  useTitle('Hồ sơ - Sopy')
 
   const onAddAddress = async (data) => {
     const response = await updateUser({ address: [data.address] })

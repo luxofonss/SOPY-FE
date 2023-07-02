@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import customerApi from '../../../Customer/customer.service'
 import AppButton from '@src/components/AppButton'
+import { useTitle } from '@src/hooks/useTitle'
 
 function Profile() {
   const dispatch = useDispatch()
@@ -21,13 +22,12 @@ function Profile() {
 
   const [updateUser, { isLoading: isUpdating }] = appApi.endpoints.updateUserInfo.useMutation()
   const [getProfile] = authApi.endpoints.getProfile.useLazyQuery()
+
+  useTitle('Trang cá nhân người bán')
+
   const handleUpdateAvatar = async (file) => {
-    console.log('file:: ', file)
     const updateData = new FormData()
     updateData.append('avatar', file)
-
-    console.log('updateData:: ', updateData)
-
     const response = await updateAvatar(updateData)
 
     if (response.error) {

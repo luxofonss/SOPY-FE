@@ -55,7 +55,8 @@ function Login() {
 
   const handleGoogleLogin = async () => {
     let timer = null
-    const googleLoginUrl = 'https://sopt.onrender.com/v1/api/auth/login/google'
+    const googleLoginUrl = 'http://localhost:8080/v1/api/auth/login/google'
+    // const googleLoginUrl = 'https://sopt.onrender.com/v1/api/auth/login/google'
     const newWindow = window.open(googleLoginUrl, '_self')
     if (newWindow) {
       timer = setInterval(() => {
@@ -104,14 +105,14 @@ function Login() {
             <button
               onClick={handleGoogleLogin}
               className='w-full mt-4 flex justify-center items-center gap-6 h-12 rounded-md bg-neutral-200 hover:opacity-95 hover:translate-y-[1px] transition cursor-pointer'
-              to='/'
+              type='button'
             >
               <GoogleLogo />
               <p className='text-neutral-500 font-medium'>Đăng nhập với Google</p>
             </button>
             <button
               className='w-full mt-4 flex justify-center items-center gap-6 h-12 rounded-md bg-neutral-200 hover:opacity-95 hover:translate-y-[1px] transition cursor-pointer'
-              to='/'
+              type='button'
             >
               <FacebookLogo />
               <p className='text-neutral-500 font-medium'>Đăng nhập với Facebook</p>

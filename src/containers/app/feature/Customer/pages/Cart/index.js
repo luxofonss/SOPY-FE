@@ -18,6 +18,7 @@ import { toast } from 'react-toastify'
 import ProductCard from '../../components/ProductCard'
 import customerApi from '../../customer.service'
 import { setCart } from '../../customer.slice'
+import { useTitle } from '@src/hooks/useTitle'
 
 function UserCart() {
   const dispatch = useDispatch()
@@ -32,13 +33,15 @@ function UserCart() {
 
   const [getCart] = customerApi.endpoints.getCart.useLazyQuery({ cache: false })
   const [getProducts, { data: products }] = customerApi.endpoints.getAllProducts.useLazyQuery()
-  const [setAllCheck] = customerApi.endpoints.setAllCheck.useMutation()
-  const [setShopCheck] = customerApi.endpoints.setShopCheck.useMutation()
-  const [setProductCheck] = customerApi.endpoints.setProductCheck.useMutation()
+  const [setAllCheck, { isLoading: isCheckingAll }] = customerApi.endpoints.setAllCheck.useMutation()
+  const [setShopCheck, { isLoading: isCheckingShop }] = customerApi.endpoints.setShopCheck.useMutation()
+  const [setProductCheck, { isLoading: isCheckingProduct }] = customerApi.endpoints.setProductCheck.useMutation()
   const [addToCart, { isLoading: isChangingCart }] = customerApi.endpoints.addToCart.useMutation()
   const [deleteItem, { isLoading: isDeletingItem }] = customerApi.endpoints.deleteItem.useMutation()
   const [updateUser, { isLoading: isUpdating }] = appApi.endpoints.updateUserInfo.useMutation()
   const [getProfile] = authApi.endpoints.getProfile.useLazyQuery()
+
+  useTitle('Giỏ hàng - Sopy')
 
   useEffect(() => {
     getProducts()
@@ -138,8 +141,8 @@ function UserCart() {
     <>
       <div
         className={`${
-          isChangingCart || isDeletingItem ? '' : 'hidden'
-        } w-screen h-screen bg-neutral-300 bg-opacity-30 flex items-center justify-center`}
+          isChangingCart || isDeletingItem || isCheckingAll || isCheckingShop || isCheckingProduct ? '' : 'hidden '
+        } absolute w-screen h-screen bg-neutral-300 bg-opacity-30 flex items-center justify-center`}
       >
         <BeatLoader size={16} color='#ff4d00' />
       </div>
@@ -173,13 +176,13 @@ function UserCart() {
               onChange={(e) => {
                 handleChooseAll(e.target.checked)
               }}
-              checked={cartData?.metadata[0]?.checked}
+              checked={cartData?.metadata?.allChecked}
             />
             <p className='text-neutral-600 font-semibold'>Chọn tất cả</p>
           </div>
           <div className='col-span-8'>
             {cartData ? (
-              cartData?.metadata?.map((shop) => {
+              cartData?.metadata?.data?.map((shop) => {
                 return (
                   <div key={shop.shop._id} className='bg-white mb-2 p-3'>
                     <div className='h-8 py-1 px-2 rounded-sm flex items-center gap-4 bg-secondary-purple'>
@@ -372,9 +375,7 @@ function UserCart() {
                   <h4 className='text-neutral-700 font-semibold text-md'>Thông tin đơn hàng</h4>
                   <div className='h-9 flex justify-between items-center'>
                     <p className='text-neutral-500 font-medium'>Tạm tính</p>
-                    <p className='text-neutral-500'>
-                      ₫{accounting.formatNumber(cartData?.metadata[0]?.totalPrice || 0)}
-                    </p>
+                    <p className='text-neutral-500'>₫{accounting.formatNumber(cartData?.metadata.totalPrice || 0)}</p>
                   </div>
                   <div className='h-9 flex justify-between items-center'>
                     <p className='text-neutral-500 font-medium'>Phí vận chuyển</p>
@@ -383,7 +384,7 @@ function UserCart() {
                   <div className='h-9 flex justify-between items-center'>
                     <p className='text-neutral-500 font-medium'>Tổng cộng</p>
                     <p className='text-neutral-500'>
-                      ₫{accounting.formatNumber(50000 + cartData?.metadata[0]?.totalPrice)}
+                      ₫{accounting.formatNumber(50000 + cartData?.metadata.totalPrice)}
                     </p>
                   </div>
                   <div className='text-sm flex justify-end text-neutral-400 ml-auto'>Đã bao gồm VAT (nếu có)</div>

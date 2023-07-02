@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import ChooseCategory from '../../components/ChooseCategory'
 import removeUndefinedObject from '@src/utils/removeUndefinedObject'
 import * as Yup from 'yup'
+import { useTitle } from '@src/hooks/useTitle'
 
 const filterValidation = Yup.object({
   type: Yup.string(),
@@ -68,6 +69,8 @@ function ProductAll() {
   const navigate = useNavigate()
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
+
+  useTitle('Tất cả sản phẩm')
 
   const handleFilterStatus = (type) => {
     switch (type) {

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 const noImage = process.env.NO_IMG
 
 function ProductCard({ product }) {
+  console.log('current selected product: ', product)
   return (
     <Link
       to={`/product/${product._id}`}

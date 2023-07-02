@@ -13,6 +13,8 @@ import customerApi from '../../customer.service'
 import AppSelect from '@src/components/Form/AppSelect'
 import removeUndefinedObject from '@src/utils/removeUndefinedObject'
 import { toast } from 'react-toastify'
+import accounting from 'accounting'
+import { useTitle } from '@src/hooks/useTitle'
 
 function Order() {
   const [selectId, setSelectId] = useState(null)
@@ -26,6 +28,8 @@ function Order() {
 
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
+
+  useTitle('Đơn hàng của tôi - Sopy')
 
   useEffect(() => {
     console.log('useEffect works')
@@ -128,18 +132,24 @@ function Order() {
                 return (
                   <div className='bg-neutral-0 p-4 mb-4 rounded-md' key={order._id}>
                     <div className='flex justify-between'>
-                      <div className='flex gap-2'>
+                      <div className='flex items-center gap-2'>
                         <p>{order.shop?.name}</p>
                         <Link
-                          to={`shop/${order.shop._id}`}
-                          className='flex items-center gap-2 border-[1px] border-neutral-300 rounded-sm'
+                          to={`/shop/${order.shop._id}`}
+                          className='flex px-2 py-1 items-center gap-2 border-[1px] border-neutral-300 rounded-sm hover:bg-orange-1 transition'
                         >
                           <p className='text-sm'>Xem shop</p>
                           <BuildingStorefrontIcon className='w-4 h-4' />
                         </Link>
+                        <Link
+                          to={`/me/orders/${order._id}`}
+                          className='flex px-2 py-1 items-center gap-2 border-[1px] border-neutral-300 rounded-sm'
+                        >
+                          <p className='text-sm'>Chi tiết</p>
+                        </Link>
                       </div>
 
-                      <div className='flex gap-3'>
+                      <div className='flex items-center gap-3'>
                         <p>{ORDER_STATUS[order.status].name}</p>
                         {ORDER_STATUS[order.status].value === ORDER_STATUS.PENDING.value ? (
                           <AppButton
@@ -158,6 +168,17 @@ function Order() {
                     {order.products.map((product) => {
                       return <ProductInOrder key={product.variation._id + product.quantity} product={product} />
                     })}
+                    <Divider />
+                    <div className='mt-4'>
+                      <div className=' flex gap-3 justify-end'>
+                        <p>Phí ship:</p>
+                        <p>{accounting.formatNumber(order.checkout.shipFee)}₫</p>
+                      </div>
+                      <div className=' flex gap-3 justify-end'>
+                        <p>Tổng giá:</p>
+                        <p className='text-orange-4'>{accounting.formatNumber(order.checkout.totalPrice)}₫</p>
+                      </div>
+                    </div>
                   </div>
                 )
               })

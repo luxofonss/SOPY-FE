@@ -11,6 +11,8 @@ import ShopRegister from './pages/ShopRegister'
 import UserProfileLayout from '@src/components/Layouts/UserProfileLayout'
 import Profile from './pages/Profile'
 import ProductSearch from './pages/ProductSearch'
+import Shop from './pages/Shop'
+import OrderDetail from './pages/OrderDetail'
 
 export const customerRouteList = [
   {
@@ -78,6 +80,14 @@ export const customerRouteList = [
         )
       },
       {
+        path: '/me/orders/:id',
+        element: (
+          <UserProfileLayout>
+            <OrderDetail />
+          </UserProfileLayout>
+        )
+      },
+      {
         path: '/me',
         element: (
           <UserProfileLayout>
@@ -86,5 +96,13 @@ export const customerRouteList = [
         )
       }
     ]
+  },
+  {
+    path: '/shop/:id',
+    element: (
+      <AppLayout>
+        <Shop />
+      </AppLayout>
+    )
   }
 ]

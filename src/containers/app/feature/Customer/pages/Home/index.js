@@ -5,6 +5,7 @@ import ProductCard from '../../components/ProductCard'
 import Slider from '../../components/Slider'
 import customerApi from '../../customer.service'
 import { ADS_HOME } from '@src/configs'
+import { useTitle } from '@src/hooks/useTitle'
 
 const slider1 = [
   { image: 'https://down-vn.img.susercontent.com/file/vn-50009109-a711fcb9172f374209ccd7e2de7b1a25', link: '/' },
@@ -29,6 +30,8 @@ const slider1 = [
 function Home() {
   const { data: categories } = customerApi.endpoints.getAllCategories.useQuery()
   const [getProducts, { data: products }] = customerApi.endpoints.getAllProducts.useLazyQuery()
+
+  useTitle('Sopy - Có gì bán hết')
 
   useEffect(() => {
     getProducts(null, false)

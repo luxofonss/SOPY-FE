@@ -20,6 +20,7 @@ import {
 } from '../../chat.slice'
 import { SocketContext } from '@src/context/socket.context'
 import { toast } from 'react-toastify'
+import { useTitle } from '@src/hooks/useTitle'
 
 function Chat() {
   const [currentConversation, setCurrentConversation] = useState()
@@ -39,7 +40,7 @@ function Chat() {
   const { id } = useParams()
   const location = useLocation()
 
-  console.log('currentConversation:: ', currentConversation)
+  useTitle('Sopy - Tin nhắn')
 
   const fetchConversation = async () => {
     const allConversation = await getAllConversations({}, false).unwrap()
@@ -92,7 +93,7 @@ function Chat() {
       dispatch(setNewChat({}))
       dispatch(newConversation({}))
       dispatch(initMessages([]))
-      dispatch(initConversation([]))
+      // dispatch(initConversation([]))
     }
   }, [socket])
 
@@ -188,9 +189,9 @@ function Chat() {
   }
 
   return (
-    <div className='flex flex-col bg-white h-[calc(100vh_-_96px)]'>
-      <div>Chat</div>
-      <div className='flex-1 grid grid-cols-12 gap-4'>
+    <div className='container mx-auto p-4 flex flex-col bg-white h-[calc(100vh_-_96px)]'>
+      <div className='text-neutral-700 text-md font-semibold'>Chat</div>
+      <div className='h-full flex-1 grid grid-cols-12 gap-4'>
         <div className='col-span-3'>
           <div className='h-14 border-b-[1px] border-b-neutral-300 flex items-center px-4'>
             <SearchBar />
@@ -207,7 +208,8 @@ function Chat() {
                 <img
                   className='w-12 h-12 rounded-full border-[1px] border-neutral-200'
                   src={
-                    newConversationInfo?.user?.avatar || 'https://cf.shopee.vn/file/719f1f779b3cc5dd69804799a034da79_tn'
+                    newConversationInfo?.user?.avatar ||
+                    'https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'
                   }
                   alt='avatar'
                 />
@@ -236,7 +238,10 @@ function Chat() {
                 <div className='flex w-full gap-4'>
                   <img
                     className='w-12 h-12 rounded-full border-[1px] border-neutral-200'
-                    src={conversation?.user?.avatar || 'https://cf.shopee.vn/file/719f1f779b3cc5dd69804799a034da79_tn'}
+                    src={
+                      conversation?.user?.avatar ||
+                      'https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'
+                    }
                     alt='avatar'
                   />
                   <div className='flex-1'>
@@ -255,7 +260,7 @@ function Chat() {
             )
           })}
         </div>
-        <div className='h-full  flex flex-col col-span-9'>
+        <div className='h-full flex flex-col col-span-9'>
           <div className='h-14 flex items-center font-semibold border-b-[1px] border-b-neutral-300'>
             {currentConversation?.user?.name}
           </div>

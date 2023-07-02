@@ -6,15 +6,15 @@ import accounting from 'accounting'
 import { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { adminApi } from '../../adminService'
+import customerApi from '../../customer.service'
 import { useTitle } from '@src/hooks/useTitle'
 
 function OrderDetail() {
   const { id } = useParams()
 
-  const [getOrder, { data: orderDetails }] = adminApi.endpoints.getOneOrderByShop.useLazyQuery()
+  const [getOrder, { data: orderDetails }] = customerApi.endpoints.getOrderById.useLazyQuery()
 
-  useTitle('Quản lý đơn hàng')
+  useTitle('Thông tin đơn hàng - Sopy')
 
   useEffect(() => {
     getOrder(id).catch(() => toast.error('Có lỗi xảy ra, vui lòng thử lại!'))
@@ -82,7 +82,7 @@ function OrderDetail() {
             <div className='bg-white px-3 py-1 rounded-md'>
               <div>
                 <div className='flex w-full justify-center'></div>
-                <h4 className='font-semibold text-neutral-600'>Địa điểm</h4>
+                <h4 className='font-semibold text-neutral-600'>Giao tới</h4>
                 <div className='flex gap-4'>
                   <MapPinIcon className='w-6 h-6 bg-white' />
                   <div>
@@ -90,18 +90,21 @@ function OrderDetail() {
                   </div>
                 </div>
                 <div className='h-6 flex justify-between items-center text-sm'>
-                  <p className='text-neutral-500 font-medium'>Người nhận</p>
-                  <Link to={`/user/${orderDetails?.metadata?.userId?._id}`} className='text-neutral-500'>
-                    {orderDetails?.metadata?.userId?.name}
+                  <p className='text-neutral-500 font-medium'>Giao từ</p>
+                  <Link to={`/shop/${orderDetails?.metadata?.shopId?._id}`} className='text-neutral-500'>
+                    {orderDetails?.metadata?.shopId?.shopInfo?.shopName || orderDetails?.metadata?.shopId?.name}
                   </Link>
                 </div>
                 <div className='h-6 flex justify-between items-center text-sm'>
                   <p className='text-neutral-500 font-medium'>Số điện thoại</p>
-                  <p className='text-neutral-500'>{orderDetails?.metadata?.userId?.phoneNumber}</p>
+                  <p className='text-neutral-500'>
+                    {orderDetails?.metadata?.shopId?.shopInfo?.phoneNumber ||
+                      orderDetails?.metadata?.shopId?.phoneNumber}
+                  </p>
                 </div>
                 <div className='h-6 flex justify-between items-center text-sm'>
                   <p className='text-neutral-500 font-medium'>Email</p>
-                  <p className='text-neutral-500'>{orderDetails?.metadata?.userId?.email}</p>
+                  <p className='text-neutral-500'>{orderDetails?.metadata?.shopId?.email}</p>
                 </div>
                 <Divider />
 
