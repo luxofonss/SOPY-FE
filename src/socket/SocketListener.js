@@ -27,15 +27,15 @@ function SocketListener() {
   }
 
   useEffect(() => {
-    socket.on(ORDER_NOTIFICATION, (msg) => {
+    socket.on(ORDER_NOTIFICATION, async (msg) => {
       console.log('socket msg:: ', msg)
       toast.success(msg)
-      fetchNotification()
+      await fetchNotification()
     })
 
     // if (location.pathname !== 'me/message/') {
-    socket.on('receiveMessage', () => {
-      fetchConversation()
+    socket.on('receiveMessage', async () => {
+      await fetchConversation()
     })
     // }
   }, [socket])
