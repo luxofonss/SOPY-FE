@@ -99,6 +99,12 @@ function Signup() {
             </Link>
           </div>
         </AppForm>
+        <div className='text-sm'>
+          Đã có tài khoản?{' '}
+          <Link className='font-medium' to='/login'>
+            Đăng nhập
+          </Link>
+        </div>
       </div>
     </div>
   )

@@ -67,7 +67,7 @@ function Order() {
       <div className='w-full'>
         <div className='text-neutral-500 font-semibold text-xl '>Danh sách đơn hàng</div>
         <div className='w-full grid grid-cols-12 gap-3 px-2 bg-white rounded-2xl '>
-          <nav className='col-span-10 grid grid-cols-4 gap-3 mt-3'>
+          <nav className='col-span-10 grid grid-cols-4 gap-3 p-3 mt-3'>
             <div
               onClick={() => setSelectStatus('')}
               className={`${
@@ -176,7 +176,9 @@ function Order() {
                       </div>
                       <div className=' flex gap-3 justify-end'>
                         <p>Tổng giá:</p>
-                        <p className='text-orange-4'>{accounting.formatNumber(order.checkout.totalPrice)}₫</p>
+                        <p className='text-orange-4'>
+                          {accounting.formatNumber(order.checkout.totalPrice + order.checkout.shipFee)}₫
+                        </p>
                       </div>
                     </div>
                   </div>

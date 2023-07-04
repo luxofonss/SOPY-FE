@@ -18,6 +18,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { adminApi, useAddProductMutation, useGetProductByIdQuery } from '../../adminService'
 import SellInformation from '../../components/SellInformation'
 import appApi from '@src/redux/service'
+import { useTitle } from '@src/hooks/useTitle'
 
 function ProductEdit() {
   const [imageList, setImageList] = useState([])

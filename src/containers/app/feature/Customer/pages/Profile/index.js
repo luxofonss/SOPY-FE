@@ -41,7 +41,7 @@ function Profile() {
       <AppForm>
         <AppInput type='text' id='name-profile' name='name' label='Tên' defaultValue={userInfo.name} />
         <AppInput type='email' id='email-profile' name='email' label='Email' defaultValue={userInfo.email} />
-        <AppInput id='phone-profile' name='phoneNumber' label='Số điện thoại' defaultValue={userInfo?.phone} />
+        <AppInput id='phone-profile' name='phoneNumber' label='Số điện thoại' defaultValue={userInfo?.phoneNumber} />
       </AppForm>
 
       <div className='mb-1.5 font-medium block w-full text-sm text-neutral-500'>Địa chỉ</div>
@@ -64,7 +64,7 @@ function Profile() {
             type='submit'
             disabled={isUpdating}
           >
-            {isUpdating ? <BeatLoader size={12} color='#ff4d00' /> : <PlusCircleIcon className='w-6 h-6' />}
+            {isUpdating ? <BeatLoader size={12} color='#fff' /> : <PlusCircleIcon className='w-6 h-6' />}
           </button>
         </div>
       </AppForm>

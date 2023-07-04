@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { createSlice } from '@reduxjs/toolkit'
 import { disConnectSocket } from '@src/context/socket.context'
 
@@ -21,6 +22,7 @@ export const authSlice = createSlice({
     },
     logout: (state) => {
       disConnectSocket(state.user._id)
+      // localStorage.removeItem('persist:root')
       state.user = {}
       state.isLoggedIn = false
     }

@@ -1,6 +1,6 @@
 export const USER_ROLE = {
-  USER: 'USER',
-  SHOP: 'SHOP'
+  USER: 'SHOP',
+  SHOP: 'ADMIN'
 }
 
 export const HEADER = {
@@ -71,3 +71,5 @@ export const ADS_HOME = [
 ]
 
 export const ORDER_NOTIFICATION = 'ORDER_NOTIFICATION'
+
+export const DEFAULT_AVT = 'https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'

@@ -47,8 +47,6 @@ const customFetchBase = async (args, api, extraOptions) => {
           result = await baseQuery(args, api, extraOptions)
         } else {
           disConnectSocket(cookies.get('user_id'))
-          cookies.remove('access_token')
-          cookies.remove('user_id')
           store.dispatch(setUser({}))
           store.dispatch(logout())
           history.push('/login')

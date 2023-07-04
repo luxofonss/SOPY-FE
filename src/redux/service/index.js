@@ -25,6 +25,11 @@ const appApi = createApi({
       query: ({ id }) => ({
         url: `/category/${id}`
       })
+    }),
+    getNotification: build.query({
+      query: () => ({
+        url: '/notification'
+      })
     })
   })
 })

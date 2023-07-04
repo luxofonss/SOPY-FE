@@ -13,7 +13,8 @@ module.exports = {
       }
     },
     backgroundImage: {
-      'page-bg': 'linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);'
+      'page-bg': 'linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);',
+      'msg-bg': 'linear-gradient(-225deg, #FFFEFF 0%, #D7FFFE 100%);'
     },
     fontFamily: {
       sans: ['"PT Sans"', 'sans-serif'],

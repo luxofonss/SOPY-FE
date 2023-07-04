@@ -53,7 +53,7 @@ function Checkout() {
   }, [])
 
   useEffect(() => {
-    if (userInfo) setChosenAddress(userInfo?.address[0])
+    if (userInfo?.address) setChosenAddress(userInfo?.address[0])
   }, [userInfo])
 
   const onAddAddress = async (data) => {

@@ -1,15 +1,16 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 // import ThemeSwitch from '@src/components/ThemeSwitch'
+import { USER_ROLE } from '@src/configs'
 import Cart from '@src/containers/app/feature/Customer/components/Cart'
 import { Fragment } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import logo from '../../../../assets/images/logo.png'
 import AvatarDropdown from '../AvatarDropdown'
-import SearchBar from '../SearchBar'
-import { USER_ROLE } from '@src/configs'
 import MessengerDropdown from '../MessengerDropdown'
+import Notification from '../Notification'
+import SearchBar from '../SearchBar'
 
 function Header() {
   const userInfo = useSelector((state) => state.auth.user)
@@ -53,10 +54,10 @@ function Header() {
           </div>
         </div>
       </div>
-      <div className='container h-18 mx-auto flex items-center gap-56 justify-between '>
+      <div className='container h-18 mx-auto flex items-center gap-20'>
         <Link className='flex gap-3 items-center' to='/'>
-          <img className='w-8 h-8' src={logo} alt='logo' />
-          <p className='text-lg text-neutral-0 font-semibold'>SOPY</p>
+          <img className='h-[78px] ' src={logo} alt='logo' />
+          {/* <p className='text-lg text-neutral-0 font-semibold'>SOPY</p> */}
         </Link>
         <div className='flex-1'>
           <SearchBar />
@@ -80,11 +81,27 @@ function Header() {
         </div>
         {auth.isLoggedIn ? (
           <div className='flex gap-1'>
+            <Notification />
             <MessengerDropdown />
             <Cart />
             <AvatarDropdown />
           </div>
-        ) : null}
+        ) : (
+          <div className='flex gap-1'>
+            <Link
+              to='/login'
+              className='flex gap-3 h-9 items-center justify-center rounded-lg  px-3 font-medium transition duration-300 bg-neutral-0 text-orange-4 hover:bg-neutral-100'
+            >
+              Sign in
+            </Link>
+            <Link
+              to='/signup'
+              className='flex gap-3 h-9 items-center justify-center rounded-lg  px-3 font-medium transition duration-300 bg-orange-1 text-neutral-0 hover:bg-neutral-300 hover:text-orange-4'
+            >
+              Sign up
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   )

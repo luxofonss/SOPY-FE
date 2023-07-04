@@ -8,23 +8,21 @@ import { ADS_HOME } from '@src/configs'
 import { useTitle } from '@src/hooks/useTitle'
 
 const slider1 = [
-  { image: 'https://down-vn.img.susercontent.com/file/vn-50009109-a711fcb9172f374209ccd7e2de7b1a25', link: '/' },
-  { image: 'https://down-vn.img.susercontent.com/file/vn-50009109-be25ed3e90ccb3825de42451433ac0a4', link: '/' },
+  { image: 'https://cf.shopee.vn/file/vn-50009109-2c7ad65a82c2fd4f64190eb8027865bb_xxhdpi', link: '/' },
+  { image: 'https://cf.shopee.vn/file/vn-50009109-cf97b1bddf7b3b478a553efd517e3e2f_xxhdpi', link: '/' },
   {
-    image:
-      'https://1.bp.blogspot.com/-mlAFjoCyf_k/XPcza9jD0ZI/AAAAAAAABO8/e3Zbs6Hj4GAroDnHgRrKvijyU3-AaKw2ACLcBGAs/w1200-h630-p-k-no-nu/shopee-sarah-geronimo.png',
+    image: 'https://cf.shopee.vn/file/vn-50009109-cd6d0b48f29b09ff87c193297c342caf_xxhdpi',
     link: '/'
   },
   {
-    image:
-      'https://www.jtexpress.sg/hs-fs/hubfs/Banner_9_success_shopee_FA.jpg?width=1200&name=Banner_9_success_shopee_FA.jpg',
+    image: 'https://cf.shopee.vn/file/vn-50009109-2c7ad65a82c2fd4f64190eb8027865bb_xxhdpi',
     link: '/'
   },
   {
-    image: 'https://www.crevantage.sg/wp-content/uploads/2021/02/saupload_shopee-11-11-header-2-1000x600-1.jpeg',
+    image: 'https://cf.shopee.vn/file/vn-50009109-287072dca37021a7973c5c2c59efd0d0_xxhdpi',
     link: '/'
   },
-  { image: 'https://shopee.ph/blog/wp-content/uploads/2022/06/Shopee-Sale-Schedule_Banner-1280x720.jpg', link: '/' }
+  { image: 'https://cf.shopee.vn/file/vn-50009109-cf97b1bddf7b3b478a553efd517e3e2f_xxhdpi', link: '/' }
 ]
 
 function Home() {

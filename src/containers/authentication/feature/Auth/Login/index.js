@@ -13,6 +13,7 @@ import * as yup from 'yup'
 import { useLoginMutation } from '../authService'
 import { login, setUser } from '../authSlice'
 import { SocketContext } from '@src/context/socket.context'
+import { Link } from 'react-router-dom'
 
 function Login() {
   const [open, setOpen] = useState(false)
@@ -45,7 +46,7 @@ function Login() {
       socket.emit('newConnection', response.data.metadata.user._id)
       dispatch(login())
     } else {
-      toast.warn(response.error?.data?.message || 'Login error, please try again!')
+      toast.error(response.error?.data?.message || 'Có lỗi xảy ra, vui lòng thử lại sau!')
     }
   }
 
@@ -97,7 +98,7 @@ function Login() {
             />
 
             <AppButton disabled={isLoading} className='w-full my-4' formNoValidate type='submit'>
-              {!isLoading ? 'Login' : <BeatLoader size={12} color='#ff4d00' />}
+              {!isLoading ? 'Login' : <BeatLoader size={12} color='#fff' />}
             </AppButton>
           </div>
           <div className='col-span-6 '>
@@ -119,6 +120,12 @@ function Login() {
             </button>
           </div>
         </AppForm>
+        <div className='text-sm'>
+          Chưa có tài khoản?{' '}
+          <Link className='font-medium' to='/signup'>
+            Đăng ký ngay
+          </Link>
+        </div>
       </div>
     </div>
   )

@@ -36,6 +36,8 @@ function OrderAll() {
   })
   const [selectedOrders, setSelectedOrders] = useState([])
   const closeConfirmRef = useRef(null)
+  const closeConfirmRef1 = useRef(null)
+  const closeConfirmRef2 = useRef(null)
   const closeShippingRef = useRef(null)
 
   const [getOrderList, { data: orderList }] = adminApi.endpoints.getAndFilterOrder.useLazyQuery()
@@ -208,14 +210,14 @@ function OrderAll() {
             heading='Xác nhận các đơn hàng hợp lệ được chọn'
           />
           <PopupAction
-            closeConfirmRef={closeConfirmRef}
+            closeConfirmRef={closeConfirmRef1}
             isConfirming={isConfirming}
             handleConfirm={handleConfirm}
             triggerName='Xuất hóa đơn PDF'
             heading='Xuất hóa đơn các đơn hàng hợp lệ được chọn'
           />
           <PopupAction
-            closeConfirmRef={closeConfirmRef}
+            closeConfirmRef={closeConfirmRef2}
             isConfirming={isConfirming}
             handleConfirm={handleConfirm}
             triggerName='Xuất hóa đơn excel'

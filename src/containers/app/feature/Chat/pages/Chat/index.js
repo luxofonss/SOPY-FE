@@ -21,6 +21,8 @@ import {
 import { SocketContext } from '@src/context/socket.context'
 import { toast } from 'react-toastify'
 import { useTitle } from '@src/hooks/useTitle'
+import { DEFAULT_AVT } from '@src/configs'
+import { PaperAirplaneIcon } from '@heroicons/react/20/solid'
 
 function Chat() {
   const [currentConversation, setCurrentConversation] = useState()
@@ -189,17 +191,17 @@ function Chat() {
   }
 
   return (
-    <div className='container mx-auto p-4 flex flex-col bg-white h-[calc(100vh_-_96px)]'>
-      <div className='text-neutral-700 text-md font-semibold'>Chat</div>
-      <div className='h-full flex-1 grid grid-cols-12 gap-4'>
-        <div className='col-span-3'>
+    <div className='container mx-auto p-4 flex flex-col h-[calc(100vh_-_96px)]'>
+      {/* <div className='text-neutral-700 text-md font-semibold'>Chat</div> */}
+      <div className=' h-[calc(100vh_-_96px)] flex-1 grid grid-cols-12 gap-4'>
+        <div className='h-[calc(100vh_-_148px)] col-span-3  bg-white rounded-xl '>
           <div className='h-14 border-b-[1px] border-b-neutral-300 flex items-center px-4'>
             <SearchBar />
           </div>
           {!isEmpty(newConversationInfo) ? (
             <div
               className={`${
-                newConversationInfo?._id === currentConversation?._id ? 'bg-neutral-300' : ''
+                newConversationInfo?._id === currentConversation?._id ? 'bg-orange-1' : ''
               } h-16 w-full flex items-center py-1 mt-4 px-4 hover:bg-neutral-200 hover:cursor-pointer transition`}
               onClick={() => handleChooseConversation(newConversationInfo)}
               key={newConversationInfo?.user?._id}
@@ -215,10 +217,10 @@ function Chat() {
                 />
                 <div className='flex-1'>
                   <div className='flex items-center justify-between'>
-                    <div className='font-semibold text-neutral-700 line-clamp-1 flex-1'>
+                    <div className='font-bold text-neutral-700 line-clamp-1 flex-1'>
                       {newConversationInfo?.user?.name}
                     </div>
-                    <div className='text-xs text-neutral-500'></div>
+                    <div className='text-xs text-neutral-400'></div>
                   </div>
                   <div className='text-sm text-neutral-400 line-clamp-1'></div>
                 </div>
@@ -238,10 +240,7 @@ function Chat() {
                 <div className='flex w-full gap-4'>
                   <img
                     className='w-12 h-12 rounded-full border-[1px] border-neutral-200'
-                    src={
-                      conversation?.user?.avatar ||
-                      'https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'
-                    }
+                    src={conversation?.user?.avatar || DEFAULT_AVT}
                     alt='avatar'
                   />
                   <div className='flex-1'>
@@ -260,11 +259,11 @@ function Chat() {
             )
           })}
         </div>
-        <div className='h-full flex flex-col col-span-9'>
+        <div className='h-[calc(100vh_-_148px)] bg-msg-bg rounded-xl flex flex-col px-4 col-span-9'>
           <div className='h-14 flex items-center font-semibold border-b-[1px] border-b-neutral-300'>
             {currentConversation?.user?.name}
           </div>
-          <div className='flex-1 overflow-y-scroll'>
+          <div className='h-[calc(100vh_-_148px)] flex-1 py-4  overflow-y-scroll'>
             {messagesInConversations?.length > 0 ? (
               messagesInConversations?.map((message) => {
                 if (message.sender !== userInfo?._id)
@@ -272,7 +271,7 @@ function Chat() {
                     <div ref={scrollRef} key={message._id} className='flex justify-start gap-3 mb-3'>
                       <img
                         className='w-12 h-12 rounded-full border-[1px] border-neutral-200 p-'
-                        src={currentConversation?.user?.avatar}
+                        src={currentConversation?.user?.avatar || DEFAULT_AVT}
                         alt='avatar'
                       />
 
@@ -294,8 +293,8 @@ function Chat() {
                         </div>
                       </div>
                       <img
-                        className='w-12 h-12 rounded-full border-[1px] border-neutral-200 p-3'
-                        src={userInfo?.avatar}
+                        className='w-12 h-12 rounded-full border-[1px] border-neutral-200'
+                        src={userInfo?.avatar || DEFAULT_AVT}
                         alt='avatar'
                       />
                     </div>
@@ -307,9 +306,11 @@ function Chat() {
             )}
           </div>
           <div>
-            <AppForm className='flex gap-3' ref={resetRef} onSubmit={handleSendMessage}>
+            <AppForm className='flex items-center gap-3' ref={resetRef} onSubmit={handleSendMessage}>
               <AppInput className='flex-1' type='text' name='message' id='message' />
-              <AppButton type='submit'>Send</AppButton>
+              <AppButton className='bg-transparent hover:bg-orange-1 rounded-full' type='submit'>
+                <PaperAirplaneIcon className='text-orange-3 h-5 w-5' />
+              </AppButton>
             </AppForm>
           </div>
         </div>

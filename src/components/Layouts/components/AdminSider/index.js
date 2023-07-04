@@ -1,5 +1,4 @@
 import {
-  AppLogo,
   BarChartIcon,
   ChevronUp,
   DeliveryIcon,
@@ -11,6 +10,7 @@ import {
 } from '@src/assets/svgs'
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import logo_orange from '../../../../assets/images/logo_orange.png'
 
 const menuList = [
   {
@@ -118,10 +118,12 @@ function AdminSider() {
 
   return (
     <div className='p-6 h-full fixed bg-[#FCFCFC]'>
-      <Link to='/'>
-        <AppLogo />
-      </Link>
-      <div className='mt-12 py-3 pl-3'>
+      <div className='flex justify-center'>
+        <Link to='/'>
+          <img className='h-[78px] ' src={logo_orange} alt='logo' />
+        </Link>
+      </div>
+      <div className='py-3 pl-3'>
         {menuList.map((menu) => {
           if (menu.path) {
             return (

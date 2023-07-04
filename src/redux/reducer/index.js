@@ -8,7 +8,7 @@ import { combineReducers } from 'redux'
 import appApi from '../service'
 import chatApi from '@src/containers/app/feature/Chat/chat.service'
 
-export const rootReducer = combineReducers({
+const allReducers = combineReducers({
   auth: authReducer,
   customer: customerReducer,
   authApi: authApi.reducer,
@@ -18,3 +18,10 @@ export const rootReducer = combineReducers({
   chatApi: chatApi.reducer,
   chat: chatReducer
 })
+
+export const rootReducer = (state, action) => {
+  if (action.type === 'auth/logout') {
+    state = undefined
+  }
+  return allReducers(state, action)
+}

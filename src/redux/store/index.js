@@ -16,7 +16,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  whiteList: [`auth`]
+  blacklist: [`customer`, 'authApi', 'adminApi', 'customerApi', 'chatApi', 'chat', 'customer']
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

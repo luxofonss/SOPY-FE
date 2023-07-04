@@ -9,10 +9,7 @@ import { Divider } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import Cookies from 'universal-cookie'
 import { v4 as uuidv4 } from 'uuid'
-const cookies = new Cookies()
 
 function AvatarDropdown() {
   const [actionsList, setActionList] = useState()
@@ -22,14 +19,8 @@ function AvatarDropdown() {
   const [logoutRequest] = authApi.endpoints.logout.useMutation()
 
   const handleLogOut = async () => {
-    const response = await logoutRequest()
-    if (!response.error) {
-      cookies.remove('access_token')
-      cookies.remove('user_id')
-      dispatch(logout())
-    } else {
-      toast.error('Can not logout, please try again!')
-    }
+    await logoutRequest()
+    dispatch(logout())
   }
 
   const userActions = [

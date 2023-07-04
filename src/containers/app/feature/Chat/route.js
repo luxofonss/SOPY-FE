@@ -8,7 +8,7 @@ export const chatRouteList = [
   {
     path: '/',
     element: (
-      <AppLayout>
+      <AppLayout hasFooter={false}>
         <RequireAuth allowedRoles={[USER_ROLE.SHOP, USER_ROLE.USER]}>
           <Outlet />
         </RequireAuth>

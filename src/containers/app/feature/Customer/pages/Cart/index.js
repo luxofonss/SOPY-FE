@@ -12,7 +12,7 @@ import accounting from 'accounting'
 import { Checkbox } from 'flowbite-react'
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { BeatLoader } from 'react-spinners'
 import { toast } from 'react-toastify'
 import ProductCard from '../../components/ProductCard'
@@ -24,6 +24,7 @@ function UserCart() {
   const dispatch = useDispatch()
   const userInfo = useSelector((state) => state.auth.user)
   const cartData = useSelector((state) => state.customer.cart)
+  const navigate = useNavigate()
 
   const closeRef = useRef(null)
   const openRef = useRef(null)
@@ -55,14 +56,14 @@ function UserCart() {
   }, [])
 
   useEffect(() => {
-    if (userInfo) setChosenAddress(userInfo?.address[0])
+    if (userInfo?.address) setChosenAddress(userInfo?.address[0])
   }, [userInfo])
 
   const updateCartRedux = async () => {
-    const response = await getCart(null, false)
-
-    if (!response.error) {
-      dispatch(setCart(response.data))
+    const response = await getCart(null, false).unwrap()
+    if (response) {
+      console.log('response::', response)
+      dispatch(setCart(response))
     } else toast.warn('Có lỗi xảy ra, vui lòng quay lại sau!')
   }
 
@@ -135,6 +136,14 @@ function UserCart() {
 
   const onChooseAddress = async (checked, address) => {
     if (checked) setChosenAddress(address)
+  }
+
+  const handleCheckout = () => {
+    if (cartData?.metadata?.hasProductChecked > 0) {
+      navigate('/checkout')
+    } else {
+      toast.error('Bạn chưa chọn sản phẩm nào')
+    }
   }
 
   return (
@@ -302,7 +311,7 @@ function UserCart() {
                 )
               })
             ) : (
-              <div>Loading...</div>
+              <div>No data</div>
             )}
           </div>
           <div className='col-span-4'>
@@ -390,9 +399,11 @@ function UserCart() {
                   <div className='text-sm flex justify-end text-neutral-400 ml-auto'>Đã bao gồm VAT (nếu có)</div>
                 </div>
                 <div className='flex justify-center'>
-                  <Link to='/checkout'>
-                    <AppButton className='mt-6'>Xác nhận mua hàng</AppButton>
-                  </Link>
+                  {/* <Link to='/checkout'> */}
+                  <AppButton onClick={handleCheckout} className='mt-6'>
+                    Xác nhận mua hàng
+                  </AppButton>
+                  {/* </Link> */}
                 </div>
               </div>
             </div>
