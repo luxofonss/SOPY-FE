@@ -194,7 +194,7 @@ function Chat() {
     <div className='container mx-auto p-4 flex flex-col h-[calc(100vh_-_96px)]'>
       {/* <div className='text-neutral-700 text-md font-semibold'>Chat</div> */}
       <div className=' h-[calc(100vh_-_96px)] flex-1 grid grid-cols-12 gap-4'>
-        <div className='h-[calc(100vh_-_148px)] col-span-3  bg-white rounded-xl '>
+        <div className='h-[calc(100vh_-_148px)] col-span-3 overflow-y-scroll  bg-white rounded-xl '>
           <div className='h-14 border-b-[1px] border-b-neutral-300 flex items-center px-4'>
             <SearchBar />
           </div>
@@ -260,7 +260,7 @@ function Chat() {
           })}
         </div>
         <div className='h-[calc(100vh_-_148px)] bg-msg-bg rounded-xl flex flex-col px-4 col-span-9'>
-          <div className='h-14 flex items-center font-semibold border-b-[1px] border-b-neutral-300 overflow-y-scroll'>
+          <div className='h-14 flex items-center font-semibold border-b-[1px] border-b-neutral-300 '>
             {currentConversation?.user?.name}
           </div>
           <div className='h-[calc(100vh_-_148px)] flex-1 py-4  overflow-y-scroll'>
