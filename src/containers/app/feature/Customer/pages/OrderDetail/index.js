@@ -4,7 +4,7 @@ import Divider from '@src/components/Divider'
 import OrderStatusHistory from '@src/components/OrderStatusHistory'
 import accounting from 'accounting'
 import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import customerApi from '../../customer.service'
 import { useTitle } from '@src/hooks/useTitle'
@@ -13,12 +13,13 @@ function OrderDetail() {
   const { id } = useParams()
 
   const [getOrder, { data: orderDetails }] = customerApi.endpoints.getOrderById.useLazyQuery()
+  const location = useLocation()
 
   useTitle('Thông tin đơn hàng - Sopy')
 
   useEffect(() => {
     getOrder(id).catch(() => toast.error('Có lỗi xảy ra, vui lòng thử lại!'))
-  }, [])
+  }, [location])
 
   console.log('orderDetails:: ', orderDetails)
 
