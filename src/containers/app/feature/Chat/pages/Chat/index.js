@@ -260,7 +260,7 @@ function Chat() {
           })}
         </div>
         <div className='h-[calc(100vh_-_148px)] bg-msg-bg rounded-xl flex flex-col px-4 col-span-9'>
-          <div className='h-14 flex items-center font-semibold border-b-[1px] border-b-neutral-300'>
+          <div className='h-14 flex items-center font-semibold border-b-[1px] border-b-neutral-300 overflow-y-scroll'>
             {currentConversation?.user?.name}
           </div>
           <div className='h-[calc(100vh_-_148px)] flex-1 py-4  overflow-y-scroll'>
