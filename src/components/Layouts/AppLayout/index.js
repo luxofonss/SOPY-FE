@@ -3,9 +3,9 @@ import Header from '../components/Header'
 
 function AppLayout({ hasFooter = true, children }) {
   return (
-    <div className='flex-col flex'>
+    <div className='flex flex-col'>
       <Header />
-      <div className='pt-28 pb-8 min-h-screen bg-page-bg'>{children}</div>
+      <div className='min-h-screen bg-page-bg pt-28 pb-8'>{children}</div>
       {hasFooter && (
         <div>
           <AppFooter />

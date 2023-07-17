@@ -11,13 +11,16 @@ const AppButton = ({
   Icon,
   ...props
 }) => {
-  const classes =
-    twMerge(`flex gap-3 h-10 items-center justify-center rounded-lg  bg-orange-4 px-3 font-medium text-white transition duration-300 hover:bg-orange-3 ${
-      className ?? ''
-    }
-  `)
   return (
-    <button type={type} className={classes} {...props}>
+    <button
+      type={type}
+      className={twMerge(
+        `flex h-10 items-center justify-center gap-3 rounded-lg  bg-orange-4 px-3 font-medium text-white transition duration-300 hover:bg-orange-3 ${
+          className ?? ''
+        }`
+      )}
+      {...props}
+    >
       {isLoading ? <BeatLoader size={12} color={loaderColor} /> : children}
       {showIcon && <div>{Icon}</div>}
     </button>

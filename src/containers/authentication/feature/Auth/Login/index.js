@@ -1,19 +1,28 @@
 /* eslint-disable no-undef */
+import { useContext, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router'
+import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import * as yup from 'yup'
+
 import { FacebookLogo, GoogleLogo, IconEye, IconEyeSlash } from '@src/assets/svgs'
 import AppButton from '@src/components/AppButton'
 import AppForm from '@src/components/Form/AppForm'
 import AppInput from '@src/components/Form/AppInput'
+import { SocketContext } from '@src/context/socket.context'
 import { getEmailValidationRegex } from '@src/helpers/validator'
-import { useContext, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router'
-import { BeatLoader } from 'react-spinners'
-import { toast } from 'react-toastify'
-import * as yup from 'yup'
 import { useLoginMutation } from '../authService'
 import { login, setUser } from '../authSlice'
-import { SocketContext } from '@src/context/socket.context'
-import { Link } from 'react-router-dom'
+
+const loginForm = yup.object({
+  email: yup.string().email('Email không hợp lệ').required('Bạn chưa nhập email'),
+  password: yup
+    .string()
+    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
+    .max(32, 'Mật khẩu có tối đa 32 ký tự')
+    .required('Bạn chưa nhập mật khẩu')
+})
 
 function Login() {
   const [open, setOpen] = useState(false)
@@ -24,15 +33,8 @@ function Login() {
 
   const socket = useContext(SocketContext)
 
-  const loginForm = yup.object({
-    email: yup.string().email().required(),
-    password: yup.string().min(6).max(32).required()
-  })
-
   useEffect(() => {
-    console.log(auth.isLoggedIn)
     if (auth.isLoggedIn) {
-      console.log('navigate')
       navigate('/')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -40,7 +42,6 @@ function Login() {
 
   const onSubmit = async (loginData) => {
     const response = await loginRequest(loginData)
-    console.log('response: ', response)
     if (!response.error) {
       dispatch(setUser(response.data.metadata.user))
       socket.emit('newConnection', response.data.metadata.user._id)
@@ -72,11 +73,11 @@ function Login() {
   }
 
   return (
-    <div className='container mx-auto lg:px-16 md:px-10 my-6'>
+    <div className='container mx-auto my-6 md:px-10 lg:px-16'>
       <h3 className='bold text-start text-2xl text-neutral-600'>Đăng nhập</h3>
 
-      <div className='px-14 py-8 bg-white shadow-md shadow-neutral-200 rounded-md mt-4'>
-        <AppForm resolver={loginForm} className='grid grid-cols-12 gap-14 h-auto w-full rounded-lg' onSubmit={onSubmit}>
+      <div className='mt-4 rounded-md bg-white px-14 py-8 shadow-md shadow-neutral-200'>
+        <AppForm resolver={loginForm} className='grid h-auto w-full grid-cols-12 gap-14 rounded-lg' onSubmit={onSubmit}>
           <div className='col-span-6 '>
             <AppInput
               validate={{ pattern: { value: getEmailValidationRegex(), message: 'Email is invalid!' } }}
@@ -85,7 +86,6 @@ function Login() {
               name='email'
               label='Email'
               required
-              className='mb-2'
             />
             <AppInput
               type={open ? 'text' : 'password'}
@@ -97,32 +97,32 @@ function Login() {
               Icon={open ? <IconEye onClick={toggleEyeIcon} /> : <IconEyeSlash onClick={toggleEyeIcon} />}
             />
 
-            <AppButton disabled={isLoading} className='w-full my-4' formNoValidate type='submit'>
-              {!isLoading ? 'Login' : <BeatLoader size={12} color='#fff' />}
+            <AppButton disabled={isLoading} isLoading={isLoading} className='my-4 w-full' formNoValidate type='submit'>
+              Đăng nhập
             </AppButton>
           </div>
           <div className='col-span-6 '>
-            <h4 className='font-medium text-neutral-500 mt-4'>Hoặc đăng nhập với</h4>
+            <h4 className='mt-4 font-medium text-neutral-500'>Hoặc đăng nhập với</h4>
             <button
               onClick={handleGoogleLogin}
-              className='w-full mt-4 flex justify-center items-center gap-6 h-12 rounded-md bg-neutral-200 hover:opacity-95 hover:translate-y-[1px] transition cursor-pointer'
+              className='mt-4 flex h-12 w-full cursor-pointer items-center justify-center gap-6 rounded-md bg-neutral-200 transition hover:translate-y-[1px] hover:opacity-95'
               type='button'
             >
               <GoogleLogo />
-              <p className='text-neutral-500 font-medium'>Đăng nhập với Google</p>
+              <p className='font-medium text-neutral-500'>Đăng nhập với Google</p>
             </button>
             <button
-              className='w-full mt-4 flex justify-center items-center gap-6 h-12 rounded-md bg-neutral-200 hover:opacity-95 hover:translate-y-[1px] transition cursor-pointer'
+              className='mt-4 flex h-12 w-full cursor-pointer items-center justify-center gap-6 rounded-md bg-neutral-200 transition hover:translate-y-[1px] hover:opacity-95'
               type='button'
             >
               <FacebookLogo />
-              <p className='text-neutral-500 font-medium'>Đăng nhập với Facebook</p>
+              <p className='font-medium text-neutral-500'>Đăng nhập với Facebook</p>
             </button>
           </div>
         </AppForm>
         <div className='text-sm'>
           Chưa có tài khoản?{' '}
-          <Link className='font-medium' to='/signup'>
+          <Link className='font-medium text-neutral-600' to='/signup'>
             Đăng ký ngay
           </Link>
         </div>

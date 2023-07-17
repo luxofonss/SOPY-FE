@@ -8,43 +8,43 @@ function AppFooter() {
     <div className='container mx-auto p-8 '>
       <div className='grid grid-cols-4 gap-6'>
         <div>
-          <div className='text-neutral-700 font-semibold text-sm'>CHĂM SÓC KHÁCH HÀNG</div>
-          <div className='text-neutral-500 text-xs'>Trung Tâm Trợ Giúp</div>
-          <div className='text-neutral-500 text-xs'>Sopy Blog</div>
-          <div className='text-neutral-500 text-xs'>Sopy Mall</div>
-          <div className='text-neutral-500 text-xs'>Hướng Dẫn Mua Hàng</div>
-          <div className='text-neutral-500 text-xs'>Hướng Dẫn Bán Hàng</div>
-          <div className='text-neutral-500 text-xs'>Thanh Toán</div>
-          <div className='text-neutral-500 text-xs'>Sopy Xu</div>
-          <div className='text-neutral-500 text-xs'>Vận Chuyển</div>
-          <div className='text-neutral-500 text-xs'>Trả Hàng & Hoàn Tiền</div>
-          <div className='text-neutral-500 text-xs'>Chăm Sóc Khách Hàng</div>
-          <div className='text-neutral-500 text-xs'>Chính Sách Bảo Hành</div>
+          <div className='text-sm font-semibold text-neutral-700'>CHĂM SÓC KHÁCH HÀNG</div>
+          <div className='text-xs text-neutral-500'>Trung Tâm Trợ Giúp</div>
+          <div className='text-xs text-neutral-500'>Sopy Blog</div>
+          <div className='text-xs text-neutral-500'>Sopy Mall</div>
+          <div className='text-xs text-neutral-500'>Hướng Dẫn Mua Hàng</div>
+          <div className='text-xs text-neutral-500'>Hướng Dẫn Bán Hàng</div>
+          <div className='text-xs text-neutral-500'>Thanh Toán</div>
+          <div className='text-xs text-neutral-500'>Sopy Xu</div>
+          <div className='text-xs text-neutral-500'>Vận Chuyển</div>
+          <div className='text-xs text-neutral-500'>Trả Hàng & Hoàn Tiền</div>
+          <div className='text-xs text-neutral-500'>Chăm Sóc Khách Hàng</div>
+          <div className='text-xs text-neutral-500'>Chính Sách Bảo Hành</div>
         </div>
         <div>
-          <div className='text-neutral-700 font-semibold text-sm'>VỀ SOPY</div>
-          <div className='text-neutral-500 text-xs'>Giới Thiệu Về Sopy Việt Nam</div>
-          <div className='text-neutral-500 text-xs'>Tuyển Dụng</div>
-          <div className='text-neutral-500 text-xs'>Điều Khoản Sopy</div>
-          <div className='text-neutral-500 text-xs'>Chính Sách Bảo Mật</div>
-          <div className='text-neutral-500 text-xs'>Chính Hãng</div>
-          <div className='text-neutral-500 text-xs'>Kênh Người Bán</div>
-          <div className='text-neutral-500 text-xs'>Chương Trình Tiếp Thị Liên Kết Sopy</div>
-          <div className='text-neutral-500 text-xs'>Flash Sales</div>
-          <div className='text-neutral-500 text-xs'>Liên Hệ Với Truyền Thông</div>
+          <div className='text-sm font-semibold text-neutral-700'>VỀ SOPY</div>
+          <div className='text-xs text-neutral-500'>Giới Thiệu Về Sopy Việt Nam</div>
+          <div className='text-xs text-neutral-500'>Tuyển Dụng</div>
+          <div className='text-xs text-neutral-500'>Điều Khoản Sopy</div>
+          <div className='text-xs text-neutral-500'>Chính Sách Bảo Mật</div>
+          <div className='text-xs text-neutral-500'>Chính Hãng</div>
+          <div className='text-xs text-neutral-500'>Kênh Người Bán</div>
+          <div className='text-xs text-neutral-500'>Chương Trình Tiếp Thị Liên Kết Sopy</div>
+          <div className='text-xs text-neutral-500'>Flash Sales</div>
+          <div className='text-xs text-neutral-500'>Liên Hệ Với Truyền Thông</div>
         </div>
         <div>
-          <div className='text-neutral-700 font-semibold text-sm'>THEO DÕI CHÚNG TÔI TRÊN</div>
-          <div className='text-neutral-500 text-xs'>Facebook</div>
-          <div className='text-neutral-500 text-xs'>Instagram</div>
-          <div className='text-neutral-500 text-xs'>LinkedIn</div>
+          <div className='text-sm font-semibold text-neutral-700'>THEO DÕI CHÚNG TÔI TRÊN</div>
+          <div className='text-xs text-neutral-500'>Facebook</div>
+          <div className='text-xs text-neutral-500'>Instagram</div>
+          <div className='text-xs text-neutral-500'>LinkedIn</div>
         </div>
         <div>
-          <div className='text-neutral-700 font-semibold text-sm'>CHỨNG NHẬN</div>
-          <div className='text-neutral-500 text-xs'>
+          <div className='text-sm font-semibold text-neutral-700'>CHỨNG NHẬN</div>
+          <div className='text-xs text-neutral-500'>
             <img src={notice} className='w-full' alt='notice' />
           </div>
-          <div className='text-neutral-500 text-xs'>
+          <div className='text-xs text-neutral-500'>
             <img src={register} className='w-full' alt='register' />
           </div>
         </div>

@@ -51,17 +51,17 @@ function Profile() {
   }
 
   return (
-    <div className='p-4 rounded-lg bg-neutral-0'>
+    <div className='rounded-lg bg-neutral-0 p-4'>
       <div>
-        <h4 className='text-lg text-neutral-700 font-semibold'>Hồ sơ shop</h4>
+        <h4 className='text-lg font-semibold text-neutral-700'>Hồ sơ shop</h4>
         <p className='text-sm font-medium text-neutral-500'>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
       </div>
       <Divider />
-      <div className='w-14 relative'>
-        <img className='w-16 h-16 rounded-md' src={userInfo?.avatar} alt='avatar' />
+      <div className='relative w-14'>
+        <img className='h-16 w-16 rounded-md' src={userInfo?.avatar} alt='avatar' />
         <div
           onClick={() => openAvatarRef.current.openModal()}
-          className='w-full h-full absolute flex items-center rounded-lg justify-center top-0 right-0 bg-transparent hover:bg-neutral-400 hover:bg-opacity-20 hover:cursor-pointer'
+          className='absolute top-0 right-0 flex h-full w-full items-center justify-center rounded-lg bg-transparent hover:cursor-pointer hover:bg-neutral-400 hover:bg-opacity-20'
         ></div>
         <ImageCrop
           openRef={openAvatarRef}

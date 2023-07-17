@@ -8,7 +8,7 @@ const Divider = ({ title, className }) => {
           <div className='h-px w-5/12 bg-gray-300'></div>
         </>
       ) : (
-        <div className='w-full h-px bg-gray-300'></div>
+        <div className='h-px w-full bg-gray-300'></div>
       )}
     </div>
   )

@@ -1,18 +1,32 @@
+import { useContext, useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router'
+import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import * as yup from 'yup'
+
 import { FacebookLogo, GoogleLogo, IconEye, IconEyeSlash } from '@src/assets/svgs'
 import AppButton from '@src/components/AppButton'
 import AppDateInput from '@src/components/Form/AppDateInput'
 import AppForm from '@src/components/Form/AppForm'
 import AppInput from '@src/components/Form/AppInput'
-import { getEmailValidationRegex } from '@src/helpers/validator'
-import { useContext, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router'
-import { Link } from 'react-router-dom'
-import { BeatLoader } from 'react-spinners'
-import { toast } from 'react-toastify'
 import { useSignupMutation } from '../authService'
 import { login, setUser } from '../authSlice'
 import { SocketContext } from '@src/context/socket.context'
+import { getEmailValidationRegex, phoneRegExp } from '@src/helpers/validator'
+
+const signupForm = yup.object({
+  name: yup.string().required('Bạn chưa nhập tên'),
+  email: yup.string().email('Email không hợp lệ').required('Bạn chưa nhập email'),
+  password: yup
+    .string()
+    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
+    .max(32, 'Mật khẩu có tối đa 32 ký tự')
+    .required('Bạn chưa nhập mật khẩu'),
+  phoneNumber: yup.string().matches(phoneRegExp, 'Số điện thoại không hợp lệ').required('Bạn chưa nhập số điện thoại'),
+  address: yup.string().required('Bạn chưa nhập địa chỉ'),
+  dateOfBirth: yup.string()
+})
 
 function Signup() {
   const [open, setOpen] = useState(false)
@@ -45,11 +59,15 @@ function Signup() {
     setOpen(!open)
   }
   return (
-    <div className='container mx-auto px-10 my-6'>
+    <div className='container mx-auto my-6 md:px-10 lg:px-16'>
       <h3 className='bold text-start text-2xl text-neutral-600'>Đăng ký</h3>
 
-      <div className='px-14 py-8 bg-white shadow-md shadow-neutral-200 rounded-md mt-4'>
-        <AppForm className='grid grid-cols-12 gap-14 h-auto w-full rounded-lg' onSubmit={onSubmit}>
+      <div className='mt-4 rounded-md bg-white px-14 py-8 shadow-md shadow-neutral-200'>
+        <AppForm
+          className='grid h-auto w-full grid-cols-12 gap-14 rounded-lg'
+          resolver={signupForm}
+          onSubmit={onSubmit}
+        >
           <div className='col-span-6 '>
             <AppInput id='name' name='name' required label='Họ và tên' />
             <AppInput
@@ -76,26 +94,26 @@ function Signup() {
           <div className='col-span-6 '>
             <AppDateInput id='dateOfBirth' name='dateOfBirth' required label='Ngày sinh' />
             <p className='text-xs text-neutral-400'>
-              Tôi đã đọc và đồng ý với Điều Khoản Sử Dụng và Chính Sách Bảo Mật của Lazada của Lazada, bao gồm quyền thu
-              thập, sử dụng, và tiết lộ dữ liệu cá nhân của tôi theo pháp luật quy định.
+              Tôi đã đọc và đồng ý với Điều Khoản Sử Dụng và Chính Sách Bảo Mật của sopy\\\ của Lazada, bao gồm quyền
+              thu thập, sử dụng, và tiết lộ dữ liệu cá nhân của tôi theo pháp luật quy định.
             </p>
-            <AppButton disabled={isLoading} className='mt-6 w-full' formNoValidate type='submit'>
-              {!isLoading ? 'Submit' : <BeatLoader size={12} color='#ff4d00' />}
+            <AppButton disabled={isLoading} isLoading={isLoading} className='mt-6 w-full' formNoValidate type='submit'>
+              Đăng ký
             </AppButton>
-            <h4 className='font-medium text-neutral-500 mt-4'>Hoặc đăng ký với</h4>
+            <h4 className='mt-4 font-medium text-neutral-500'>Hoặc đăng ký với</h4>
             <Link
-              className='w-full mt-4 flex justify-center items-center gap-6 h-12 rounded-md bg-neutral-200 hover:opacity-95 hover:translate-y-[1px] transition cursor-pointer'
+              className='mt-4 flex h-12 w-full cursor-pointer items-center justify-center gap-6 rounded-md bg-neutral-200 transition hover:translate-y-[1px] hover:opacity-95'
               to='/'
             >
               <GoogleLogo />
-              <p className='text-neutral-500 font-medium'>Đăng ký với Google</p>
+              <p className='font-medium text-neutral-500'>Đăng ký với Google</p>
             </Link>
             <Link
-              className='w-full mt-4 flex justify-center items-center gap-6 h-12 rounded-md bg-neutral-200 hover:opacity-95 hover:translate-y-[1px] transition cursor-pointer'
+              className='mt-4 flex h-12 w-full cursor-pointer items-center justify-center gap-6 rounded-md bg-neutral-200 transition hover:translate-y-[1px] hover:opacity-95'
               to='/'
             >
               <FacebookLogo />
-              <p className='text-neutral-500 font-medium'>Đăng ký với Facebook</p>
+              <p className='font-medium text-neutral-500'>Đăng ký với Facebook</p>
             </Link>
           </div>
         </AppForm>

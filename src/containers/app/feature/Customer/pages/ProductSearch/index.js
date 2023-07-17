@@ -12,6 +12,7 @@ import { BeatLoader } from 'react-spinners'
 import { isEmpty } from 'lodash'
 import appApi from '@src/redux/service'
 import { useTitle } from '@src/hooks/useTitle'
+import no_product from '@src/assets/images/no_product.png'
 
 let filters = [
   {
@@ -97,14 +98,14 @@ function ProductSearch() {
   return (
     <div className='container mx-auto'>
       <div className='grid grid-cols-12 gap-3'>
-        <div className='col-span-2 bg-neutral-0 p-3 rounded-md shadow-lg'>
-          <h4 className='text-lg font-semibold text-neutral-500 mb-3'>Bộ lọc tìm kiếm</h4>
+        <div className='col-span-2 rounded-md bg-neutral-0 p-3 shadow-lg'>
+          <h4 className='mb-3 text-lg font-semibold text-neutral-500'>Bộ lọc tìm kiếm</h4>
           <div className='mb-2'>
-            <div className='text-neutral-700 font-medium mb-2'>Khoảng giá</div>
+            <div className='mb-2 font-medium text-neutral-700'>Khoảng giá</div>
             <AppForm onSubmit={handleFilterPrice}>
               <AppInput type='number' name='minPrice' placeholder='Từ' />
               <AppInput type='number' name='maxPrice' placeholder='Đến' />
-              <AppButton type='submit' className='w-full h-9 bg-orange-4 text-neutral-0 hover:bg-orange-3'>
+              <AppButton type='submit' className='h-9 w-full bg-orange-4 text-neutral-0 hover:bg-orange-3'>
                 Áp dụng
               </AppButton>
             </AppForm>
@@ -112,21 +113,21 @@ function ProductSearch() {
           {filters.map((filter) => {
             return (
               <div className='mb-4' key={filter.name}>
-                <div className='text-neutral-700 font-medium mb-2'>{filter.name}</div>
+                <div className='mb-2 font-medium text-neutral-700'>{filter.name}</div>
                 {filter.value.map((item) => {
                   return (
                     <div
-                      className='flex px-3 rounded-sm gap-4 h-8 items-center my-1 hover:bg-neutral-300 transition cursor-pointer'
+                      className='my-1 flex h-8 cursor-pointer items-center gap-4 rounded-sm px-3 transition hover:bg-neutral-300'
                       key={item.name}
                     >
                       <input
-                        className='w-3 h-3 cursor-pointer'
+                        className='h-3 w-3 cursor-pointer'
                         id={item.value}
                         type='checkbox'
                         value={item.value}
                         name={item.name}
                       />
-                      <label className='text-sm text-neutral-500 cursor-pointer' htmlFor={item.value}>
+                      <label className='cursor-pointer text-sm text-neutral-500' htmlFor={item.value}>
                         {item.name}
                       </label>
                     </div>
@@ -140,12 +141,12 @@ function ProductSearch() {
 
         <div className='col-span-10'>
           {searchText ? <div>Kết quả tìm kiếm cho từ khóa &apos;{searchText}&apos;</div> : null}
-          <div className='flex gap-3 bg-neutral-200 rounded-md p-4 mt-4'>
-            <div className='px-3 h-9 flex items-center text-sm '>Sắp xếp theo</div>
-            <div className='px-3 h-9 flex items-center text-sm bg-neutral-0 rounded-sm hover:bg-neutral-100'>
+          <div className='mt-4 flex gap-3 rounded-md bg-neutral-200 p-4'>
+            <div className='flex h-9 items-center px-3 text-sm '>Sắp xếp theo</div>
+            <div className='flex h-9 items-center rounded-sm bg-neutral-0 px-3 text-sm hover:bg-neutral-100'>
               Mới nhất
             </div>
-            <div className='px-3 h-9 flex items-center text-sm bg-neutral-0 rounded-sm hover:bg-neutral-100'>
+            <div className='flex h-9 items-center rounded-sm bg-neutral-0 px-3 text-sm hover:bg-neutral-100'>
               Bán chạy
             </div>
 
@@ -166,22 +167,27 @@ function ProductSearch() {
               />
             </AppForm>
           </div>
-          <div className='mt-4 p-4 rounded-lg bg-neutral-0'>
-            <div className='grid grid-cols-5 gap-4'>
-              {isGettingProduct ? (
-                <div className='flex justify-center items-center'>
-                  <BeatLoader size={12} color='#ff4d00' />
-                </div>
-              ) : !isEmpty(products?.metadata?.products) ? (
-                products?.metadata?.products?.map((product) => (
+          <div className='mt-4 rounded-lg bg-neutral-0 p-4'>
+            {isGettingProduct ? (
+              <div className='flex items-center justify-center'>
+                <BeatLoader size={12} color='#ff4d00' />
+              </div>
+            ) : !isEmpty(products?.metadata?.products) ? (
+              <div className='grid grid-cols-5 gap-4'>
+                {products?.metadata?.products?.map((product) => (
                   <div key={product.name}>
                     <ProductCard product={product} />
                   </div>
-                ))
-              ) : (
-                <div className='w-full lex justify-center items-center'>Không tìm thấy sản phẩm</div>
-              )}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className='flex w-full items-center justify-center'>
+                <div>
+                  <img src={no_product} alt='no-product' />
+                  <p className='text-center text-neutral-600'>Không tìm thấy sản phẩm!</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

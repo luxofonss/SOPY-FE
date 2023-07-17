@@ -172,7 +172,7 @@ function ProductAll() {
 
   return (
     <div className=''>
-      <div className='bg-neutral-100 p-8 rounded-lg'>
+      <div className='rounded-lg bg-neutral-100 p-8'>
         <AppForm onSubmit={onSubmit} resolver={filterValidation}>
           <div className='grid grid-cols-12 gap-x-4'>
             <div className='col-span-5'>
@@ -208,18 +208,18 @@ function ProductAll() {
         </AppForm>
       </div>
 
-      <div className='bg-neutral-100 p-8 rounded-lg mt-6'>
+      <div className='mt-6 rounded-lg bg-neutral-100 p-8'>
         <div className='flex justify-between '>
           <div className='flex gap-6 '>
-            <div className='w-4 h-7 bg-secondary-purple rounded-sm'></div>
-            <div className='text-neutral-500 font-semibold text-xl '>Danh sách sản phẩm</div>
+            <div className='h-7 w-4 rounded-sm bg-secondary-purple'></div>
+            <div className='text-xl font-semibold text-neutral-500 '>Danh sách sản phẩm</div>
           </div>
           <nav className='flex gap-3'>
             <div
               onClick={() => handleFilterStatus('all')}
               className={`${
                 filter.name === 'all' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-400'
-              }h-10 px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition hover:text-neutral-500 cursor-pointer`}
+              }h-10 cursor-pointer rounded-lg px-4 py-2 font-semibold transition hover:text-neutral-500 hover:opacity-90`}
             >
               Tất cả
             </div>
@@ -227,7 +227,7 @@ function ProductAll() {
               onClick={() => handleFilterStatus('active')}
               className={`${
                 filter.name === 'active' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-400'
-              }h-10 px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition hover:text-neutral-500 cursor-pointer`}
+              }h-10 cursor-pointer rounded-lg px-4 py-2 font-semibold transition hover:text-neutral-500 hover:opacity-90`}
             >
               Đang hoạt động
             </div>
@@ -235,7 +235,7 @@ function ProductAll() {
               onClick={() => handleFilterStatus('oot')}
               className={`${
                 filter.name === 'oot' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-400'
-              }h-10 px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition hover:text-neutral-500 cursor-pointer`}
+              }h-10 cursor-pointer rounded-lg px-4 py-2 font-semibold transition hover:text-neutral-500 hover:opacity-90`}
             >
               Hết hàng
             </div>
@@ -243,7 +243,7 @@ function ProductAll() {
               onClick={() => handleFilterStatus('inactive')}
               className={`${
                 filter.name === 'inactive' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-400'
-              }h-10 px-4 py-2 rounded-lg font-semibold hover:opacity-90 transition hover:text-neutral-500 cursor-pointer`}
+              }h-10 cursor-pointer rounded-lg px-4 py-2 font-semibold transition hover:text-neutral-500 hover:opacity-90`}
             >
               Đã ẩn
             </div>

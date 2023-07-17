@@ -24,15 +24,11 @@ function AppRadio({
 
   return (
     <div className='relative my-2 w-full flex-col' style={wrapperStyle}>
-      <div
-        className={`mb-1.5 font-semibold block w-full ${
-          !errors[name]?.type ? 'text-neutral-400' : 'text-secondary-orange'
-        }`}
-      >
+      <div className={`mb-1.5 block w-full font-semibold ${!errors[name]?.type ? 'text-neutral-400' : 'text-danger'}`}>
         {label}
       </div>
 
-      <div className='flex items-center gap-6 ml-8'>
+      <div className='ml-8 flex items-center gap-6'>
         {options.map((option) => {
           return (
             <div className='flex gap-2 ' key={uuidv4(option.value)}>
@@ -57,9 +53,7 @@ function AppRadio({
           )
         })}
       </div>
-      {errors && errors[name]?.type === 'required' && (
-        <div className='text-secondary-orange '>{errors[name].message}</div>
-      )}
+      {errors[name] && <div className='text-danger '>{errors[name].message}</div>}
     </div>
   )
 }

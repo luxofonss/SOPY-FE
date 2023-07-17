@@ -7,9 +7,9 @@ function PopupAction({ closeConfirmRef, isConfirming, handleConfirm, triggerName
       closeRef={closeConfirmRef}
       Trigger={<AppButton className='h-8 px-2 py-1 text-sm font-medium'>{triggerName}</AppButton>}
     >
-      <div className='w-[450px] bg-neutral-200 rounded-lg p-4'>
-        <h4 className='text-base text-neutral-600 font-medium'>{heading}</h4>
-        <div className='flex justify-center gap-4 items-center mt-6'>
+      <div className='w-[450px] rounded-lg bg-neutral-200 p-4'>
+        <h4 className='text-base font-medium text-neutral-600'>{heading}</h4>
+        <div className='mt-6 flex items-center justify-center gap-4'>
           <AppButton
             type='button'
             onClick={() => {

@@ -63,16 +63,16 @@ function Order() {
   }
 
   return (
-    <div className='w-full px-4 bg-neutral-200 rounded-md'>
+    <div className='w-full rounded-md bg-neutral-200 px-4'>
       <div className='w-full'>
-        <div className='text-neutral-500 font-semibold text-xl '>Danh sách đơn hàng</div>
-        <div className='w-full grid grid-cols-12 gap-3 px-2 bg-white rounded-2xl '>
-          <nav className='col-span-10 grid grid-cols-4 gap-3 p-3 mt-3'>
+        <div className='text-xl font-semibold text-neutral-500 '>Danh sách đơn hàng</div>
+        <div className='grid w-full grid-cols-12 gap-3 rounded-2xl bg-white px-2 '>
+          <nav className='col-span-10 mt-3 grid grid-cols-4 gap-3 p-3'>
             <div
               onClick={() => setSelectStatus('')}
               className={`${
                 selectStatus === '' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-500'
-              } w-4/5 flex justify-center h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
+              } flex h-7 w-4/5 cursor-pointer justify-center rounded-lg px-1 py-1 text-sm font-medium transition hover:bg-neutral-300 hover:text-neutral-700 hover:opacity-90`}
             >
               Tất cả
             </div>
@@ -82,7 +82,7 @@ function Order() {
                 onClick={() => setSelectStatus(status.value)}
                 className={`${
                   selectStatus === status.value ? 'bg-primary-green text-neutral-50' : 'text-neutral-500'
-                } w-4/5 flex justify-center h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
+                } flex h-7 w-4/5 cursor-pointer justify-center rounded-lg px-1 py-1 text-sm font-medium transition hover:bg-neutral-300 hover:text-neutral-700 hover:opacity-90`}
               >
                 {status.name}
               </div>
@@ -105,13 +105,13 @@ function Order() {
             </AppForm>
           </div>
         </div>
-        <div className='w-full rounded-2xl mt-3'>
+        <div className='mt-3 w-full rounded-2xl'>
           <AppModal closeRef={closeConfirmRef} openRef={openRef}>
-            <div className='w-[450px] bg-neutral-200 rounded-lg p-4'>
-              <h4 className='text-base text-neutral-600 font-medium'>Hủy đơn hàng</h4>
+            <div className='w-[450px] rounded-lg bg-neutral-200 p-4'>
+              <h4 className='text-base font-medium text-neutral-600'>Hủy đơn hàng</h4>
               <AppForm onSubmit={handleConfirm}>
                 <AppInput placeholder='Lý do hủy' name='reason' id='reason' />
-                <div className='flex justify-center gap-4 items-center mt-6'>
+                <div className='mt-6 flex items-center justify-center gap-4'>
                   <AppButton
                     type='button'
                     onClick={() => {
@@ -130,20 +130,20 @@ function Order() {
           {orderList
             ? orderList.metadata.orders.map((order) => {
                 return (
-                  <div className='bg-neutral-0 p-4 mb-4 rounded-md' key={order._id}>
+                  <div className='mb-4 rounded-md bg-neutral-0 p-4' key={order._id}>
                     <div className='flex justify-between'>
                       <div className='flex items-center gap-2'>
                         <p>{order.shop?.name}</p>
                         <Link
                           to={`/shop/${order.shop._id}`}
-                          className='flex px-2 py-1 items-center gap-2 border-[1px] border-neutral-300 rounded-sm hover:bg-orange-1 transition'
+                          className='flex items-center gap-2 rounded-sm border-[1px] border-neutral-300 px-2 py-1 transition hover:bg-orange-1'
                         >
                           <p className='text-sm'>Xem shop</p>
-                          <BuildingStorefrontIcon className='w-4 h-4' />
+                          <BuildingStorefrontIcon className='h-4 w-4' />
                         </Link>
                         <Link
                           to={`/me/orders/${order._id}`}
-                          className='flex px-2 py-1 items-center gap-2 border-[1px] border-neutral-300 rounded-sm'
+                          className='flex items-center gap-2 rounded-sm border-[1px] border-neutral-300 px-2 py-1'
                         >
                           <p className='text-sm'>Chi tiết</p>
                         </Link>
@@ -170,11 +170,11 @@ function Order() {
                     })}
                     <Divider />
                     <div className='mt-4'>
-                      <div className=' flex gap-3 justify-end'>
+                      <div className=' flex justify-end gap-3'>
                         <p>Phí ship:</p>
                         <p>{accounting.formatNumber(order.checkout.shipFee)}₫</p>
                       </div>
-                      <div className=' flex gap-3 justify-end'>
+                      <div className=' flex justify-end gap-3'>
                         <p>Tổng giá:</p>
                         <p className='text-orange-4'>
                           {accounting.formatNumber(order.checkout.totalPrice + order.checkout.shipFee)}₫
@@ -186,7 +186,7 @@ function Order() {
               })
             : null}
           {orderList && orderList.metadata.orders.length === 0 ? (
-            <div className='flex items-center justify-center p-4 rounded-lg bg-neutral-0 text-neutral-500 font-medium'>
+            <div className='flex items-center justify-center rounded-lg bg-neutral-0 p-4 font-medium text-neutral-500'>
               Bạn không có đơn hàng trong mục này
             </div>
           ) : null}

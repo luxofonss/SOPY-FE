@@ -37,12 +37,12 @@ function ShopRegister() {
   return (
     <div
       style={{ backgroundImage: `url(${register_bg})` }}
-      className='w-100% grid px-60 gap-12 grid-cols-12 bg-cover bg-center bg-no-repeat h-[calc(100vh_-_88px)] object-cover'
+      className='w-100% grid h-[calc(100vh_-_88px)] grid-cols-12 gap-12 bg-cover bg-center bg-no-repeat object-cover px-60'
     >
       <div className='col-span-6'></div>
       <div className='col-span-6 flex items-center'>
-        <AppForm className='bg-neutral-0 p-4 h-auto w-full rounded-lg' onSubmit={onSubmit}>
-          <h4 className='text-neutral-500 font-semibold text-md text-center mb-2'>Đăng ký bán hàng</h4>
+        <AppForm className='h-auto w-full rounded-lg bg-neutral-0 p-4' onSubmit={onSubmit}>
+          <h4 className='text-md mb-2 text-center font-semibold text-neutral-500'>Đăng ký bán hàng</h4>
           <AppInput type='text' placeholder='Tên shop' name='name' label='Tên shop' required className='mb-2' />
           <AppInput type='text' placeholder='Địa chỉ' name='address' label='Địa chỉ' required className='mb-2' />
           <AppInput
@@ -67,7 +67,7 @@ function ShopRegister() {
             options={[{ name: 'Tôi đồng ý với điều khoản dịch vụ của Shope', value: 1 }]}
             required='Bạn phải đồng ý với điều khoản dịch vụ'
           />
-          <AppButton disabled={isLoading} className='w-full my-4' formNoValidate type='submit'>
+          <AppButton disabled={isLoading} className='my-4 w-full' formNoValidate type='submit'>
             {!isLoading ? ' Đăng ký' : <BeatLoader size={12} color='#ff4d00' />}
           </AppButton>
         </AppForm>

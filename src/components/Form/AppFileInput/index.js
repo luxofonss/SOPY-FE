@@ -1,6 +1,7 @@
 import { UploadIcon } from '@src/assets/svgs'
 import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { twMerge } from 'tailwind-merge'
 
 function AppFileInput({
   id,
@@ -20,6 +21,12 @@ function AppFileInput({
     formState: { errors }
   } = useFormContext()
 
+  const classes = twMerge(
+    `${className} ${
+      errors[name]?.type ? 'border-danger focus:border-danger' : 'border-neutral-300'
+    } focus:secondary-purple box-border block h-10 w-full rounded-md border-2  bg-neutral-200 py-1.5 px-4 text-sm text-neutral-500 outline-none transition duration-500`
+  )
+
   const changeHandler = (e) => {
     if (e.target.files.length > 0) {
       let filename = e.target.files[0].name
@@ -29,19 +36,10 @@ function AppFileInput({
 
   return (
     <div className='relative my-2 w-full flex-col' style={wrapperStyle}>
-      <div
-        className={`mb-1.5 font-semibold block w-full ${
-          !errors[name]?.type ? 'text-neutral-400' : 'text-secondary-orange'
-        }`}
-      >
+      <div className={`mb-1.5 block w-full font-semibold ${!errors[name]?.type ? 'text-neutral-400' : 'text-danger'}`}>
         {label}
       </div>
-      <label
-        htmlFor={id}
-        className={`${className} ${
-          errors[name]?.type ? 'border-secondary-orange focus:border-secondary-orange' : 'border-neutral-300'
-        } h-9 block bg-neutral-200 box-border w-full rounded-md border-2  py-1.5 px-4 text-neutral-500 text-sm outline-none transition duration-500 focus:secondary-purple ${className}`}
-      >
+      <label htmlFor={id} className={classes}>
         {fileName ? fileName : 'Choose a file'}
       </label>
       <input
@@ -59,15 +57,10 @@ function AppFileInput({
         disabled={disabled}
         multiple={multiple}
       />
-      <div className='absolute pointer-events-none right-3 p-1 top-9 cursor-pointer hover:bg-slate-50'>
+      <div className='pointer-events-none absolute right-3 top-9 cursor-pointer p-1 hover:bg-slate-50'>
         <UploadIcon />
       </div>
-      {errors && errors[name]?.type === 'required' && (
-        <div className='text-secondary-orange '>{errors[name].message}</div>
-      )}
-      {errors && errors[name]?.type === 'pattern' && (
-        <div className='text-secondary-orange'>{errors[name].message}</div>
-      )}
+      {errors[name] && <div className='text-danger '>{errors[name].message}</div>}
     </div>
   )
 }

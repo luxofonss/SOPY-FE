@@ -42,6 +42,8 @@ module.exports = {
           300: 'rgba(111, 118, 126, 0.4)',
           400: 'rgba(17, 19, 21, 0.5)'
         },
+        danger: '#FF5140',
+        warning: '#FFB02A',
         'primary-blue': '#2A85FF',
         'primary-green': '#83BF6E',
         'primary-red': '#FF6A55',

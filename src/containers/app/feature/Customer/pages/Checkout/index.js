@@ -85,38 +85,38 @@ function Checkout() {
   return (
     <>
       {loadingPage ? (
-        <div className={`absolute w-screen h-screen bg-neutral-300 bg-opacity-30 flex items-center justify-center`}>
+        <div className={`absolute flex h-screen w-screen items-center justify-center bg-neutral-300 bg-opacity-30`}>
           <BeatLoader size={16} color='#ff4d00' />
         </div>
       ) : (
         <div className='container mx-auto '>
-          <div className='grid grid-cols-12 rounded-sm gap-3'>
-            <div className='col-span-12 flex items-center gap-4 bg-white px-3 py-1 mb-1'>
-              <p className='text-neutral-600 font-semibold'>Danh sách sản phẩm</p>
+          <div className='grid grid-cols-12 gap-3 rounded-sm'>
+            <div className='col-span-12 mb-1 flex items-center gap-4 bg-white px-3 py-1'>
+              <p className='font-semibold text-neutral-600'>Danh sách sản phẩm</p>
             </div>
             <div className='col-span-8'>
               {cartData ? (
                 cartData?.metadata?.data?.map((shop, index) => {
                   let length = cartData?.metadata?.data?.length
                   return (
-                    <div key={shop.shop._id} className='bg-white mb-2 p-3'>
-                      <div className='h-8 py-1 px-2 rounded-sm flex  justify-between items-center bg-secondary-purple'>
-                        <p className='text-neutral-700 font-medium text-base'>
+                    <div key={shop.shop._id} className='mb-2 bg-white p-3'>
+                      <div className='flex h-8 items-center justify-between rounded-sm  bg-secondary-purple py-1 px-2'>
+                        <p className='text-base font-medium text-neutral-700'>
                           Gói hàng {index + 1} của {length}
                         </p>
-                        <p className='text-neutral-600 font-medium text-sm'>Được giao bởi {shop.shop?.name}</p>
+                        <p className='text-sm font-medium text-neutral-600'>Được giao bởi {shop.shop?.name}</p>
                       </div>
                       <div className='mt-2'>
                         <p className='text-sm text-neutral-500'>Tùy chọn giao hàng</p>
-                        <div className='grid grid-cols-4 mt-1'>
-                          <div className='w-full px-3 py-2 bg-secondary-green rounded-md hover:opacity-90 hover:cursor-pointer'>
-                            <div className='flex gap-2 items-center'>
-                              <CheckCircleIcon className='w-6 h-6 text-primary-green' />
-                              <p className='text-neutral-600 font-medium text-sm'>₫{accounting.formatNumber(50000)}</p>
+                        <div className='mt-1 grid grid-cols-4'>
+                          <div className='w-full rounded-md bg-secondary-green px-3 py-2 hover:cursor-pointer hover:opacity-90'>
+                            <div className='flex items-center gap-2'>
+                              <CheckCircleIcon className='h-6 w-6 text-primary-green' />
+                              <p className='text-sm font-medium text-neutral-600'>₫{accounting.formatNumber(50000)}</p>
                             </div>
-                            <div className='pl-6 flex flex-col gap-1'>
-                              <p className='text-neutral-600 font-medium text-xs'>Giao hàng tiêu chuẩn</p>
-                              <p className='text-neutral-600 font-medium text-xs'>Nhận hàng vào 20-21 thg6 </p>
+                            <div className='flex flex-col gap-1 pl-6'>
+                              <p className='text-xs font-medium text-neutral-600'>Giao hàng tiêu chuẩn</p>
+                              <p className='text-xs font-medium text-neutral-600'>Nhận hàng vào 20-21 thg6 </p>
                             </div>
                           </div>
                         </div>
@@ -181,7 +181,7 @@ function Checkout() {
               )}
             </div>
             <div className='col-span-4'>
-              <div className='bg-white px-3 py-1 rounded-md'>
+              <div className='rounded-md bg-white px-3 py-1'>
                 <div>
                   <div className='flex w-full justify-center'>
                     <AppButton
@@ -189,22 +189,22 @@ function Checkout() {
                         handleBuy()
                       }}
                       isLoading={isBuying}
-                      className='w-full mt-6'
+                      className='mt-6 w-full'
                     >
                       Mua hàng
                     </AppButton>
                   </div>
                   <h4 className='font-semibold text-neutral-600'>Địa điểm</h4>
                   <div className='flex gap-4'>
-                    <MapPinIcon className='w-8 h-8 bg-white' />
+                    <MapPinIcon className='h-8 w-8 bg-white' />
                     <div>
                       <p>{userInfo?.address ? chosenAddress : 'Chưa có địa chỉ'}</p>
                       <AppModal
                         closeRef={addAddressCloseRef}
-                        Trigger={<div className='hover:text-neutral-700 hover:cursor-pointer'>Chọn địa chỉ</div>}
+                        Trigger={<div className='hover:cursor-pointer hover:text-neutral-700'>Chọn địa chỉ</div>}
                       >
-                        <div className='w-[550px] bg-neutral-200 rounded-lg p-10'>
-                          <h4 className='text-lg text-neutral-400 font-semibold'>Chọn địa chỉ</h4>
+                        <div className='w-[550px] rounded-lg bg-neutral-200 p-10'>
+                          <h4 className='text-lg font-semibold text-neutral-400'>Chọn địa chỉ</h4>
                           {userInfo?.address?.map((address) => {
                             return (
                               <Fragment key={address}>
@@ -212,7 +212,7 @@ function Checkout() {
                                   htmlFor={address}
                                   className={`${
                                     chosenAddress === address ? 'bg-secondary-purple' : ''
-                                  } w-full h-12 flex items-center px-4 hover:opacity-90 hover:cursor-pointer`}
+                                  } flex h-12 w-full items-center px-4 hover:cursor-pointer hover:opacity-90`}
                                 >
                                   {address}
                                 </label>
@@ -238,13 +238,13 @@ function Checkout() {
                                   {isUpdating ? (
                                     <BeatLoader size={12} color='#ff4d00' />
                                   ) : (
-                                    <PlusCircleIcon className='w-6 h-6' />
+                                    <PlusCircleIcon className='h-6 w-6' />
                                   )}
                                 </button>
                               </div>
                             </AppForm>
                           </div>
-                          <div className='flex justify-end items-center mt-6'>
+                          <div className='mt-6 flex items-center justify-end'>
                             <AppButton type='button' onClick={() => addAddressCloseRef.current.closeModal()}>
                               Ok
                             </AppButton>
@@ -257,47 +257,47 @@ function Checkout() {
                   <Divider />
 
                   <div>
-                    <h4 className='text-neutral-700 font-semibold text-md'>Phương thức thanh toán</h4>
-                    <div className='p-4 flex gap-4 border-primary-green border-[1px] rounded-md hover:bg-neutral-200 transition'>
-                      <CreditCardIcon className='w-6 h-6 text-secondary-green' />
+                    <h4 className='text-md font-semibold text-neutral-700'>Phương thức thanh toán</h4>
+                    <div className='flex gap-4 rounded-md border-[1px] border-primary-green p-4 transition hover:bg-neutral-200'>
+                      <CreditCardIcon className='h-6 w-6 text-secondary-green' />
                       <p className='text-sm text-neutral-500'>Thanh toán khi nhận hàng</p>
                     </div>
                     <Divider />
-                    <h4 className='text-neutral-700 font-semibold text-md'>Mã giảm giá</h4>
-                    <div className='w-full flex justify-between gap-2'>
+                    <h4 className='text-md font-semibold text-neutral-700'>Mã giảm giá</h4>
+                    <div className='flex w-full justify-between gap-2'>
                       <input
                         type='text'
                         placeholder='Nhập mã giảm giá (áp dụng 1 lần)'
                         onChange={(e) => console.log('disount: ', e.target.value)}
-                        className='h-9 flex-1 border-[1px] border-neutral-400 text-sm text-neutral-500 rounded-sm'
+                        className='h-9 flex-1 rounded-sm border-[1px] border-neutral-400 text-sm text-neutral-500'
                       />
-                      <AppButton className='h-9 rounded-sm bg-primary-green hover:opacity-90 text-sm'>
+                      <AppButton className='h-9 rounded-sm bg-primary-green text-sm hover:opacity-90'>
                         Áp dụng
                       </AppButton>
-                      <AppButton className='h-9 rounded-sm bg-primary-blue hover:opacity-90 text-sm'>Chọn mã</AppButton>
+                      <AppButton className='h-9 rounded-sm bg-primary-blue text-sm hover:opacity-90'>Chọn mã</AppButton>
                     </div>
                     <Divider />
-                    <h4 className='text-neutral-700 font-semibold text-md'>Thông tin đơn hàng</h4>
-                    <div className='h-9 flex justify-between items-center text-sm'>
-                      <p className='text-neutral-500 font-medium'>Tạm tính</p>
+                    <h4 className='text-md font-semibold text-neutral-700'>Thông tin đơn hàng</h4>
+                    <div className='flex h-9 items-center justify-between text-sm'>
+                      <p className='font-medium text-neutral-500'>Tạm tính</p>
                       <p className='text-neutral-500'>₫{accounting.formatNumber(cartData?.metadata.totalPrice || 0)}</p>
                     </div>
-                    <div className='h-9 flex justify-between items-center text-sm'>
-                      <p className='text-neutral-500 font-medium'>Phí vận chuyển</p>
+                    <div className='flex h-9 items-center justify-between text-sm'>
+                      <p className='font-medium text-neutral-500'>Phí vận chuyển</p>
                       <p className='text-neutral-500'>₫50.000d</p>
                     </div>
-                    <div className='h-9 flex justify-between items-center text-sm'>
-                      <p className='text-neutral-500 font-medium'>Giảm giá voucher</p>
+                    <div className='flex h-9 items-center justify-between text-sm'>
+                      <p className='font-medium text-neutral-500'>Giảm giá voucher</p>
                       <p className='text-neutral-500'>- ₫50.000d</p>
                     </div>
                     <Divider />
-                    <div className='h-9 flex justify-between items-center'>
-                      <p className='text-neutral-500 font-medium'>Tổng cộng</p>
-                      <p className='text-primary-red text-lg'>
+                    <div className='flex h-9 items-center justify-between'>
+                      <p className='font-medium text-neutral-500'>Tổng cộng</p>
+                      <p className='text-lg text-primary-red'>
                         ₫{accounting.formatNumber(50000 + cartData?.metadata.totalPrice)}
                       </p>
                     </div>
-                    <div className='text-sm flex justify-end text-neutral-400 ml-auto'>Đã bao gồm VAT (nếu có)</div>
+                    <div className='ml-auto flex justify-end text-sm text-neutral-400'>Đã bao gồm VAT (nếu có)</div>
                   </div>
                 </div>
               </div>

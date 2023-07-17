@@ -43,10 +43,10 @@ function ChooseCategory({ handleCategoryResponse, handleChooseCategory, required
         />
       }
     >
-      <div className='w-[550px] bg-neutral-200 rounded-lg p-10'>
-        <h4 className='text-lg text-neutral-400 font-semibold'>Chọn ngành hàng</h4>
-        <div className='grid grid-cols-2 gap-x-6 bg-neutral-0 mt-4'>
-          <div className='py-4 px-6 border-r-2 border-r-neutral-300'>
+      <div className='w-[550px] rounded-lg bg-neutral-200 p-10'>
+        <h4 className='text-lg font-semibold text-neutral-400'>Chọn ngành hàng</h4>
+        <div className='mt-4 grid grid-cols-2 gap-x-6 bg-neutral-0'>
+          <div className='border-r-2 border-r-neutral-300 py-4 px-6'>
             <ul>
               {categoryList
                 ? categoryList.metadata.map((category) => (
@@ -57,7 +57,7 @@ function ChooseCategory({ handleCategoryResponse, handleChooseCategory, required
                       }}
                       className={`${
                         productCategory?.parent?._id === category._id ? 'bg-secondary-green' : ''
-                      } h-6 text-start font-medium rounded-sm hover:bg-neutral-200 cursor-pointer pl-3 text-sm text-neutral-400`}
+                      } h-6 cursor-pointer rounded-sm pl-3 text-start text-sm font-medium text-neutral-400 hover:bg-neutral-200`}
                     >
                       {category.name}
                     </li>
@@ -79,7 +79,7 @@ function ChooseCategory({ handleCategoryResponse, handleChooseCategory, required
                         key={type._id}
                         className={`${
                           productCategory?.children?._id === type._id ? 'bg-secondary-purple' : ''
-                        } my-[2px] text-start font-medium rounded-sm hover:bg-neutral-200 cursor-pointer pl-3 text-sm text-neutral-400`}
+                        } my-[2px] cursor-pointer rounded-sm pl-3 text-start text-sm font-medium text-neutral-400 hover:bg-neutral-200`}
                       >
                         {type.name}
                       </li>
@@ -89,7 +89,7 @@ function ChooseCategory({ handleCategoryResponse, handleChooseCategory, required
             </ul>
           </div>
         </div>
-        <div className='flex justify-end items-center mt-6'>
+        <div className='mt-6 flex items-center justify-end'>
           <div className='flex gap-4 '>
             <AppButton type='button' onClick={() => closeRef.current.closeModal()}>
               Close
@@ -100,7 +100,7 @@ function ChooseCategory({ handleCategoryResponse, handleChooseCategory, required
           </div>
         </div>
         {categoryError ? (
-          <span className='mt-2 text-sm text-secondary-orange ml-auto'>Bạn chưa chọn ngành hàng </span>
+          <span className='mt-2 ml-auto text-sm text-secondary-orange'>Bạn chưa chọn ngành hàng </span>
         ) : null}
       </div>
     </AppModal>

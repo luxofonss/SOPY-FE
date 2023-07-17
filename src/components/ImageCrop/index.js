@@ -11,7 +11,7 @@ const ImageCrop = ({ image, openRef, handleConfirm, closeModalRef }) => {
   console.log('viewImage:: ', viewImage)
   return (
     <AppModal closeRef={closeModalRef} openRef={openRef}>
-      <div className='w-96 h-[400px] bg-neutral-0 p-4 rounded-lg'>
+      <div className='h-[400px] w-96 rounded-lg bg-neutral-0 p-4'>
         <PinturaEditor
           imageCropAspectRatio={1}
           {...getEditorDefaults()}
@@ -21,7 +21,7 @@ const ImageCrop = ({ image, openRef, handleConfirm, closeModalRef }) => {
             setViewImage(URL.createObjectURL(res.dest))
           }}
         />
-        <div className='flex gap-4 justify-center'>
+        <div className='flex justify-center gap-4'>
           <AppButton className='py-1 px-2 text-sm' onClick={() => closeModalRef.current.closeModal()}>
             Đóng
           </AppButton>

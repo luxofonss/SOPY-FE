@@ -1,24 +1,24 @@
+import { NO_IMG } from '@src/configs'
 import accounting from 'accounting'
 import { Link } from 'react-router-dom'
 
-const noImage = process.env.NO_IMG
+const noImage = NO_IMG
 
 function ProductCard({ product }) {
-  console.log('current selected product: ', product)
   return (
     <Link
       to={`/product/${product._id}`}
-      className='w-full flex flex-col gap-2 p-2 cursor-pointer bg-neutral-200 rounded-md hover:bg-neutral-300 hover:scale-105 transition'
+      className='flex w-full cursor-pointer flex-col gap-2 rounded-md border-[1px] border-neutral-300 bg-neutral-0 p-2 shadow-md transition hover:scale-105 hover:shadow-xl'
     >
       <img
-        className='rounded-md h-40 object-cover'
+        className='h-40 rounded-md object-cover'
         src={product?.thumb[0] ? product?.thumb[0] : noImage}
         alt='product'
       />
-      <p className='line-clamp-2 text-sm mt-1'>{product?.name}</p>
-      <div className='flex justify-between items-end flex-1'>
+      <p className='mt-1 text-xs font-medium line-clamp-2'>{product?.name}</p>
+      <div className='flex flex-1 items-end justify-between'>
         <p className='text-sm font-medium text-orange-4'>₫{accounting.formatNumber(product?.minPrice)}</p>
-        <p className='text-xs font-normal text-neutral-500'>Đã bán {product.sold}</p>
+        <p className='text-xs font-normal text-neutral-400'>Đã bán {product.sold}</p>
       </div>
     </Link>
   )

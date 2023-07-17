@@ -4,6 +4,7 @@ import { get } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { v4 as uuidv4 } from 'uuid'
+import { twMerge } from 'tailwind-merge'
 
 const exampleOptions = [
   {
@@ -20,29 +21,22 @@ const exampleOptions = [
   }
 ]
 
-function AppSelect({
-  className,
-  name,
-  label,
-  validate,
-  options = exampleOptions,
-  defaultValue,
-  required = false,
-  Icon,
-  showIcon
-}) {
+function AppSelect({ className, name, label, validate, options = exampleOptions, required = false, Icon, showIcon }) {
   const [open, setOpen] = useState(false)
   const [selected, setSelected] = useState(options[0] || {})
   const {
     register,
     setValue,
-    getValues,
     formState: { errors }
   } = useFormContext()
 
   const inputRef = useRef()
 
-  console.log(getValues(name), defaultValue)
+  const classes = twMerge(
+    `${className} ${
+      errors[name]?.type ? 'border-danger focus:border-danger' : 'border-neutral-300'
+    } h-10 relative z-[10] box-border w-full rounded-md border-2 bg-neutral-200  py-1.5 px-4 text-sm text-neutral-500 outline-none transition duration-500 focus:border-secondary-purple`
+  )
 
   useEffect(() => {
     setValue(name, selected.value)
@@ -61,8 +55,8 @@ function AppSelect({
           onClick={() => {
             setOpen(!open)
           }}
-          className={`mb-1.5 font-medium block w-full text-sm ${
-            !errors[name]?.type ? 'text-neutral-500' : 'text-secondary-orange'
+          className={`mb-1.5 block w-full text-sm font-medium ${
+            !errors[name]?.type ? 'text-neutral-500' : 'text-danger'
           }`}
           htmlFor={name}
         >
@@ -73,20 +67,18 @@ function AppSelect({
         onClick={() => {
           setOpen(!open)
         }}
-        className={`${className} ${
-          errors[name]?.type ? 'border-secondary-orange focus:border-secondary-orange' : 'border-neutral-300'
-        } relative z-[10] h-9 bg-neutral-200 box-border w-full rounded-md border-2  py-1.5 px-4 text-neutral-500 text-sm outline-none transition duration-500 focus:border-secondary-purple ${className}`}
+        className={classes}
       >
         {selected.name}
         {open ? (
-          <ul className='absolute top-10 left-0 right-0 z-100 rounded-md border-neutral-300  bg-neutral-200 p-4 transition'>
+          <ul className='z-100 absolute top-10 left-0 right-0 rounded-md border-neutral-300  bg-neutral-200 p-4 transition'>
             {options.map((option) => {
               return (
                 <li
                   onClick={() => {
                     handleSelect(option)
                   }}
-                  className='h-8 mb-1 px-2 hover:bg-neutral-300 font-medium text-sm text-neutral-500 flex items-center rounded-md transition-all cursor-pointer'
+                  className='mb-1 flex h-8 cursor-pointer items-center rounded-md px-2 text-sm font-medium text-neutral-500 transition-all hover:bg-neutral-300'
                   key={uuidv4(option.value)}
                 >
                   {option.name}
@@ -98,7 +90,7 @@ function AppSelect({
       </div>
 
       {showIcon && <div className='absolute right-3 top-9 cursor-pointer'>{Icon}</div>}
-      {errors && <div className='text-secondary-orange '>{get(errors, name)?.message}</div>}
+      {errors[name] && <div className='text-danger '>{get(errors, name)?.message}</div>}
 
       <input
         className='hidden'

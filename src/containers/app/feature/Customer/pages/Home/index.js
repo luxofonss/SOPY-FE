@@ -36,49 +36,49 @@ function Home() {
   }, [])
   return (
     <div className='container mx-auto'>
-      <div className='h-64 flex gap-2 mt-4'>
-        <div className='h-64 w-3/5'>
+      <div className='mt-4 flex h-[215px] gap-2'>
+        <div className='h-full w-3/5'>
           <Slider data={slider1} />
         </div>
-        <div className='h-64 w-2/5 grid grid-cols-5 gap-2  p-2 bg-neutral-0 rounded-md'>
+        <div className='grid h-full w-2/5 grid-cols-5 gap-2  rounded-md bg-neutral-0 p-2'>
           {ADS_HOME.map((item) => {
             return (
               <div
                 key={item.image}
-                className='w-full my-1 flex flex-col items-center justify-center gap-3 bg-neutral-200 rounded-md hover:scale-105 hover:cursor-pointer transition'
+                className='my-1 flex w-full flex-col items-center justify-center gap-3 rounded-md bg-neutral-200 p-1 transition hover:scale-105 hover:cursor-pointer'
               >
-                <img className='w-10 h-10 object-cover rounded-md' src={item.image} alt='banner' />
-                <p className='text-neutral-500 text-xs text-center line-clamp-2'>{item.name}</p>
+                <img className='h-10 w-10 rounded-md object-cover' src={item.image} alt='banner' />
+                <p className='text-center text-xs text-neutral-400 line-clamp-2'>{item.name}</p>
               </div>
             )
           })}
         </div>
       </div>
       {/*category selections*/}
-      <div className='mt-4 p-4 rounded-lg bg-neutral-200'>
-        <h4 className='text-xl font-semibold text-neutral-400 mb-3'>Danh mục</h4>
+      <div className='mt-4 rounded-lg bg-neutral-0 p-4'>
+        <h4 className='mb-3 text-lg font-medium text-neutral-400'>DANH MỤC</h4>
         <div className='grid grid-cols-10 gap-2'>
           {categories?.metadata?.map((category) => (
             <Link
               key={category?.name}
               to={`/search?typeId=${category._id}`}
-              className='w-full h-32 bg-neutral-200 rounded-md flex flex-col justify-center items-center gap-2 cursor-pointer hover:bg-neutral-100 hover:scale-105 transition'
+              className='flex h-32 w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-md bg-neutral-100 transition hover:scale-105 hover:bg-neutral-200'
             >
-              <img className='w-16 h-16 rounded-md' src={category?.thumb} alt='bg' />
-              <p className='font-medium text-neutral-500 text-sm text-center line-clamp-2'>{category.name}</p>
+              <img className='h-16 w-16 rounded-md' src={category?.thumb} alt='bg' />
+              <p className='text-center text-sm font-medium text-neutral-500 line-clamp-2'>{category.name}</p>
             </Link>
           ))}
         </div>
       </div>
 
-      <div className='mt-4 p-4 rounded-lg bg-neutral-200'>
+      <div className='mt-4 rounded-lg bg-neutral-0 p-4'>
         <div className='flex justify-between'>
-          <h4 className='text-xl font-semibold text-neutral-400 mb-3'>Dành cho bạn</h4>
-          <Link className='font-medium text-sm text-neutral-500' to='/'>
+          <h4 className='font-meidum mb-3 text-lg text-neutral-400'>DÀNH CHO BẠN</h4>
+          <Link to='/search' className='text-sm font-medium text-neutral-400'>
             Xem tất cả
           </Link>
         </div>
-        <div className='grid grid-cols-6 gap-8'>
+        <div className='grid grid-cols-6 gap-3'>
           {products?.metadata?.map((product) => (
             <div key={product.name}>
               <ProductCard product={product} />

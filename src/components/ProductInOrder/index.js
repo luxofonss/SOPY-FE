@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 function ProductInOrder({ product }) {
   return (
     <div
-      className='flex items-center gap-4 p-2 my-1 rounded-md hover:bg-secondary-purple hover:cursor-pointer transition'
+      className='my-1 flex items-center gap-4 rounded-md p-2 transition hover:cursor-pointer hover:bg-secondary-purple'
       key={product.variation._id}
     >
       <Link
@@ -16,7 +16,7 @@ function ProductInOrder({ product }) {
         <img
           src={product.variation?.thumb ? product.variation.thumb : product.product.thumb[0]}
           alt='thumb'
-          className='w-16 h-16 object-cover'
+          className='h-16 w-16 object-cover'
         />
         <div>
           <p className='text-base font-medium text-neutral-700 line-clamp-2'>{product.product.name}</p>
@@ -30,14 +30,14 @@ function ProductInOrder({ product }) {
           </p>
         </div>
       </Link>
-      <div className='flex gap-3 ml-auto'>
-        <div className='w-36 ml-auto'>
-          <p className='text-base font-semibold text-primary-red text-left'>
+      <div className='ml-auto flex gap-3'>
+        <div className='ml-auto w-36'>
+          <p className='text-left text-base font-semibold text-primary-red'>
             {accounting.formatNumber(product.variation.price)}₫
           </p>
         </div>
-        <div className='flex gap-2 items-center'>
-          <div className='h-9 flex items-center text-sm justify-center border-neutral-300 border-[1px]'>
+        <div className='flex items-center gap-2'>
+          <div className='flex h-9 items-center justify-center border-[1px] border-neutral-300 text-sm'>
             Số lượng: {product.quantity}
           </div>
         </div>

@@ -9,12 +9,12 @@ export default function ThemeSwitch({ className }) {
       {enabled ? (
         <>
           <IconSun />
-          <div className='flex-1 ml-2'>Light mode</div>
+          <div className='ml-2 flex-1'>Light mode</div>
         </>
       ) : (
         <>
           <IconMoon />
-          <div className='flex-1 ml-2'>Dark mode</div>
+          <div className='ml-2 flex-1'>Dark mode</div>
         </>
       )}
       <Switch

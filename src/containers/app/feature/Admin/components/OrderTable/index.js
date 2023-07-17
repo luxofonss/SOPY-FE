@@ -52,7 +52,7 @@ const OrderTable = ({ refreshData, data, onSelect, onTableChange }) => {
         width: 80,
         render: (thumb) => (
           <Space size='middle'>
-            <img className='w-12 h-12 object-cover rounded-md' src={thumb} alt='thumb' />
+            <img className='h-12 w-12 rounded-md object-cover' src={thumb} alt='thumb' />
           </Space>
         )
       },
@@ -190,11 +190,11 @@ const OrderTable = ({ refreshData, data, onSelect, onTableChange }) => {
   return (
     <>
       <AppModal closeRef={closeRejectRef} openRef={openRef}>
-        <div className='w-[450px] bg-neutral-200 rounded-lg p-4'>
-          <h4 className='text-base text-neutral-600 font-medium'>Từ chối đơn hàng</h4>
+        <div className='w-[450px] rounded-lg bg-neutral-200 p-4'>
+          <h4 className='text-base font-medium text-neutral-600'>Từ chối đơn hàng</h4>
           <AppForm onSubmit={handleReject}>
             <AppInput placeholder='Lý do từ chối' name='reason' id='reason' />
-            <div className='flex justify-center gap-4 items-center mt-6'>
+            <div className='mt-6 flex items-center justify-center gap-4'>
               <AppButton
                 type='button'
                 onClick={() => {

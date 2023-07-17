@@ -1,5 +1,6 @@
 import { get } from 'lodash'
 import { useFormContext } from 'react-hook-form'
+import { twMerge } from 'tailwind-merge'
 
 function AppTextArea({
   id,
@@ -20,11 +21,17 @@ function AppTextArea({
     formState: { errors }
   } = useFormContext()
 
+  const classes = twMerge(
+    `${className} ${
+      errors[name]?.type ? 'border-danger focus:border-danger' : 'border-neutral-300'
+    }  box-border w-full rounded-md border-2 bg-neutral-200  py-1.5 px-4 text-sm text-neutral-500 outline-none transition duration-500 focus:border-secondary-purple`
+  )
+
   return (
     <div className='relative my-2 w-full flex-col' style={wrapperStyle}>
       <label
-        className={`mb-1.5 font-medium block w-full text-sm ${
-          !errors[name]?.type ? 'text-neutral-500' : 'text-secondary-orange'
+        className={`mb-1.5 block w-full text-sm font-medium ${
+          !errors[name]?.type ? 'text-neutral-500' : 'text-danger'
         }`}
         htmlFor={id}
       >
@@ -33,9 +40,7 @@ function AppTextArea({
       <textarea
         id={id}
         type={props.type || 'text'}
-        className={`${className} ${
-          errors[name]?.type ? 'border-secondary-orange focus:border-secondary-orange' : 'border-neutral-300'
-        }  bg-neutral-200 box-border w-full rounded-md border-2  py-1.5 px-4 text-neutral-500 text-sm outline-none transition duration-500 focus:border-secondary-purple ${className}`}
+        className={classes}
         placeholder={props.placeholder || ''}
         autoComplete='off'
         {...register(name, {
@@ -48,7 +53,7 @@ function AppTextArea({
         disabled={disabled}
       ></textarea>
       {showIcon && <div className='absolute right-3 top-9 cursor-pointer'>{Icon}</div>}
-      {errors && <div className='text-secondary-orange '>{get(errors, name)?.message}</div>}
+      {errors[name] && <div className='text-danger '>{get(errors, name)?.message}</div>}
     </div>
   )
 }

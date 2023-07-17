@@ -118,17 +118,17 @@ function SellInformation({ defaultValue = [] }) {
   return (
     <div>
       <div>
-        <h4 className='text-md font-semibold text-neutral-400 mb-4'>Phân loại hàng</h4>
+        <h4 className='text-md mb-4 font-semibold text-neutral-400'>Phân loại hàng</h4>
         <div>
           {/* <AppForm onSubmit={() => {}}> */}
-          <div className='p-4 rounded-md bg-secondary-blue mb-4'>
-            <div className='gap-6 grid grid-cols-12'>
+          <div className='mb-4 rounded-md bg-secondary-blue p-4'>
+            <div className='grid grid-cols-12 gap-6'>
               <div className='col-span-2 text-sm font-medium text-neutral-400'>Nhóm phân loại 1</div>
               <div className='col-span-5'>
                 <AppInput id='variation1' name='variation1.name' required placeholder='ví dụ: màu sắc vv' />
               </div>
             </div>
-            <div className='gap-6 grid grid-cols-12'>
+            <div className='grid grid-cols-12 gap-6'>
               <div className='col-span-2 text-sm font-medium text-neutral-400'>Phân loại hàng</div>
               <div className='col-span-10 grid grid-cols-2 gap-x-8'>
                 {indexes1.map((index) => {
@@ -155,15 +155,15 @@ function SellInformation({ defaultValue = [] }) {
               <div
                 type='button'
                 onClick={addVariation1}
-                className='p-1 rounded-full hover:bg-secondary-green transition cursor-pointer'
+                className='cursor-pointer rounded-full p-1 transition hover:bg-secondary-green'
               >
                 <AddCircleIcon />
               </div>
             </div>
           </div>
 
-          <div className='p-4 rounded-md bg-secondary-blue mb-4'>
-            <div className='gap-6 grid grid-cols-12'>
+          <div className='mb-4 rounded-md bg-secondary-blue p-4'>
+            <div className='grid grid-cols-12 gap-6'>
               <div className='col-span-2 text-sm font-medium text-neutral-400'>Nhóm phân loại 2</div>
               <div className='col-span-5'>
                 <AppInput
@@ -175,7 +175,7 @@ function SellInformation({ defaultValue = [] }) {
                 />
               </div>
             </div>
-            <div className='gap-6 grid grid-cols-12'>
+            <div className='grid grid-cols-12 gap-6'>
               <div className='col-span-2 text-sm font-medium text-neutral-400'>Phân loại hàng</div>
               <div className='col-span-10 grid grid-cols-2 gap-x-8'>
                 {indexes2.map((index) => {
@@ -199,7 +199,7 @@ function SellInformation({ defaultValue = [] }) {
               </div>
             </div>
             <div type='button' className='ml-auto flex justify-end  ' onClick={addVariation2}>
-              <div className='p-1 rounded-full hover:bg-secondary-green transition cursor-pointer'>
+              <div className='cursor-pointer rounded-full p-1 transition hover:bg-secondary-green'>
                 <AddCircleIcon />
               </div>
             </div>
@@ -208,7 +208,7 @@ function SellInformation({ defaultValue = [] }) {
         </div>
       </div>
       <button
-        className='px-2 py-1 bg-secondary-purple text-neutral-200 rounded-lg hover:opacity-80 hover:translate-y-1 transition'
+        className='rounded-lg bg-secondary-purple px-2 py-1 text-neutral-200 transition hover:translate-y-1 hover:opacity-80'
         type='button'
         onClick={() => {
           applyVariation()
@@ -219,8 +219,8 @@ function SellInformation({ defaultValue = [] }) {
       <div className='mt-4'>
         <h4 className='text-lg font-semibold text-neutral-400'>Danh sách phân loại hàng</h4>
         <div className='mt-4'>
-          <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-            <thead className='text-xs text-gray-700 uppercase bg-gray-50 '>
+          <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
+            <thead className='bg-gray-50 text-xs uppercase text-gray-700 '>
               <tr>
                 <th>Nhóm phân loại</th>
                 <th></th>
@@ -232,17 +232,17 @@ function SellInformation({ defaultValue = [] }) {
             <tbody>
               {variation1?.children?.map((variation, index) => {
                 return (
-                  <tr key={uuidv4(variation)} className='bg-white border-b '>
+                  <tr key={uuidv4(variation)} className='border-b bg-white '>
                     <td className='pr-4'>
                       <span>{variation}</span>
                       <label
-                        className='relative w-24 h-24 mt-1 cursor-pointer border-dashed border-2 rounded-lg border-secondary-blue flex justify-center items-center'
+                        className='relative mt-1 flex h-24 w-24 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-secondary-blue'
                         htmlFor={`variations[${index}].thumb`}
                       >
                         {thumbList[index] ? (
-                          <img className='w-full h-full rounded-md object-contain' src={thumbList[index]} alt='thumb' />
+                          <img className='h-full w-full rounded-md object-contain' src={thumbList[index]} alt='thumb' />
                         ) : (
-                          <div className='absolute -translate-x-1/2 top-1/2 -translate-y-1/2 left-1/2'>
+                          <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
                             <UploadIcon />
                           </div>
                         )}

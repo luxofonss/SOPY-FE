@@ -38,7 +38,7 @@ const ProductTable = ({ data, onTableChange }) => {
         key: 'thumb',
         render: (thumb) => (
           <Space size='middle'>
-            <img className='w-12 h-12 object-cover rounded-md' src={thumb} alt='thumb' />
+            <img className='h-12 w-12 rounded-md object-cover' src={thumb} alt='thumb' />
           </Space>
         )
       },
@@ -98,7 +98,7 @@ const ProductTable = ({ data, onTableChange }) => {
       key: 'thumb',
       render: (thumb) => (
         <Space size='middle'>
-          <img className='w-12 h-12 object-cover rounded-md' src={thumb} alt='thumb' />
+          <img className='h-12 w-12 rounded-md object-cover' src={thumb} alt='thumb' />
         </Space>
       )
     },
@@ -122,8 +122,8 @@ const ProductTable = ({ data, onTableChange }) => {
       dataIndex: 'isDraft',
       key: 'isDraft',
       render: (isDraft) => {
-        if (isDraft) return <p className='bg-secondary-orange rounded-md py-1 px-2'>Inactive</p>
-        else return <p className='bg-secondary-green rounded-md py-1 px-2'>Active</p>
+        if (isDraft) return <p className='rounded-md bg-secondary-orange py-1 px-2'>Inactive</p>
+        else return <p className='rounded-md bg-secondary-green py-1 px-2'>Active</p>
       }
     },
     {

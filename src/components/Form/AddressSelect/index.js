@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import { get } from 'lodash'
 import { useEffect, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { get } from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
+import { twMerge } from 'tailwind-merge'
 import axios from 'axios'
 import { searchString } from '@src/helpers/search'
 
@@ -16,6 +17,12 @@ function AddressSelect({ className, name, label, validate, required = false, Ico
     setValue,
     formState: { errors }
   } = useFormContext()
+
+  const classes = twMerge(
+    `${className} ${
+      errors[name]?.type ? 'border-danger focus:border-danger' : 'border-neutral-300'
+    } relative z-[1000] box-border h-10 w-full rounded-md border-2 bg-neutral-200  py-1.5 px-4 text-sm text-neutral-500 outline-none transition duration-500 focus:border-secondary-purple`
+  )
 
   const inputRef = useRef()
   const inputTypeRef = useRef()
@@ -52,8 +59,8 @@ function AddressSelect({ className, name, label, validate, required = false, Ico
         onClick={() => {
           setOpen(!open)
         }}
-        className={`mb-1.5 font-medium block w-full text-sm ${
-          !errors[name]?.type ? 'text-neutral-500' : 'text-secondary-orange'
+        className={`mb-1.5 block w-full text-sm font-medium ${
+          !errors[name]?.type ? 'text-neutral-500' : 'text-danger'
         }`}
         htmlFor={name}
       >
@@ -63,26 +70,24 @@ function AddressSelect({ className, name, label, validate, required = false, Ico
         onClick={() => {
           setOpen(!open)
         }}
-        className={`${className} ${
-          errors[name]?.type ? 'border-secondary-orange focus:border-secondary-orange' : 'border-neutral-300'
-        } relative z-[1000] h-9 bg-neutral-200 box-border w-full rounded-md border-2  py-1.5 px-4 text-neutral-500 text-sm outline-none transition duration-500 focus:border-secondary-purple ${className}`}
+        className={classes}
       >
         <input
           ref={inputTypeRef}
           type='text'
           placeholder='Search...'
-          className='w-full outline-none absolute -top-[2px] -left-[2px] -right-[2px] h-9 rounded-md text-neutral-500 text-sm border-none focus:outline-none'
+          className='absolute -top-[2px] -left-[2px] -right-[2px] h-9 w-full rounded-md border-none text-sm text-neutral-500 outline-none focus:outline-none'
           onChange={handleSearch}
         />
         {open ? (
-          <ul className='absolute max-h-80 overflow-y-scroll top-10 left-0 right-0 z-100 rounded-md border-neutral-300  bg-neutral-200 p-4 transition'>
+          <ul className='z-100 absolute top-10 left-0 right-0 max-h-80 overflow-y-scroll rounded-md border-neutral-300  bg-neutral-200 p-4 transition'>
             {filteredOptions.map((option) => {
               return (
                 <li
                   onClick={() => {
                     handleSelect(option)
                   }}
-                  className='h-8 mb-1 px-2 hover:bg-neutral-300 font-medium text-sm text-neutral-500 flex items-center rounded-md transition-all cursor-pointer'
+                  className='mb-1 flex h-8 cursor-pointer items-center rounded-md px-2 text-sm font-medium text-neutral-500 transition-all hover:bg-neutral-300'
                   key={uuidv4(option.code)}
                 >
                   {option.name}
@@ -94,7 +99,7 @@ function AddressSelect({ className, name, label, validate, required = false, Ico
       </div>
 
       {showIcon && <div className='absolute right-3 top-9 cursor-pointer'>{Icon}</div>}
-      {errors && <div className='text-secondary-orange '>{get(errors, name)?.message}</div>}
+      {errors[name] && <div className='text-danger '>{get(errors, name)?.message}</div>}
 
       <input
         className='hidden'

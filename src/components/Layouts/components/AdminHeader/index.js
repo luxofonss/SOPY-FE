@@ -6,7 +6,7 @@ import Notification from '../Notification'
 function AdminHeader() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
   return (
-    <div className='w-full bg-orange-3 h-16 flex justify-end items-center px-10'>
+    <div className='flex h-16 w-full items-center justify-end bg-orange-3 px-10'>
       <div className='flex gap-3'>
         {isLoggedIn ? (
           <div className='flex gap-1'>

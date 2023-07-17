@@ -210,11 +210,11 @@ function Product() {
 
   return (
     <div className='container mx-auto'>
-      <div className='grid grid-cols-12 bg-white p-4 rounded-md'>
+      <div className='grid grid-cols-12 rounded-md bg-white p-4'>
         <div className='col-span-4'>
           <div className='flex flex-col items-center gap-4'>
-            <img className='w-full h-96 object-cover' src={productMainThumb} alt='img' />
-            <div className='w-full h-24'>
+            <img className='h-96 w-full object-cover' src={productMainThumb} alt='img' />
+            <div className='h-24 w-full'>
               <Carousel autoplay slidesToShow={4} infinite={false}>
                 {product?.metadata?.thumb.map((thumb) => (
                   <img
@@ -230,17 +230,17 @@ function Product() {
               </Carousel>
             </div>
           </div>
-          <div className='flex gap-4 mt-4'>
+          <div className='mt-4 flex gap-4'>
             <p>Chia sẻ</p>
             <FacebookLogo />
           </div>
         </div>
         <div className='col-span-1 flex justify-center'>
-          <div className='w-[1px] bg-neutral-300 h-full'></div>
+          <div className='h-full w-[1px] bg-neutral-300'></div>
         </div>
         <div className='col-span-7 flex flex-col'>
           <h4 className='text-xl font-medium line-clamp-2'>{product?.metadata?.name}</h4>
-          <div className='flex gap-6 mt-3'>
+          <div className='mt-3 flex gap-6'>
             <Rating>
               <Rating.Star />
               <p className='ml-2 font-bold text-gray-900 dark:text-white'>4.95</p>
@@ -251,36 +251,36 @@ function Product() {
             </div>
             <p>{product?.metadata?.sold} đã bán</p>
           </div>
-          <div className='w-full px-2 py-4 bg-neutral-200 rounded-lg mt-3'>
-            <div className='flex items-center gap-6 w-full '>
+          <div className='mt-3 w-full rounded-lg bg-neutral-200 px-2 py-4'>
+            <div className='flex w-full items-center gap-6 '>
               <div className='flex gap-3'>
-                <div className='text-2xl text-orange-4 font-semibold'>
+                <div className='text-2xl font-semibold text-orange-4'>
                   ₫
                   {product?.metadata?.discount
                     ? accounting.formatNumber(product?.metadata?.minPrice - product?.metadata?.discount)
                     : accounting.formatNumber(product?.metadata?.minPrice)}
                 </div>
-                <div className='line-through font-semibold text-neutral-400 text-base'>
+                <div className='text-base font-semibold text-neutral-400 line-through'>
                   ₫{accounting.formatNumber(product?.metadata?.minPrice)}
                 </div>
               </div>
-              <div className='py-1 px-2 text-neutral-200 bg-orange-4 shadow-sm rounded-sm'>-50% GIẢM</div>
+              <div className='rounded-sm bg-orange-4 py-1 px-2 text-neutral-200 shadow-sm'>-50% GIẢM</div>
             </div>
             <div className='flex gap-3'>
               <CheapTag />
               <div>
-                <div className='text-orange-3 font-medium text-sm'>Gì cũng rẻ</div>
+                <div className='text-sm font-medium text-orange-3'>Gì cũng rẻ</div>
                 <div className='text-xs'>Giá tốt nhất so với các sản phẩm cùng loại ở nơi khác!</div>
               </div>
             </div>
           </div>
 
           {/* Shipping */}
-          <div className='grid grid-cols-12 mt-6'>
+          <div className='mt-6 grid grid-cols-12'>
             <h4 className='col-span-2'>Vận chuyển</h4>
             <div className='col-span-10'>
               <div className='flex gap-3'>
-                <TruckIcon className='w-4 h-4' />
+                <TruckIcon className='h-4 w-4' />
                 <p>Vận chuyển tới: </p>
                 {!isEmpty(userInfo?.address) ? <p>{userInfo?.address[0]}</p> : null}
               </div>
@@ -294,7 +294,7 @@ function Product() {
 
           {product?.metadata?.variations && (
             <div>
-              <div className='grid grid-cols-12 mt-6'>
+              <div className='mt-6 grid grid-cols-12'>
                 <h4 className='col-span-2'>{product?.metadata?.variations[0]?.keyVariation}</h4>
                 <div className='col-span-10 grid grid-cols-6 gap-2'>
                   {allVariation.variation1?.map((variation) => {
@@ -307,8 +307,8 @@ function Product() {
                             ? 'border-orange-4'
                             : activeVariation.variation1.includes(variation)
                             ? 'bg-neutral-300'
-                            : 'bg-neutral-400 pointer-events-none'
-                        } px-2 py-1 border-[1px] border-neutral-300 cursor-pointer rounded-sm flex items-center justify-center hover-opacity-90`}
+                            : 'pointer-events-none bg-neutral-400'
+                        } hover-opacity-90 flex cursor-pointer items-center justify-center rounded-sm border-[1px] border-neutral-300 px-2 py-1`}
                       >
                         {variation}
                       </div>
@@ -317,7 +317,7 @@ function Product() {
                 </div>
               </div>
               {product?.metadata?.variations[0]?.subVariation ? (
-                <div className='grid grid-cols-12 mt-6'>
+                <div className='mt-6 grid grid-cols-12'>
                   <h4 className='col-span-2'>{product?.metadata?.variations[0]?.subVariation}</h4>
                   <div className='col-span-10 grid grid-cols-6 gap-2'>
                     {allVariation?.variation2?.map((variation) => (
@@ -331,8 +331,8 @@ function Product() {
                             ? 'border-orange-4'
                             : activeVariation.variation2.includes(variation)
                             ? 'bg-neutral-300'
-                            : 'bg-neutral-400 pointer-events-none'
-                        } px-2 py-1 border-[1px] border-neutral-300 cursor-pointer rounded-sm flex items-center justify-center hover-opacity-90`}
+                            : 'pointer-events-none bg-neutral-400'
+                        } hover-opacity-90 flex cursor-pointer items-center justify-center rounded-sm border-[1px] border-neutral-300 px-2 py-1`}
                       >
                         {variation}
                       </div>
@@ -344,21 +344,21 @@ function Product() {
           )}
 
           {/**Quantity */}
-          <div className='grid grid-cols-12 mt-6'>
+          <div className='mt-6 grid grid-cols-12'>
             <h4 className='col-span-2'>Số lượng</h4>
             <div className='col-span-10 flex gap-4'>
               <div className='flex gap-2'>
-                <button className='w-6 h-6 ' onClick={decreaseQuantity}>
+                <button className='h-6 w-6 ' onClick={decreaseQuantity}>
                   <MinusIcon
                     color='white'
-                    className='bg-white text-neutral-700 rounded-full transition hover:bg-secondary-orange'
+                    className='rounded-full bg-white text-neutral-700 transition hover:bg-secondary-orange'
                   />
                 </button>
-                <div className='w-6 h-6 flex items-center justify-center border-neutral-300 border-[1px]'>
+                <div className='flex h-6 w-6 items-center justify-center border-[1px] border-neutral-300'>
                   {quantity}
                 </div>
-                <button className='w-6 h-6 ' onClick={increaseQuantity}>
-                  <PlusIcon className='bg-white text-neutral-700 rounded-full transition hover:bg-secondary-green' />
+                <button className='h-6 w-6 ' onClick={increaseQuantity}>
+                  <PlusIcon className='rounded-full bg-white text-neutral-700 transition hover:bg-secondary-green' />
                 </button>
               </div>
               <p>{variation?.stock ? variation.stock : product?.metadata?.quantity} sản phẩm có sẵn</p>
@@ -366,12 +366,12 @@ function Product() {
           </div>
 
           {/*Actions*/}
-          <div className='flex gap-6 mt-auto ml-auto'>
+          <div className='mt-auto ml-auto flex gap-6'>
             <AppButton
-              className='bg-transparent border-[1px] border-orange-4 text-orange-4 hover:bg-orange-1'
+              className='border-[1px] border-orange-4 bg-transparent text-orange-4 hover:bg-orange-1'
               isLoading={isAddingToCart}
               onClick={handleAddToCart}
-              Icon={<ShoppingCartIcon className='w-5 h-5 text-orange-4' />}
+              Icon={<ShoppingCartIcon className='h-5 w-5 text-orange-4' />}
               showIcon
             >
               Thêm vào giỏ hàng
@@ -385,10 +385,10 @@ function Product() {
 
       {/**Shop information */}
       {shopInfo?.metadata ? (
-        <div className='w-full rounded-md mt-6 p-4 bg-neutral-0 flex justify-between'>
+        <div className='mt-6 flex w-full justify-between rounded-md bg-neutral-0 p-4'>
           <div className='flex gap-6'>
             <img
-              className='w-20 h-20 rounded-full'
+              className='h-20 w-20 rounded-full'
               src={
                 shopInfo?.metadata?.avatar ||
                 'https://down-vn.img.susercontent.com/file/1fc4e634d68efb2cac27d1904970dc3d_tn'
@@ -401,9 +401,9 @@ function Product() {
                 {shopInfo?.metadata?.shopInfo?.shopName || shopInfo?.metadata?.name}
               </p>
               <p className='text-sm'>{shopInfo?.metadata?.shopInfo?.address}</p>
-              <div className='flex gap-4 mt-auto'>
+              <div className='mt-auto flex gap-4'>
                 <AppButton
-                  Icon={<ChatBubbleLeftIcon className='w-5 h-5' />}
+                  Icon={<ChatBubbleLeftIcon className='h-5 w-5' />}
                   showIcon
                   onClick={() => {
                     handleNewConversation({
@@ -412,38 +412,38 @@ function Product() {
                       avatar: shopInfo?.metadata?.avatar
                     })
                   }}
-                  className='h-9 bg-transparent border-[1px] border-orange-4 text-orange-4 hover:bg-orange-1'
+                  className='h-9 border-[1px] border-orange-4 bg-transparent text-orange-4 hover:bg-orange-1'
                 >
                   Chat
                 </AppButton>
 
                 <Link
                   to={`/shop/${shopInfo?.metadata?._id}`}
-                  className='h-9 bg-transparent border-[1px] border-neutral-300 text-neutral-600 hover:bg-neutral-200'
+                  className='h-9 border-[1px] border-neutral-300 bg-transparent text-neutral-600 hover:bg-neutral-200'
                 >
                   Xem shop
                 </Link>
               </div>
             </div>
-            <div className='w-[1px] mx-4 bg-neutral-300 h-full'></div>
+            <div className='mx-4 h-full w-[1px] bg-neutral-300'></div>
             <div className='flex flex-col justify-around'>
-              <div className='flex gap-4 justify-between'>
-                <p className='text-neutral-400 font-medium '>Đánh Giá</p>
+              <div className='flex justify-between gap-4'>
+                <p className='font-medium text-neutral-400 '>Đánh Giá</p>
                 <p className='text-orange-4 '>14.4k</p>
               </div>
-              <div className='flex gap-4 justify-between'>
-                <p className='text-neutral-400 font-medium '>Sản phẩm</p>
+              <div className='flex justify-between gap-4'>
+                <p className='font-medium text-neutral-400 '>Sản phẩm</p>
                 <p className='text-orange-4 '>14</p>
               </div>
             </div>
-            <div className='w-[1px] mx-4 bg-neutral-300 h-full'></div>
+            <div className='mx-4 h-full w-[1px] bg-neutral-300'></div>
             <div className='flex flex-col justify-around'>
-              <div className='flex gap-4 justify-between'>
-                <p className='text-neutral-400 font-medium '>Tham Gia</p>
+              <div className='flex justify-between gap-4'>
+                <p className='font-medium text-neutral-400 '>Tham Gia</p>
                 <p className='text-orange-4 '>31 tháng trước</p>
               </div>
-              <div className='flex gap-4 justify-between'>
-                <p className='text-neutral-400 font-medium '>Người theo dõi</p>
+              <div className='flex justify-between gap-4'>
+                <p className='font-medium text-neutral-400 '>Người theo dõi</p>
                 <p className='text-orange-4 '>31k</p>
               </div>
             </div>
@@ -457,14 +457,14 @@ function Product() {
       ) : null}
 
       {/**same products */}
-      <div className='mt-4 p-4 rounded-lg bg-neutral-200'>
+      <div className='mt-4 rounded-lg bg-neutral-200 p-4'>
         <div className='flex justify-between'>
-          <h4 className='text-xl font-semibold text-neutral-400 mb-3'>Sản phẩm tương tự</h4>
-          <Link className='font-medium text-sm text-neutral-500' to='/'>
+          <h4 className='mb-3 text-xl font-semibold text-neutral-400'>Sản phẩm tương tự</h4>
+          <Link className='text-sm font-medium text-neutral-500' to='/'>
             Xem tất cả
           </Link>
         </div>
-        <div className='grid grid-cols-6 gap-8'>
+        <div className='grid grid-cols-6 gap-3'>
           {sameProduct
             ? sameProduct?.metadata?.map((product) => (
                 <div key={product.name}>

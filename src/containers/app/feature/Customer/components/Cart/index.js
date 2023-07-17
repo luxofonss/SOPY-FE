@@ -34,10 +34,10 @@ function Cart() {
           <Popover.Button
             className={`
       ${open ? '' : 'text-opacity-90 '}
-      group inline-flex items-center rounded-md px-3 text-gray-700 py-2 text-base font-medium  hover:text-opacity-100 focus:outline-none focus-visible:ring-none focus-visible:ring-opacity-75`}
+      focus-visible:ring-none group inline-flex items-center rounded-md px-3 py-2 text-base font-medium  text-gray-700 hover:text-opacity-100 focus:outline-none focus-visible:ring-opacity-75`}
           >
-            <div className='w-8 h-8 rounded-full flex justify-center items-center hover:bg--orange-3 transition'>
-              <ShoppingCartIcon className='w-6 h-6 text-neutral-0' />
+            <div className='hover:bg--orange-3 flex h-8 w-8 items-center justify-center rounded-full transition'>
+              <ShoppingCartIcon className='h-6 w-6 text-neutral-0' />
             </div>
           </Popover.Button>
           <Transition
@@ -49,11 +49,11 @@ function Cart() {
             leaveFrom='opacity-100 translate-y-0'
             leaveTo='opacity-0 translate-y-1'
           >
-            <Popover.Panel className='absolute max-h-96 overflow-y-scroll shadow-xl bg-neutral-0 rounded-xl p-3 right-0 z-10 mt-3 w-96 border-2 max-w-sm transform sm:p-4 lg:max-w-3xl'>
+            <Popover.Panel className='absolute right-0 z-10 mt-3 max-h-96 w-96 max-w-sm transform overflow-y-scroll rounded-xl border-2 bg-neutral-0 p-3 shadow-xl sm:p-4 lg:max-w-3xl'>
               {cartData ? (
                 <>
                   <div className='px-3'>
-                    <h4 className='text-neutral-700 text-lg font-semibold'>Giỏ hàng của tôi</h4>
+                    <h4 className='text-lg font-semibold text-neutral-700'>Giỏ hàng của tôi</h4>
                   </div>
                   <div className='mt-3'>
                     {cartData && cartData?.metadata?.data?.length > 0 ? (
@@ -65,16 +65,16 @@ function Cart() {
                                 return (
                                   <Link
                                     to={`/product/${item.product._id}`}
-                                    className='flex gap-1 px-[1px] py-[2px] my-[2px] hover:bg-neutral-300 hover:cursor-pointer hover:translate-x-[2px] transition'
+                                    className='my-[2px] flex gap-1 px-[1px] py-[2px] transition hover:translate-x-[2px] hover:cursor-pointer hover:bg-neutral-300'
                                     key={item.variation._id}
                                   >
                                     <img
-                                      className='w-12 h-12'
+                                      className='h-12 w-12'
                                       src={item.variation?.thumb ? item.variation.thumb : item.product.thumb[0]}
                                       alt='thumb'
                                     />
                                     <div className='flex flex-col justify-around'>
-                                      <p className='text-sm text-neutral-700 font-medium line-clamp-1'>
+                                      <p className='text-sm font-medium text-neutral-700 line-clamp-1'>
                                         {item.product.name}
                                       </p>
                                       <p className='text-xs text-neutral-500 line-clamp-1'>
@@ -83,7 +83,7 @@ function Cart() {
                                           item.variation?.subVariation + ': ' + item.variation?.subVariationValue}
                                       </p>
                                     </div>
-                                    <div className='w-20 text-sm text-primary-red ml-auto'>
+                                    <div className='ml-auto w-20 text-sm text-primary-red'>
                                       ₫{accounting.formatNumber(item.variation.price)}
                                     </div>
                                   </Link>
@@ -92,9 +92,9 @@ function Cart() {
                             </>
                           )
                         })}
-                        <div className='flex justify-end mt-4'>
+                        <div className='mt-4 flex justify-end'>
                           <Link
-                            className='text-neutral-500 text-sm hover:text-neutral-800 hover:font-medium hover:cursor-pointer'
+                            className='text-sm text-neutral-500 hover:cursor-pointer hover:font-medium hover:text-neutral-800'
                             to='/cart'
                           >
                             View all
@@ -102,11 +102,11 @@ function Cart() {
                         </div>
                       </>
                     ) : (
-                      <div className='flex flex-col items-center justify-center text-lg text-neutral-500 font-semibold'>
-                        <img className='w-24 h-24' src={empty_cart} alt='empty-cart' />
+                      <div className='flex flex-col items-center justify-center text-lg font-semibold text-neutral-500'>
+                        <img className='h-24 w-24' src={empty_cart} alt='empty-cart' />
                         <div>
                           <p className='text-sm text-neutral-400'>Giỏ hàng của bạn đang trống</p>
-                          <Link to='/' className='flex justify-center mt-4'>
+                          <Link to='/' className='mt-4 flex justify-center'>
                             <AppButton>Mua sắm ngay</AppButton>
                           </Link>
                         </div>

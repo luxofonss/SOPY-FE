@@ -117,7 +117,7 @@ function AdminSider() {
   }
 
   return (
-    <div className='p-6 h-full fixed bg-[#FCFCFC]'>
+    <div className='fixed h-full bg-[#FCFCFC] p-6'>
       <div className='flex justify-center'>
         <Link to='/'>
           <img className='h-[78px] ' src={logo_orange} alt='logo' />
@@ -129,10 +129,10 @@ function AdminSider() {
             return (
               <div
                 key={menu.title}
-                className='cursor-pointer flex items-center gap-3 h-12 w-full mb-2 text-md font-semibold'
+                className='text-md mb-2 flex h-12 w-full cursor-pointer items-center gap-3 font-semibold'
               >
                 <div>{menu.icon}</div>
-                <Link className='font-semibold text-[15px] text-neutral-400 leading-6' to={menu.path}>
+                <Link className='text-[15px] font-semibold leading-6 text-neutral-400' to={menu.path}>
                   {menu.title}
                 </Link>
               </div>
@@ -144,12 +144,12 @@ function AdminSider() {
                   onClick={() => {
                     handleMenuClick(menu.name)
                   }}
-                  className='flex items-center cursor-pointer gap-3 h-12 w-full mb-2 text-md font-semibold '
+                  className='text-md mb-2 flex h-12 w-full cursor-pointer items-center gap-3 font-semibold '
                 >
                   <div>{menu.icon}</div>
-                  <div className='font-semibold text-[15px] text-neutral-400 leading-6'>{menu.title}</div>
+                  <div className='text-[15px] font-semibold leading-6 text-neutral-400'>{menu.title}</div>
                   {menu.children ? (
-                    <div className='flex-1 flex justify-end'>
+                    <div className='flex flex-1 justify-end'>
                       <div
                         className={`${
                           openList.includes(menu.name) ? 'rotate-0' : 'rotate-180'
@@ -161,16 +161,16 @@ function AdminSider() {
                   ) : null}
                 </div>
                 {openList.includes(menu.name) ? (
-                  <div className='relative w-full ml-3 pl-3 flex flex-col mt-2'>
-                    <div className='absolute w-[2px] h-[calc(100%_-_30px)] top-0 left-0 bg-neutral-300'></div>
+                  <div className='relative ml-3 mt-2 flex w-full flex-col pl-3'>
+                    <div className='absolute top-0 left-0 h-[calc(100%_-_30px)] w-[2px] bg-neutral-300'></div>
                     {menu.children.map((subMenu) => {
                       return (
                         <Link
                           className={`${
                             subMenu.path === location.pathname
-                              ? 'bg-neutral-300 rounded-xl shadow-menu-item text-neutral-700 hover:bg-neutral-200'
+                              ? 'rounded-xl bg-neutral-300 text-neutral-700 shadow-menu-item hover:bg-neutral-200'
                               : 'hover:bg-neutral-200'
-                          } relative h-12 w-full p-3 text-neutral-400 rounded-md mb-1 font-medium flex items-center transition-all duration-200`}
+                          } relative mb-1 flex h-12 w-full items-center rounded-md p-3 font-medium text-neutral-400 transition-all duration-200`}
                           to={subMenu.path}
                           key={subMenu.title}
                         >

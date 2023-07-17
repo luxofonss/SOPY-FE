@@ -107,8 +107,8 @@ function ProductEdit() {
   }
 
   return (
-    <div className='py-8 px-32 bg-neutral-100 rounded-lg'>
-      <div className='text-neutral-700 font-semibold text-2xl'>Chi tiết sản phẩm</div>
+    <div className='rounded-lg bg-neutral-100 py-8 px-32'>
+      <div className='text-2xl font-semibold text-neutral-700'>Chi tiết sản phẩm</div>
       <AppForm
         encType='multipart/form-data'
         onSubmit={(data) => {
@@ -116,8 +116,8 @@ function ProductEdit() {
         }}
       >
         <div className='mt-6'>
-          <div className='flex gap-6 text-neutral-500 font-semibold text-xl '>
-            <div className='w-4 h-7 bg-secondary-purple rounded-sm'></div>
+          <div className='flex gap-6 text-xl font-semibold text-neutral-500 '>
+            <div className='h-7 w-4 rounded-sm bg-secondary-purple'></div>
             <div>Thông tin cơ bản</div>
           </div>
           <div className='mt-6 ml-6'>
@@ -174,10 +174,10 @@ function ProductEdit() {
             </div>
             <AppRadio name='preOrder' label='Hàng đặt trước' required defaultValue={product?.metadata?.preOrder} />
             <div>
-              <div className='mb-1.5 font-semibold w-full text-neutral-500'>Hình ảnh</div>
+              <div className='mb-1.5 w-full font-semibold text-neutral-500'>Hình ảnh</div>
               <div className='flex gap-8'>
                 <label
-                  className='w-24 h-24 mt-1 cursor-pointer border-dashed border-2 rounded-lg border-secondary-blue flex justify-center items-center'
+                  className='mt-1 flex h-24 w-24 cursor-pointer items-center justify-center rounded-lg border-2 border-dashed border-secondary-blue'
                   htmlFor='imageList'
                 >
                   <UploadIcon />
@@ -187,18 +187,18 @@ function ProductEdit() {
                   return (
                     <div className='relative' key={uuidv4(image)}>
                       <img
-                        className='w-24 h-24 rounded-lg object-contain border-dashed border-2  border-secondary-green'
+                        className='h-24 w-24 rounded-lg border-2 border-dashed border-secondary-green  object-contain'
                         src={image}
                         alt='bg'
                       />
                       <div
                         onClick={() => handleDeleteImage(image)}
-                        className='absolute -top-2 -right-2 p-[1px] bg-neutral-200 rounded-md hover:bg-secondary-orange transition cursor-pointer'
+                        className='absolute -top-2 -right-2 cursor-pointer rounded-md bg-neutral-200 p-[1px] transition hover:bg-secondary-orange'
                       >
                         <TrashIcon />
                       </div>
                       {index === 0 ? (
-                        <div className='absolute -bottom-2 left-4 text-xs p-[1px] bg-secondary-purple rounded-sm'>
+                        <div className='absolute -bottom-2 left-4 rounded-sm bg-secondary-purple p-[1px] text-xs'>
                           Background
                         </div>
                       ) : null}
@@ -206,13 +206,13 @@ function ProductEdit() {
                   )
                 })}
               </div>
-              {limitUpload ? <p className='text-secondary-orange mt-2'>Upload tối đa 10 ảnh</p> : null}
+              {limitUpload ? <p className='mt-2 text-secondary-orange'>Upload tối đa 10 ảnh</p> : null}
             </div>
           </div>
         </div>
         <div className='mt-6'>
-          <div className='flex gap-6 text-neutral-500 font-semibold text-xl '>
-            <div className='w-4 h-7 bg-secondary-green rounded-sm'></div>
+          <div className='flex gap-6 text-xl font-semibold text-neutral-500 '>
+            <div className='h-7 w-4 rounded-sm bg-secondary-green'></div>
             <div>Thông tin chi tiết</div>
           </div>
           <div className='mt-6 ml-6 grid grid-cols-2 gap-x-16'>
@@ -269,8 +269,8 @@ function ProductEdit() {
           </div>
         </div>
         <div className='mt-6'>
-          <div className='flex gap-6 text-neutral-500 font-semibold text-xl '>
-            <div className='w-4 h-7 bg-secondary-orange rounded-sm'></div>
+          <div className='flex gap-6 text-xl font-semibold text-neutral-500 '>
+            <div className='h-7 w-4 rounded-sm bg-secondary-orange'></div>
             <div>Thông tin bán hàng</div>
           </div>
           <div className='mt-6 ml-6'>
@@ -278,8 +278,8 @@ function ProductEdit() {
           </div>
         </div>
         <div className='mt-6'>
-          <div className='flex gap-6 text-neutral-500 font-semibold text-xl '>
-            <div className='w-4 h-7 bg-secondary-yellow rounded-sm'></div>
+          <div className='flex gap-6 text-xl font-semibold text-neutral-500 '>
+            <div className='h-7 w-4 rounded-sm bg-secondary-yellow'></div>
             <div>Vận chuyển</div>
           </div>
           <div className='mt-6 ml-6'>
@@ -325,7 +325,7 @@ function ProductEdit() {
             />
           </div>
         </div>
-        <div className='mt-6 w-44 ml-auto'>
+        <div className='mt-6 ml-auto w-44'>
           <AppButton type='submit'>Tạo sản phẩm</AppButton>
         </div>
       </AppForm>

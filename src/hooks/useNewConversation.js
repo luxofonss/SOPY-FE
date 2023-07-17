@@ -15,9 +15,12 @@ const useNewConversation = () => {
     console.log('receiverId', receiverId, name, avatar)
     const response = await getNewConversation({ receiverId })
     if (response.error) {
-      toast.warn('Hệ thống đang bảo trì, vui lòng thử lại sau!')
+      if (response.error.status === 401) {
+        navigate('/login')
+      } else {
+        toast.warn('Có lỗi xảy ra, vui lòng thử lại sau!')
+      }
     } else {
-      console.log('conversation:: ', response?.data?.metadata)
       if (!isEmpty(response?.data?.metadata)) {
         dispatch(setNewChat({ receiverId, name, avatar: avatar || '' }))
         dispatch(initConversation(response?.data?.metadata))

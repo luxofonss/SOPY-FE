@@ -76,7 +76,7 @@ function OrderAll() {
 
   useEffect(() => {
     refreshOrderList()
-  }, [location])
+  }, [])
 
   useEffect(() => {
     const params = new URLSearchParams(
@@ -144,7 +144,7 @@ function OrderAll() {
 
   return (
     <div className=''>
-      <div className='bg-neutral-100 px-8 py-2 rounded-lg'>
+      <div className='rounded-lg bg-neutral-100 px-8 py-2'>
         <AppForm onSubmit={onSubmit} resolver={filterValidation}>
           <div className='grid grid-cols-12 gap-x-4'>
             <div className='col-span-3'>
@@ -166,18 +166,18 @@ function OrderAll() {
         </AppForm>
       </div>
 
-      <div className='bg-neutral-100 p-8 rounded-lg mt-6'>
+      <div className='mt-6 rounded-lg bg-neutral-100 p-8'>
         <div className='flex justify-between '>
           <div className='flex gap-6 '>
-            <div className='w-4 h-7 bg-secondary-purple rounded-sm'></div>
-            <div className='text-neutral-500 font-semibold text-xl '>Danh sách đơn hàng</div>
+            <div className='h-7 w-4 rounded-sm bg-secondary-purple'></div>
+            <div className='text-xl font-semibold text-neutral-500 '>Danh sách đơn hàng</div>
           </div>
           <nav className='flex gap-3'>
             <div
               onClick={() => handleFilterStatus('')}
               className={`${
                 filter.status === '' ? 'bg-secondary-green text-neutral-50' : 'text-neutral-500'
-              } h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
+              } h-7 cursor-pointer rounded-lg px-1 py-1 text-sm font-medium transition hover:bg-neutral-300 hover:text-neutral-700 hover:opacity-90`}
             >
               Tất cả
             </div>
@@ -187,14 +187,14 @@ function OrderAll() {
                 onClick={() => handleFilterStatus(status.value)}
                 className={`${
                   filter.status === status.value ? 'bg-primary-green text-neutral-50' : 'text-neutral-500'
-                } h-7 px-1 py-1 text-sm rounded-lg font-medium hover:opacity-90 transition hover:text-neutral-700 hover:bg-neutral-300 cursor-pointer`}
+                } h-7 cursor-pointer rounded-lg px-1 py-1 text-sm font-medium transition hover:bg-neutral-300 hover:text-neutral-700 hover:opacity-90`}
               >
                 {status.name}
               </div>
             ))}
           </nav>
         </div>
-        <div className='flex gap-2 justify-end mt-2'>
+        <div className='mt-2 flex justify-end gap-2'>
           <PopupAction
             closeConfirmRef={closeShippingRef}
             isConfirming={isShipping}

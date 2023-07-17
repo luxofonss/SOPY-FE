@@ -50,7 +50,7 @@ function AvatarDropdown() {
           element: (
             <div
               onClick={handleLogOut}
-              className='px-1 h-9 rounded-sm items-center flex hover:bg-fuchsia-300 transition duration-200 cursor-pointer'
+              className='flex h-9 cursor-pointer items-center rounded-sm px-1 transition duration-200 hover:bg-fuchsia-300'
             >
               <LogOut />
             </div>
@@ -110,7 +110,7 @@ function AvatarDropdown() {
           element: (
             <div
               onClick={handleLogOut}
-              className='px-1 h-9 rounded-sm items-center flex hover:bg-fuchsia-300 transition duration-200 cursor-pointer'
+              className='flex h-9 cursor-pointer items-center rounded-sm px-1 transition duration-200 hover:bg-fuchsia-300'
             >
               <LogOut />
             </div>
@@ -136,11 +136,11 @@ function AvatarDropdown() {
             <Popover.Button
               className={`
         ${open ? '' : 'text-opacity-90 '}
-        group inline-flex items-center rounded-md px-3 text-gray-700 py-2 text-base font-medium  hover:text-opacity-100 focus:outline-none focus-visible:ring-none focus-visible:ring-opacity-75`}
+        focus-visible:ring-none group inline-flex items-center rounded-md px-3 py-2 text-base font-medium  text-gray-700 hover:text-opacity-100 focus:outline-none focus-visible:ring-opacity-75`}
             >
-              <div className='w-8 h-8 rounded-full bg-green-500 flex justify-center items-center'>
+              <div className='flex h-8 w-8 items-center justify-center rounded-full bg-green-500'>
                 {userInfo?.avatar ? (
-                  <img src={userInfo.avatar} alt='avatar' className='w-full h-full rounded-full' />
+                  <img src={userInfo.avatar} alt='avatar' className='h-full w-full rounded-full' />
                 ) : userInfo.name ? (
                   userInfo?.name[0]
                 ) : (
@@ -157,7 +157,7 @@ function AvatarDropdown() {
               leaveFrom='opacity-100 translate-y-0'
               leaveTo='opacity-0 translate-y-1'
             >
-              <Popover.Panel className='absolute shadow-xl bg-neutral-100 right-0 z-10 mt-3 w-56 border-[1px] border-neutral-300 rounded-md p-4 max-w-sm transform sm:p-4 lg:max-w-3xl'>
+              <Popover.Panel className='absolute right-0 z-10 mt-3 w-56 max-w-sm transform rounded-md border-[1px] border-neutral-300 bg-neutral-100 p-4 shadow-xl sm:p-4 lg:max-w-3xl'>
                 {actionsList?.map((groupList, index) => {
                   let groupAction = groupList.children?.map((action) => {
                     switch (action.type) {
@@ -166,7 +166,7 @@ function AvatarDropdown() {
                           <Link
                             to={action.path}
                             key={uuidv4()}
-                            className='flex mb-1 justify-start items-center px-1 rounded-sm h-9 w-full hover:bg-fuchsia-300 transition duration-200'
+                            className='mb-1 flex h-9 w-full items-center justify-start rounded-sm px-1 transition duration-200 hover:bg-fuchsia-300'
                           >
                             {action.icon}
                             <div className='ml-3'>{action.name}</div>
@@ -191,8 +191,8 @@ function AvatarDropdown() {
         )}
       </Popover>
       <div className='py-2'>
-        <div className='text-sm text-neutral-0 font-medium'>{userInfo?.name}</div>
-        <div className='text-xs text-neutral-200 font-medium'>{userInfo?.email}</div>
+        <div className='text-sm font-medium text-neutral-0'>{userInfo?.name}</div>
+        <div className='text-xs font-medium text-neutral-200'>{userInfo?.email}</div>
       </div>
     </div>
   )

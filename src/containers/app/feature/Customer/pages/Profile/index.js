@@ -32,9 +32,9 @@ function Profile() {
   }
 
   return (
-    <div className='p-4 rounded-lg bg-neutral-0'>
+    <div className='rounded-lg bg-neutral-0 p-4'>
       <div>
-        <h4 className='text-lg text-neutral-700 font-semibold'>Hồ sơ của tôi</h4>
+        <h4 className='text-lg font-semibold text-neutral-700'>Hồ sơ của tôi</h4>
         <p className='text-sm font-medium text-neutral-500'>Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
       </div>
       <Divider />
@@ -44,15 +44,15 @@ function Profile() {
         <AppInput id='phone-profile' name='phoneNumber' label='Số điện thoại' defaultValue={userInfo?.phoneNumber} />
       </AppForm>
 
-      <div className='mb-1.5 font-medium block w-full text-sm text-neutral-500'>Địa chỉ</div>
+      <div className='mb-1.5 block w-full text-sm font-medium text-neutral-500'>Địa chỉ</div>
       {userInfo?.address?.map((address) => {
         return (
           <div
             key={address}
-            className={` w-full h-8 border-[1px] border-neutral-300 flex items-center justify-between px-4 hover:opacity-90`}
+            className={` flex h-8 w-full items-center justify-between border-[1px] border-neutral-300 px-4 hover:opacity-90`}
           >
             <p>{address}</p>
-            <TrashIcon className='cursor-pointer w-4 h-4' />
+            <TrashIcon className='h-4 w-4 cursor-pointer' />
           </div>
         )
       })}
@@ -64,7 +64,7 @@ function Profile() {
             type='submit'
             disabled={isUpdating}
           >
-            {isUpdating ? <BeatLoader size={12} color='#fff' /> : <PlusCircleIcon className='w-6 h-6' />}
+            {isUpdating ? <BeatLoader size={12} color='#fff' /> : <PlusCircleIcon className='h-6 w-6' />}
           </button>
         </div>
       </AppForm>

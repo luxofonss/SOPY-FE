@@ -74,13 +74,13 @@ function UserSider() {
     }
   }
   return (
-    <div className='p-2 flex flex-col'>
+    <div className='flex flex-col p-2'>
       <div className='flex gap-4'>
-        <div className='w-14 relative'>
-          <img className='w-14 h-14 rounded-md' src={userInfo?.avatar} alt='avatar' />
+        <div className='relative w-14'>
+          <img className='h-14 w-14 rounded-md' src={userInfo?.avatar} alt='avatar' />
           <div
             onClick={() => openAvatarRef.current.openModal()}
-            className='w-full h-full absolute flex items-center rounded-lg justify-center top-0 right-0 bg-transparent hover:bg-neutral-400 hover:bg-opacity-20 hover:cursor-pointer'
+            className='absolute top-0 right-0 flex h-full w-full items-center justify-center rounded-lg bg-transparent hover:cursor-pointer hover:bg-neutral-400 hover:bg-opacity-20'
           ></div>
           <ImageCrop
             openRef={openAvatarRef}
@@ -108,12 +108,12 @@ function UserSider() {
                 }}
                 className={`${
                   menu.path === location.pathname
-                    ? 'bg-neutral-300 rounded-xl shadow-menu-item text-neutral-700 hover:bg-neutral-200'
+                    ? 'rounded-xl bg-neutral-300 text-neutral-700 shadow-menu-item hover:bg-neutral-200'
                     : 'hover:bg-neutral-200'
-                } flex items-center cursor-pointer px-3 gap-3 h-10 w-full mb-2 text-md font-semibold`}
+                } text-md mb-2 flex h-10 w-full cursor-pointer items-center gap-3 px-3 font-semibold`}
               >
                 <div>{menu.icon}</div>
-                <div className='font-semibold text-[15px] text-neutral-400 leading-6'>{menu.title}</div>
+                <div className='text-[15px] font-semibold leading-6 text-neutral-400'>{menu.title}</div>
               </Link>
             </div>
           )

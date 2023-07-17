@@ -3,9 +3,9 @@ import UserSider from '../components/UserSider'
 
 function UserProfileLayout({ children }) {
   return (
-    <div className='font-inter bg-neutral-200'>
+    <div className='bg-neutral-200 font-inter'>
       <Header />
-      <div className='container min-h-screen pt-28 mx-auto grid grid-cols-12 gap-12'>
+      <div className='container mx-auto grid min-h-screen grid-cols-12 gap-12 pt-28'>
         <div className='col-span-3 '>
           <UserSider />
         </div>

@@ -54,13 +54,13 @@ function Shop() {
     <div className='container mx-auto'>
       <div className='h-36 w-full'>
         <div
-          className='h-full flex gap-4 p-3 bg-cover bg-center rounded-sm'
+          className='flex h-full gap-4 rounded-sm bg-cover bg-center p-3'
           style={{
             backgroundImage: 'url("https://easyretro.io/blog/assets/images/ms-how-blur-bg-cover.jpg")'
           }}
         >
           <img
-            className='w-28 h-28 rounded-full'
+            className='h-28 w-28 rounded-full'
             src={
               shopInfo?.metadata?.avatar ||
               'https://yt3.googleusercontent.com/-CFTJHU7fEWb7BYEb6Jh9gm1EpetvVGQqtof0Rbh-VQRIznYYKJxCaqv_9HeBcmJmIsp2vOO9JU=s900-c-k-c0x00ffffff-no-rj'
@@ -74,9 +74,9 @@ function Shop() {
             <p className='text-sm text-neutral-0 drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)]'>
               {shopInfo?.metadata?.shopInfo?.address || shopInfo?.metadata?.address[0]}
             </p>
-            <div className='flex gap-4 mt-auto'>
+            <div className='mt-auto flex gap-4'>
               <AppButton
-                Icon={<ChatBubbleLeftIcon className='w-5 h-5' />}
+                Icon={<ChatBubbleLeftIcon className='h-5 w-5' />}
                 showIcon
                 onClick={() => {
                   handleNewConversation({
@@ -85,7 +85,7 @@ function Shop() {
                     avatar: shopInfo?.metadata?.avatar
                   })
                 }}
-                className='h-9 bg-transparent border-[1px] border-orange-4 text-orange-4 hover:bg-orange-1'
+                className='h-9 border-[1px] border-orange-4 bg-transparent text-orange-4 hover:bg-orange-1'
               >
                 Chat
               </AppButton>
@@ -93,15 +93,15 @@ function Shop() {
           </div>
         </div>
       </div>
-      <div className='grid grid-cols-12 gap-3 mt-4'>
-        <div className='col-span-2 bg-neutral-0 p-3 rounded-md shadow-lg'>
-          <h4 className='text-lg font-semibold text-neutral-500 mb-3'>Bộ lọc tìm kiếm</h4>
+      <div className='mt-4 grid grid-cols-12 gap-3'>
+        <div className='col-span-2 rounded-md bg-neutral-0 p-3 shadow-lg'>
+          <h4 className='mb-3 text-lg font-semibold text-neutral-500'>Bộ lọc tìm kiếm</h4>
           <div className='mb-2'>
-            <div className='text-neutral-700 font-medium mb-2'>Khoảng giá</div>
+            <div className='mb-2 font-medium text-neutral-700'>Khoảng giá</div>
             <AppForm onSubmit={handleFilterPrice}>
               <AppInput type='number' name='minPrice' placeholder='Từ' />
               <AppInput type='number' name='maxPrice' placeholder='Đến' />
-              <AppButton type='submit' className='w-full h-9 bg-orange-4 text-neutral-0 hover:bg-orange-3'>
+              <AppButton type='submit' className='h-9 w-full bg-orange-4 text-neutral-0 hover:bg-orange-3'>
                 Áp dụng
               </AppButton>
             </AppForm>
@@ -109,21 +109,21 @@ function Shop() {
           {filters.map((filter) => {
             return (
               <div className='mb-4' key={filter.name}>
-                <div className='text-neutral-700 font-medium mb-2'>{filter.name}</div>
+                <div className='mb-2 font-medium text-neutral-700'>{filter.name}</div>
                 {filter.value.map((item) => {
                   return (
                     <div
-                      className='flex px-3 rounded-sm gap-4 h-8 items-center my-1 hover:bg-neutral-300 transition cursor-pointer'
+                      className='my-1 flex h-8 cursor-pointer items-center gap-4 rounded-sm px-3 transition hover:bg-neutral-300'
                       key={item.name}
                     >
                       <input
-                        className='w-3 h-3 cursor-pointer'
+                        className='h-3 w-3 cursor-pointer'
                         id={item.value}
                         type='checkbox'
                         value={item.value}
                         name={item.name}
                       />
-                      <label className='text-sm text-neutral-500 cursor-pointer' htmlFor={item.value}>
+                      <label className='cursor-pointer text-sm text-neutral-500' htmlFor={item.value}>
                         {item.name}
                       </label>
                     </div>
@@ -134,10 +134,10 @@ function Shop() {
             )
           })}
         </div>
-        <div className='col-span-10 bg-neutral-0 p-3 rounded-md shadow-lg'>
+        <div className='col-span-10 rounded-md bg-neutral-0 p-3 shadow-lg'>
           <div className='grid grid-cols-5 gap-4'>
             {isGettingProduct ? (
-              <div className='flex justify-center items-center'>
+              <div className='flex items-center justify-center'>
                 <BeatLoader size={12} color='#ff4d00' />
               </div>
             ) : !isEmpty(products?.metadata?.products) ? (
@@ -147,7 +147,7 @@ function Shop() {
                 </div>
               ))
             ) : (
-              <div className='w-full lex justify-center items-center'>Không tìm thấy sản phẩm</div>
+              <div className='lex w-full items-center justify-center'>Không tìm thấy sản phẩm</div>
             )}
           </div>
         </div>

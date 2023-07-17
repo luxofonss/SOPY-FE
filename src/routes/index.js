@@ -8,16 +8,13 @@ import { isEmptyValue } from '@src/helpers/check'
 import jwt_decode from 'jwt-decode'
 import { memo, useContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation, useNavigate, useRoutes } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { useRoutes } from 'react-router-dom'
 import Cookies from 'universal-cookie'
 
 const cookies = new Cookies()
 
 export const AppRoutes = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const location = useLocation()
   const userInfo = useSelector((state) => state.auth.user)
 
   const socket = useContext(SocketContext)
@@ -37,11 +34,6 @@ export const AppRoutes = () => {
           dispatch(setUser(response.data.metadata.user))
           socket.emit('newConnection', response.data.metadata.user._id)
           dispatch(login())
-        } else if (response) {
-          console.log('response:: ', response)
-          console.log('error response: ', response.error.data.message.strategy)
-          if (location.pathname !== '/signup') navigate('/login')
-          toast.warn(response.error.data.message.error)
         }
       }
       loginRequest()

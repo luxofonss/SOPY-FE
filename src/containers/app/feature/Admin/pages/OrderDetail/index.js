@@ -27,12 +27,12 @@ function OrderDetail() {
       <div className='container mx-auto '>
         <div className='grid grid-cols-12 gap-3'>
           <div className='col-span-8'>
-            <div className='p-3 bg-white rounded-sm'>
-              <p className='text-neutral-600 font-semibold mb-2'>Danh sách sản phẩm</p>
+            <div className='rounded-sm bg-white p-3'>
+              <p className='mb-2 font-semibold text-neutral-600'>Danh sách sản phẩm</p>
               {orderDetails?.metadata?.products.map((product) => {
                 return (
                   <div
-                    className='flex items-center gap-4 p-2 my-1 border-[1px] border-neutral-300 rounded-md hover:bg-secondary-purple hover:cursor-pointer transition'
+                    className='my-1 flex items-center gap-4 rounded-md border-[1px] border-neutral-300 p-2 transition hover:cursor-pointer hover:bg-secondary-purple'
                     key={product.variationId._id}
                   >
                     <Link
@@ -44,7 +44,7 @@ function OrderDetail() {
                       <img
                         src={product.variationId?.thumb ? product.variationId.thumb : product.productId.thumb[0]}
                         alt='thumb'
-                        className='w-16 h-16 object-cover'
+                        className='h-16 w-16 object-cover'
                       />
                       <div>
                         <p className='text-base font-medium text-neutral-700 line-clamp-2'>{product.productId.name}</p>
@@ -58,14 +58,14 @@ function OrderDetail() {
                         </p>
                       </div>
                     </Link>
-                    <div className='flex gap-3 ml-auto'>
-                      <div className='w-36 ml-auto'>
-                        <p className='text-base font-semibold text-primary-red text-left'>
+                    <div className='ml-auto flex gap-3'>
+                      <div className='ml-auto w-36'>
+                        <p className='text-left text-base font-semibold text-primary-red'>
                           {accounting.formatNumber(product.variationId.price)}₫
                         </p>
                       </div>
-                      <div className='flex gap-2 items-center'>
-                        <div className='h-9 px-1 flex items-center text-sm justify-center border-neutral-300 border-[1px]'>
+                      <div className='flex items-center gap-2'>
+                        <div className='flex h-9 items-center justify-center border-[1px] border-neutral-300 px-1 text-sm'>
                           Số lượng: {product.quantity}
                         </div>
                       </div>
@@ -74,68 +74,68 @@ function OrderDetail() {
                 )
               })}
             </div>
-            <div className='p-3 bg-white mt-3 rounded-sm'>
+            <div className='mt-3 rounded-sm bg-white p-3'>
               <OrderStatusHistory order={orderDetails?.metadata} />
             </div>
           </div>
           <div className='col-span-4'>
-            <div className='bg-white px-3 py-1 rounded-md'>
+            <div className='rounded-md bg-white px-3 py-1'>
               <div>
                 <div className='flex w-full justify-center'></div>
                 <h4 className='font-semibold text-neutral-600'>Địa điểm</h4>
                 <div className='flex gap-4'>
-                  <MapPinIcon className='w-6 h-6 bg-white' />
+                  <MapPinIcon className='h-6 w-6 bg-white' />
                   <div>
                     <p>{orderDetails?.metadata?.shipping?.address}</p>
                   </div>
                 </div>
-                <div className='h-6 flex justify-between items-center text-sm'>
-                  <p className='text-neutral-500 font-medium'>Người nhận</p>
+                <div className='flex h-6 items-center justify-between text-sm'>
+                  <p className='font-medium text-neutral-500'>Người nhận</p>
                   <Link to={`/user/${orderDetails?.metadata?.userId?._id}`} className='text-neutral-500'>
                     {orderDetails?.metadata?.userId?.name}
                   </Link>
                 </div>
-                <div className='h-6 flex justify-between items-center text-sm'>
-                  <p className='text-neutral-500 font-medium'>Số điện thoại</p>
+                <div className='flex h-6 items-center justify-between text-sm'>
+                  <p className='font-medium text-neutral-500'>Số điện thoại</p>
                   <p className='text-neutral-500'>{orderDetails?.metadata?.userId?.phoneNumber}</p>
                 </div>
-                <div className='h-6 flex justify-between items-center text-sm'>
-                  <p className='text-neutral-500 font-medium'>Email</p>
+                <div className='flex h-6 items-center justify-between text-sm'>
+                  <p className='font-medium text-neutral-500'>Email</p>
                   <p className='text-neutral-500'>{orderDetails?.metadata?.userId?.email}</p>
                 </div>
                 <Divider />
 
                 <div>
-                  <h4 className='text-neutral-700 font-semibold text-md'>Phương thức thanh toán</h4>
+                  <h4 className='text-md font-semibold text-neutral-700'>Phương thức thanh toán</h4>
                   {orderDetails?.metadata?.payment?.method === 'COD' && (
-                    <div className='p-4 flex gap-4 border-primary-green border-[1px] rounded-md hover:bg-neutral-200 transition'>
-                      <CreditCardIcon className='w-6 h-6 text-secondary-green' />
+                    <div className='flex gap-4 rounded-md border-[1px] border-primary-green p-4 transition hover:bg-neutral-200'>
+                      <CreditCardIcon className='h-6 w-6 text-secondary-green' />
                       <p className='text-sm text-neutral-500'>Thanh toán khi nhận hàng</p>
                     </div>
                   )}
 
                   <Divider />
-                  <h4 className='text-neutral-700 font-semibold text-md'>Thông tin đơn hàng</h4>
-                  <div className='h-9 flex justify-between items-center text-sm'>
-                    <p className='text-neutral-500 font-medium'>Tạm tính</p>
+                  <h4 className='text-md font-semibold text-neutral-700'>Thông tin đơn hàng</h4>
+                  <div className='flex h-9 items-center justify-between text-sm'>
+                    <p className='font-medium text-neutral-500'>Tạm tính</p>
                     <p className='text-neutral-500'>
                       ₫{accounting.formatNumber(orderDetails?.metadata?.checkout?.totalPrice)}
                     </p>
                   </div>
-                  <div className='h-9 flex justify-between items-center text-sm'>
-                    <p className='text-neutral-500 font-medium'>Phí vận chuyển</p>
+                  <div className='flex h-9 items-center justify-between text-sm'>
+                    <p className='font-medium text-neutral-500'>Phí vận chuyển</p>
                     <p className='text-neutral-500'>
                       ₫{accounting.formatNumber(orderDetails?.metadata?.checkout?.shipFee)}
                     </p>
                   </div>
-                  <div className='h-9 flex justify-between items-center text-sm'>
-                    <p className='text-neutral-500 font-medium'>Giảm giá voucher</p>
+                  <div className='flex h-9 items-center justify-between text-sm'>
+                    <p className='font-medium text-neutral-500'>Giảm giá voucher</p>
                     <p className='text-neutral-500'>- ₫{orderDetails?.metadata?.checkout?.discount || 0}</p>
                   </div>
                   <Divider />
-                  <div className='h-9 flex justify-between items-center'>
-                    <p className='text-neutral-500 font-medium'>Tổng cộng</p>
-                    <p className='text-primary-red text-lg'>
+                  <div className='flex h-9 items-center justify-between'>
+                    <p className='font-medium text-neutral-500'>Tổng cộng</p>
+                    <p className='text-lg text-primary-red'>
                       ₫
                       {accounting.formatNumber(
                         orderDetails?.metadata?.checkout?.totalPrice +
@@ -144,7 +144,7 @@ function OrderDetail() {
                       )}
                     </p>
                   </div>
-                  <div className='text-sm flex justify-end text-neutral-400 ml-auto'>Đã bao gồm VAT (nếu có)</div>
+                  <div className='ml-auto flex justify-end text-sm text-neutral-400'>Đã bao gồm VAT (nếu có)</div>
                 </div>
               </div>
             </div>

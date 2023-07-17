@@ -2,28 +2,32 @@
 import { Combobox, Transition } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Fragment, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router'
+import { useLocation } from 'react-router'
+import { useSearchParams } from 'react-router-dom'
 
 export default function SearchBar() {
   const [selected, setSelected] = useState('')
   const [query, setQuery] = useState('')
-
-  const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const location = useLocation()
-  console.log('location:: ', location)
+
   let queryParams = new URLSearchParams(location.search)
   if (queryParams.has('keyword')) {
     queryParams.delete('keyword')
   }
 
+  console.log('searchParams;; ', searchParams.get('typeId'))
+
   const handleSearch = () => {
     if (query !== '') {
-      queryParams.append('keyword', query)
-      console.log('queryParams:: ', queryParams)
+      setSearchParams({ typeId: searchParams.get('typeId'), keyword: query })
       let items = localStorage.getItem('searchTextStorages')
         ? JSON.parse(localStorage.getItem('searchTextStorages'))
         : []
       // Add the new item to the array
+      if (items.indexOf(query) !== -1) {
+        items.splice(items.indexOf(query), 1)
+      }
       items.unshift(query)
       if (items.length > 10) {
         items = items.splice(0, 10)
@@ -31,7 +35,6 @@ export default function SearchBar() {
       // Store the updated array in localStorage
       localStorage.setItem('searchTextStorages', JSON.stringify(items))
       setSelected(query)
-      navigate(`/search?${queryParams.toString()}`)
     }
   }
   //...
@@ -56,9 +59,9 @@ export default function SearchBar() {
     <div className='w-full'>
       <Combobox value={selected} onChange={setSelected}>
         <div className='relative mt-1'>
-          <div className='relative w-full cursor-default overflow-hidden rounded-xl bg-neutral-200 border-[1px] border-neutral-300 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm'>
+          <div className='relative w-full cursor-default overflow-hidden rounded-xl border-[1px] border-neutral-300 bg-neutral-200 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm'>
             <Combobox.Input
-              className='w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0 outline-none'
+              className='w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 outline-none focus:ring-0'
               displayValue={(person) => person}
               onKeyDown={handleKeyDown}
               onChange={(event) => setQuery(event.target.value)}
@@ -76,23 +79,22 @@ export default function SearchBar() {
           >
             <Combobox.Options className='absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
               {filteredSearch?.length === 0 && query !== '' ? (
-                <div className='relative cursor-default select-none py-2 px-4 text-gray-700'>
-                  Tìm kiếm sản phẩm bạn yêu thích
-                </div>
+                <div className='relative cursor-default select-none py-2 px-4 text-gray-700'>Tìm kiếm sản phẩm</div>
               ) : (
-                filteredSearch?.map((person) => (
+                filteredSearch?.map((keyword) => (
                   <Combobox.Option
-                    key={person}
+                    key={keyword}
                     className={({ active }) =>
                       `relative cursor-default select-none py-1 pl-10 pr-4 ${
                         active ? 'bg-teal-600 text-white' : 'text-gray-900'
                       }`
                     }
-                    value={person}
+                    value={keyword}
+                    onClick={handleSearch}
                   >
                     {({ selected }) => (
                       <>
-                        <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>{person}</span>
+                        <span className={`block truncate ${selected ? 'font-medium' : 'font-normal'}`}>{keyword}</span>
                       </>
                     )}
                   </Combobox.Option>

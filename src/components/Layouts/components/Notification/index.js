@@ -31,10 +31,10 @@ function Notification() {
             <Popover.Button
               className={`
         ${open ? '' : 'text-opacity-90 '}
-        group inline-flex items-center rounded-md px-3 text-gray-700 py-2 text-base font-medium  hover:text-opacity-100 focus:outline-none focus-visible:ring-none focus-visible:ring-opacity-75`}
+        focus-visible:ring-none group inline-flex items-center rounded-md px-3 py-2 text-base font-medium  text-gray-700 hover:text-opacity-100 focus:outline-none focus-visible:ring-opacity-75`}
             >
-              <div className='w-8 h-8 rounded-full flex justify-center items-center'>
-                <BellIcon className='w-6 h-6 text-neutral-0' />
+              <div className='flex h-8 w-8 items-center justify-center rounded-full'>
+                <BellIcon className='h-6 w-6 text-neutral-0' />
               </div>
             </Popover.Button>
             <Transition
@@ -46,69 +46,84 @@ function Notification() {
               leaveFrom='opacity-100 translate-y-0'
               leaveTo='opacity-0 translate-y-1'
             >
-              <Popover.Panel className='absolute bg-neutral-100 right-0 z-10 mt-3 w-96 max-h-96 overflow-y-scroll border-[1px] border-neutral-300 rounded-md p-4 max-w-sm transform sm:p-4 lg:max-w-3xl'>
-                {notifications?.map((child) => {
-                  switch (child.type) {
-                    case 'ORDER_SHOP': {
-                      return (
-                        <Link
-                          key={child._id + child.message}
-                          className='flex gap-4 p-2 bg-neutral-200 mb-2 rounded-sm'
-                          to={`/shop/order/${child.orderId}`}
-                        >
-                          <div className='h-12 w-12'>
-                            <img
-                              className='h-12 w-12 rounded-full'
-                              src={child?.senderId?.avatar || DEFAULT_AVT}
-                              alt='avt'
-                            />
-                          </div>
-                          <div className='flex-1'>
-                            <div className='flex justify-between'>
-                              <div className='flex gap-2'>
-                                <div className='font-medium'>{child.senderId.name}</div>
-                              </div>
-                              <div className='text-neutral-400 text-xs'>
-                                {moment(child.createdAt).format('hh:mm A')}
-                              </div>
-                              {/* <div>{child._isViewed ? 'viewed' : 'not viewed'}</div> */}
-                            </div>
-                            <div className='text-neutral-500 text-sm'>{child.message}</div>
-                          </div>
-                        </Link>
-                      )
-                    }
-                    case 'ORDER_CUSTOMER': {
-                      return (
-                        <Link
-                          key={child._id + child.message}
-                          className='flex gap-4 p-2 bg-neutral-200 mb-2 rounded-sm'
-                          to={`/me/orders/${child.orderId}`}
-                        >
-                          <div className='h-12 w-12'>
-                            <img
-                              className='h-12 w-12 rounded-full'
-                              src={child?.senderId?.avatar || DEFAULT_AVT}
-                              alt='avt'
-                            />
-                          </div>
-                          <div className='flex-1'>
-                            <div className='flex justify-between'>
-                              <div className='flex gap-2'>
-                                <div className='font-medium'>{child.senderId.name}</div>
-                              </div>
-                              <div className='text-neutral-400 text-xs'>
-                                {moment(child.createdAt).format('hh:mm A')}
-                              </div>
-                              {/* <div>{child.isViewed ? 'viewed' : 'not viewed'}</div> */}
-                            </div>
-                            <div className='text-neutral-500 text-sm'>{child.message}</div>
-                          </div>
-                        </Link>
-                      )
-                    }
-                  }
-                })}
+              <Popover.Panel className='absolute right-0 z-10 mt-3 w-96 max-w-sm transform rounded-md border-[1px] border-neutral-300 bg-neutral-100 p-4 sm:p-4 lg:max-w-3xl'>
+                {notifications ? (
+                  <>
+                    <div className='max-h-96 overflow-y-scroll'>
+                      {notifications?.map((child) => {
+                        switch (child.type) {
+                          case 'ORDER_SHOP': {
+                            return (
+                              <Link
+                                key={child._id + child.message}
+                                className='mb-2 flex gap-4 rounded-sm bg-neutral-200 p-2'
+                                to={`/shop/order/${child.orderId}`}
+                              >
+                                <div className='h-12 w-12'>
+                                  <img
+                                    className='h-12 w-12 rounded-full'
+                                    src={child?.senderId?.avatar || DEFAULT_AVT}
+                                    alt='avt'
+                                  />
+                                </div>
+                                <div className='flex-1'>
+                                  <div className='flex justify-between'>
+                                    <div className='flex gap-2'>
+                                      <div className='font-medium'>{child.senderId.name}</div>
+                                    </div>
+                                    <div className='text-xs text-neutral-400'>
+                                      {moment(child.createdAt).format('hh:mm A')}
+                                    </div>
+                                    {/* <div>{child._isViewed ? 'viewed' : 'not viewed'}</div> */}
+                                  </div>
+                                  <div className='text-sm text-neutral-500'>{child.message}</div>
+                                </div>
+                              </Link>
+                            )
+                          }
+                          case 'ORDER_CUSTOMER': {
+                            return (
+                              <Link
+                                key={child._id + child.message}
+                                className='mb-2 flex gap-4 rounded-sm bg-neutral-200 p-2'
+                                to={`/me/orders/${child.orderId}`}
+                              >
+                                <div className='h-12 w-12'>
+                                  <img
+                                    className='h-12 w-12 rounded-full'
+                                    src={child?.senderId?.avatar || DEFAULT_AVT}
+                                    alt='avt'
+                                  />
+                                </div>
+                                <div className='flex-1'>
+                                  <div className='flex justify-between'>
+                                    <div className='flex gap-2'>
+                                      <div className='font-medium'>{child.senderId.name}</div>
+                                    </div>
+                                    <div className='text-xs text-neutral-400'>
+                                      {moment(child.createdAt).format('hh:mm A')}
+                                    </div>
+                                    {/* <div>{child.isViewed ? 'viewed' : 'not viewed'}</div> */}
+                                  </div>
+                                  <div className='text-sm text-neutral-500'>{child.message}</div>
+                                </div>
+                              </Link>
+                            )
+                          }
+                        }
+                      })}
+                    </div>
+                    <Link
+                      to='/'
+                      className='mt-3 text-xs font-medium text-neutral-500 transition hover:text-neutral-600'
+                      target='_blank'
+                    >
+                      Xem tất cả
+                    </Link>
+                  </>
+                ) : (
+                  <div className='flex items-center justify-center'>Chưa có thông báo nào</div>
+                )}
               </Popover.Panel>
             </Transition>
           </>

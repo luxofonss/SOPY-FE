@@ -151,15 +151,15 @@ function UserCart() {
       <div
         className={`${
           isChangingCart || isDeletingItem || isCheckingAll || isCheckingShop || isCheckingProduct ? '' : 'hidden '
-        } absolute w-screen h-screen bg-neutral-300 bg-opacity-30 flex items-center justify-center`}
+        } absolute flex h-screen w-screen items-center justify-center bg-neutral-300 bg-opacity-30`}
       >
         <BeatLoader size={16} color='#ff4d00' />
       </div>
       <div className='container mx-auto '>
         <AppModal openRef={openRef} closeRef={closeRef} Trigger={null}>
-          <div className='w-80 h-32 bg-neutral-0 p-6 rounded-lg flex flex-col justify-between'>
+          <div className='flex h-32 w-80 flex-col justify-between rounded-lg bg-neutral-0 p-6'>
             <p className='font-medium'>Are you want to delete this product?</p>
-            <div className='flex gap-4 justify-center'>
+            <div className='flex justify-center gap-4'>
               <AppButton
                 onClick={() => {
                   setDeleteItemVariationId(null)
@@ -179,29 +179,29 @@ function UserCart() {
             </div>
           </div>
         </AppModal>
-        <div className='grid grid-cols-12 rounded-sm gap-4'>
-          <div className='col-span-12 flex items-center gap-4 bg-white p-3 mb-2'>
+        <div className='grid grid-cols-12 gap-4 rounded-sm'>
+          <div className='col-span-12 mb-2 flex items-center gap-4 bg-white p-3'>
             <Checkbox
               onChange={(e) => {
                 handleChooseAll(e.target.checked)
               }}
               checked={cartData?.metadata?.allChecked}
             />
-            <p className='text-neutral-600 font-semibold'>Chọn tất cả</p>
+            <p className='font-semibold text-neutral-600'>Chọn tất cả</p>
           </div>
           <div className='col-span-8'>
             {cartData ? (
               cartData?.metadata?.data?.map((shop) => {
                 return (
-                  <div key={shop.shop._id} className='bg-white mb-2 p-3'>
-                    <div className='h-8 py-1 px-2 rounded-sm flex items-center gap-4 bg-secondary-purple'>
+                  <div key={shop.shop._id} className='mb-2 bg-white p-3'>
+                    <div className='flex h-8 items-center gap-4 rounded-sm bg-secondary-purple py-1 px-2'>
                       <Checkbox
                         onChange={(e) => {
                           handleChooseAllShop(e.target.checked, shop.shop._id)
                         }}
                         checked={shop.checked}
                       />
-                      <p className='text-neutral-700 font-medium text-base'>{shop.shop?.name}</p>
+                      <p className='text-base font-medium text-neutral-700'>{shop.shop?.name}</p>
                     </div>
 
                     <div>
@@ -211,7 +211,7 @@ function UserCart() {
                           <div
                             className={`${
                               isAble ? 'hover:cursor-pointer hover:bg-secondary-purple ' : 'bg-neutral-300'
-                            } flex items-center gap-4 p-2 my-1 rounded-md transition`}
+                            } my-1 flex items-center gap-4 rounded-md p-2 transition`}
                             key={product.variation._id}
                           >
                             <Checkbox
@@ -236,7 +236,7 @@ function UserCart() {
                               <img
                                 src={product.variation?.thumb ? product.variation.thumb : product.product.thumb[0]}
                                 alt='thumb'
-                                className='w-16 h-16 object-cover'
+                                className='h-16 w-16 object-cover'
                               />
                               <div>
                                 <p className='text-base font-medium text-neutral-700 line-clamp-2'>
@@ -252,23 +252,23 @@ function UserCart() {
                                 </p>
                               </div>
                             </Link>
-                            <div className='flex gap-3 ml-auto'>
-                              <div className='w-36 ml-auto'>
-                                <p className='text-lg font-semibold text-primary-red text-left'>
+                            <div className='ml-auto flex gap-3'>
+                              <div className='ml-auto w-36'>
+                                <p className='text-left text-lg font-semibold text-primary-red'>
                                   {accounting.formatNumber(product.variation.price)}₫
                                 </p>
-                                <div className='flex gap-4 items-center justify-center'>
-                                  <HeartIcon className='w-6 h-6' />
+                                <div className='flex items-center justify-center gap-4'>
+                                  <HeartIcon className='h-6 w-6' />
                                   <TrashIcon
                                     onClick={() => {
                                       setDeleteItemVariationId(product.variation._id)
                                       openRef.current.openModal()
                                     }}
-                                    className='w-6 h-6'
+                                    className='h-6 w-6'
                                   />
                                 </div>
                               </div>
-                              <div className='flex gap-2 items-center'>
+                              <div className='flex items-center gap-2'>
                                 <button
                                   onClick={() => {
                                     handleDecreaseQuantity(
@@ -278,14 +278,14 @@ function UserCart() {
                                       product.quantity
                                     )
                                   }}
-                                  className='w-6 h-6'
+                                  className='h-6 w-6'
                                 >
                                   <MinusIcon
                                     color='white'
-                                    className='bg-white text-neutral-500 rounded-full transition hover:bg-secondary-orange'
+                                    className='rounded-full bg-white text-neutral-500 transition hover:bg-secondary-orange'
                                   />
                                 </button>
-                                <div className='w-10 h-10 flex items-center justify-center border-neutral-300 border-[1px]'>
+                                <div className='flex h-10 w-10 items-center justify-center border-[1px] border-neutral-300'>
                                   {product.quantity}
                                 </div>
                                 <button
@@ -297,9 +297,9 @@ function UserCart() {
                                       product.quantity
                                     )
                                   }}
-                                  className='w-6 h-6'
+                                  className='h-6 w-6'
                                 >
-                                  <PlusIcon className='bg-white text-neutral-500 rounded-full transition hover:bg-secondary-green' />
+                                  <PlusIcon className='rounded-full bg-white text-neutral-500 transition hover:bg-secondary-green' />
                                 </button>
                               </div>
                             </div>
@@ -315,20 +315,20 @@ function UserCart() {
             )}
           </div>
           <div className='col-span-4'>
-            <div className='bg-white p-3 rounded-md'>
+            <div className='rounded-md bg-white p-3'>
               <div>
                 <h4 className='font-semibold text-neutral-600'>Địa điểm</h4>
 
                 <div className='flex gap-4'>
-                  <MapPinIcon className='w-8 h-8 bg-white' />
+                  <MapPinIcon className='h-8 w-8 bg-white' />
                   <div>
                     <p>{userInfo?.address ? chosenAddress : 'Chưa có địa chỉ'}</p>
                     <AppModal
                       closeRef={addAddressCloseRef}
-                      Trigger={<div className='hover:text-neutral-700 hover:cursor-pointer'>Chọn địa chỉ</div>}
+                      Trigger={<div className='hover:cursor-pointer hover:text-neutral-700'>Chọn địa chỉ</div>}
                     >
-                      <div className='w-[550px] bg-neutral-200 rounded-lg p-10'>
-                        <h4 className='text-lg text-neutral-400 font-semibold'>Chọn địa chỉ</h4>
+                      <div className='w-[550px] rounded-lg bg-neutral-200 p-10'>
+                        <h4 className='text-lg font-semibold text-neutral-400'>Chọn địa chỉ</h4>
                         {userInfo?.address?.map((address) => {
                           return (
                             <Fragment key={address}>
@@ -336,7 +336,7 @@ function UserCart() {
                                 htmlFor={address}
                                 className={`${
                                   chosenAddress === address ? 'bg-secondary-purple' : ''
-                                } w-full h-12 flex items-center px-4 hover:opacity-90 hover:cursor-pointer`}
+                                } flex h-12 w-full items-center px-4 hover:cursor-pointer hover:opacity-90`}
                               >
                                 {address}
                               </label>
@@ -362,13 +362,13 @@ function UserCart() {
                                 {isUpdating ? (
                                   <BeatLoader size={12} color='#ff4d00' />
                                 ) : (
-                                  <PlusCircleIcon className='w-6 h-6' />
+                                  <PlusCircleIcon className='h-6 w-6' />
                                 )}
                               </button>
                             </div>
                           </AppForm>
                         </div>
-                        <div className='flex justify-end items-center mt-6'>
+                        <div className='mt-6 flex items-center justify-end'>
                           <AppButton type='button' onClick={() => addAddressCloseRef.current.closeModal()}>
                             Ok
                           </AppButton>
@@ -381,22 +381,22 @@ function UserCart() {
                 <Divider />
 
                 <div>
-                  <h4 className='text-neutral-700 font-semibold text-md'>Thông tin đơn hàng</h4>
-                  <div className='h-9 flex justify-between items-center'>
-                    <p className='text-neutral-500 font-medium'>Tạm tính</p>
+                  <h4 className='text-md font-semibold text-neutral-700'>Thông tin đơn hàng</h4>
+                  <div className='flex h-9 items-center justify-between'>
+                    <p className='font-medium text-neutral-500'>Tạm tính</p>
                     <p className='text-neutral-500'>₫{accounting.formatNumber(cartData?.metadata.totalPrice || 0)}</p>
                   </div>
-                  <div className='h-9 flex justify-between items-center'>
-                    <p className='text-neutral-500 font-medium'>Phí vận chuyển</p>
+                  <div className='flex h-9 items-center justify-between'>
+                    <p className='font-medium text-neutral-500'>Phí vận chuyển</p>
                     <p className='text-neutral-500'>₫50.000d</p>
                   </div>
-                  <div className='h-9 flex justify-between items-center'>
-                    <p className='text-neutral-500 font-medium'>Tổng cộng</p>
+                  <div className='flex h-9 items-center justify-between'>
+                    <p className='font-medium text-neutral-500'>Tổng cộng</p>
                     <p className='text-neutral-500'>
                       ₫{accounting.formatNumber(50000 + cartData?.metadata.totalPrice)}
                     </p>
                   </div>
-                  <div className='text-sm flex justify-end text-neutral-400 ml-auto'>Đã bao gồm VAT (nếu có)</div>
+                  <div className='ml-auto flex justify-end text-sm text-neutral-400'>Đã bao gồm VAT (nếu có)</div>
                 </div>
                 <div className='flex justify-center'>
                   {/* <Link to='/checkout'> */}
@@ -409,11 +409,11 @@ function UserCart() {
             </div>
           </div>
         </div>
-        <div className='mt-4 p-2 bg-white rounded-lg'>
+        <div className='mt-4 rounded-lg bg-white p-2'>
           <div className='flex justify-between'>
-            <h4 className='font-semibold text-lg text-neutral-700'>Hot sale</h4>
+            <h4 className='text-lg font-semibold text-neutral-700'>Hot sale</h4>
           </div>
-          <div className='grid grid-cols-6 gap-8'>
+          <div className='grid grid-cols-6 gap-3'>
             {products?.metadata?.map((product) => (
               <div key={product.name}>
                 <ProductCard product={product} />

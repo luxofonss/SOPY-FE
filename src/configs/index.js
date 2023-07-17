@@ -73,3 +73,6 @@ export const ADS_HOME = [
 export const ORDER_NOTIFICATION = 'ORDER_NOTIFICATION'
 
 export const DEFAULT_AVT = 'https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'
+
+export const NO_IMG =
+  'https://firebasestorage.googleapis.com/v0/b/sopy-1858b.appspot.com/o/files%2Fimages%2Fno-image.png?alt=media&token=7761c26b-b363-45a2-ab1b-bc483172ac72&_gl=1*t8zwm7*_ga*MTU2MDk5NTgyNC4xNjg1OTg0NDMz*_ga_CW55HF8NVT*MTY4NjY1MTY4MC4xMi4xLjE2ODY2NTE4MDQuMC4wLjA.'

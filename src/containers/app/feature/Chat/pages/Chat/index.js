@@ -191,24 +191,24 @@ function Chat() {
   }
 
   return (
-    <div className='container mx-auto p-4 flex flex-col h-[calc(100vh_-_96px)]'>
+    <div className='container mx-auto flex h-[calc(100vh_-_96px)] flex-col p-4'>
       {/* <div className='text-neutral-700 text-md font-semibold'>Chat</div> */}
-      <div className=' h-[calc(100vh_-_96px)] flex-1 grid grid-cols-12 gap-4'>
-        <div className='h-[calc(100vh_-_148px)] col-span-3 overflow-y-scroll  bg-white rounded-xl '>
-          <div className='h-14 border-b-[1px] border-b-neutral-300 flex items-center px-4'>
+      <div className=' grid h-[calc(100vh_-_96px)] flex-1 grid-cols-12 gap-4'>
+        <div className='col-span-3 h-[calc(100vh_-_148px)] overflow-y-scroll  rounded-xl bg-white '>
+          <div className='flex h-14 items-center border-b-[1px] border-b-neutral-300 px-4'>
             <SearchBar />
           </div>
           {!isEmpty(newConversationInfo) ? (
             <div
               className={`${
                 newConversationInfo?._id === currentConversation?._id ? 'bg-orange-1' : ''
-              } h-16 w-full flex items-center py-1 mt-4 px-4 hover:bg-neutral-200 hover:cursor-pointer transition`}
+              } mt-4 flex h-16 w-full items-center py-1 px-4 transition hover:cursor-pointer hover:bg-neutral-200`}
               onClick={() => handleChooseConversation(newConversationInfo)}
               key={newConversationInfo?.user?._id}
             >
               <div className='flex w-full gap-4'>
                 <img
-                  className='w-12 h-12 rounded-full border-[1px] border-neutral-200'
+                  className='h-12 w-12 rounded-full border-[1px] border-neutral-200'
                   src={
                     newConversationInfo?.user?.avatar ||
                     'https://t4.ftcdn.net/jpg/03/32/59/65/360_F_332596535_lAdLhf6KzbW6PWXBWeIFTovTii1drkbT.jpg'
@@ -217,7 +217,7 @@ function Chat() {
                 />
                 <div className='flex-1'>
                   <div className='flex items-center justify-between'>
-                    <div className='font-bold text-neutral-700 line-clamp-1 flex-1'>
+                    <div className='flex-1 font-bold text-neutral-700 line-clamp-1'>
                       {newConversationInfo?.user?.name}
                     </div>
                     <div className='text-xs text-neutral-400'></div>
@@ -233,19 +233,19 @@ function Chat() {
                 to={`/me/message/${conversation._id}`}
                 className={`${
                   conversation._id === currentConversation?._id ? 'bg-neutral-300' : ''
-                } h-16 w-full flex items-center py-1 mt-4 px-4 hover:bg-neutral-200 hover:cursor-pointer transition`}
+                } mt-4 flex h-16 w-full items-center py-1 px-4 transition hover:cursor-pointer hover:bg-neutral-200`}
                 onClick={() => handleChooseConversation(conversation)}
                 key={conversation._id}
               >
                 <div className='flex w-full gap-4'>
                   <img
-                    className='w-12 h-12 rounded-full border-[1px] border-neutral-200'
+                    className='h-12 w-12 rounded-full border-[1px] border-neutral-200'
                     src={conversation?.user?.avatar || DEFAULT_AVT}
                     alt='avatar'
                   />
                   <div className='flex-1'>
                     <div className='flex items-center justify-between'>
-                      <div className='font-semibold text-neutral-700 line-clamp-1 flex-1'>
+                      <div className='flex-1 font-semibold text-neutral-700 line-clamp-1'>
                         {conversation?.user?.name}
                       </div>
                       <div className='text-xs text-neutral-500'>
@@ -259,25 +259,25 @@ function Chat() {
             )
           })}
         </div>
-        <div className='h-[calc(100vh_-_148px)] bg-msg-bg rounded-xl flex flex-col px-4 col-span-9'>
-          <div className='h-14 flex items-center font-semibold border-b-[1px] border-b-neutral-300 '>
+        <div className='col-span-9 flex h-[calc(100vh_-_148px)] flex-col rounded-xl bg-msg-bg px-4'>
+          <div className='flex h-14 items-center border-b-[1px] border-b-neutral-300 font-semibold '>
             {currentConversation?.user?.name}
           </div>
-          <div className='h-[calc(100vh_-_148px)] flex-1 py-4  overflow-y-scroll'>
+          <div className='h-[calc(100vh_-_148px)] flex-1 overflow-y-scroll  py-4'>
             {messagesInConversations?.length > 0 ? (
               messagesInConversations?.map((message) => {
                 if (message.sender !== userInfo?._id)
                   return (
-                    <div ref={scrollRef} key={message._id} className='flex justify-start gap-3 mb-3'>
+                    <div ref={scrollRef} key={message._id} className='mb-3 flex justify-start gap-3'>
                       <img
-                        className='w-12 h-12 rounded-full border-[1px] border-neutral-200 p-'
+                        className='p- h-12 w-12 rounded-full border-[1px] border-neutral-200'
                         src={currentConversation?.user?.avatar || DEFAULT_AVT}
                         alt='avatar'
                       />
 
-                      <div className='px-3 py-3 rounded-xl bg-neutral-200 hover:bg-orange-3'>
+                      <div className='rounded-xl bg-neutral-200 px-3 py-3 hover:bg-orange-3'>
                         <p className='block '>{message.message}</p>
-                        <div className='ml-auto flex-end text-xs text-neutral-500'>
+                        <div className='flex-end ml-auto text-xs text-neutral-500'>
                           {moment(message?.createdOn).fromNow()}
                         </div>
                       </div>
@@ -285,15 +285,15 @@ function Chat() {
                   )
                 else {
                   return (
-                    <div ref={scrollRef} key={message._id} className='flex justify-end gap-3 mb-3'>
-                      <div className='px-3 py-3 rounded-xl bg-neutral-200 hover:bg-orange-3'>
+                    <div ref={scrollRef} key={message._id} className='mb-3 flex justify-end gap-3'>
+                      <div className='rounded-xl bg-neutral-200 px-3 py-3 hover:bg-orange-3'>
                         <p className='block '>{message.message}</p>
-                        <div className='ml-auto flex-start text-xs text-neutral-500'>
+                        <div className='flex-start ml-auto text-xs text-neutral-500'>
                           {moment(message?.createdOn).fromNow()}
                         </div>
                       </div>
                       <img
-                        className='w-12 h-12 rounded-full border-[1px] border-neutral-200'
+                        className='h-12 w-12 rounded-full border-[1px] border-neutral-200'
                         src={userInfo?.avatar || DEFAULT_AVT}
                         alt='avatar'
                       />
@@ -308,8 +308,8 @@ function Chat() {
           <div>
             <AppForm className='flex items-center gap-3' ref={resetRef} onSubmit={handleSendMessage}>
               <AppInput className='flex-1' type='text' name='message' id='message' />
-              <AppButton className='bg-transparent hover:bg-orange-1 rounded-full' type='submit'>
-                <PaperAirplaneIcon className='text-orange-3 h-5 w-5' />
+              <AppButton className='rounded-full bg-transparent hover:bg-orange-1' type='submit'>
+                <PaperAirplaneIcon className='h-5 w-5 text-orange-3' />
               </AppButton>
             </AppForm>
           </div>

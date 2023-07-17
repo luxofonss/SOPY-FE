@@ -30,7 +30,7 @@ export default function Todo() {
   }
 
   return (
-    <div className='container mx-auto w-96 py-4 px-6 bg-slate-700'>
+    <div className='container mx-auto w-96 bg-slate-700 py-4 px-6'>
       <AppForm onSubmit={onSubmit}>
         <AppInput name='title' label='Title' required />
         <AppInput name='description' label='Description' />
